@@ -18,13 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ca-central-1
-
       - name: Setup with Java 14
         id: java-setup
         uses: actions/setup-java@v1
@@ -35,7 +28,6 @@ jobs:
         id: gradle-build
         uses: eskatos/gradle-command-action@v1
         with:
-          build-root-directory: server
           arguments: shadowJar
 
       - name: Set Docker Hub variables
@@ -59,6 +51,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: "latest,${{ github.sha }}"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ca-central-1
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
