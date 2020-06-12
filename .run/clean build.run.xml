@@ -14,7 +14,7 @@
                     <option value="build"/>
                 </list>
             </option>
-            <option name="vmOptions" value=""/>
+            <option name="vmOptions" value="--enable-preview"/>
         </ExternalSystemSettings>
         <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
         <method v="2"/>
