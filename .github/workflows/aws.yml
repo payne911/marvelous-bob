@@ -28,7 +28,7 @@ jobs:
         id: gradle-build
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: shadowJar
+          arguments: clean shadowJar
 
       - name: Set Docker Hub variables
         id: docker-vars
