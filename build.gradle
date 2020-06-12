@@ -8,8 +8,6 @@ buildscript {
         google()
     }
     dependencies {
-        
-
     }
 }
 
@@ -39,7 +37,7 @@ allprojects {
         slf4j = '1.7.26'
         logback = '1.2.3'
         lombok = '1.18.12'
-        daggerVersion = '2.27' // for DI
+        kryonet = '03a135e203' // a git commit hash built via JitPack
 
         pieMenuVersion = '4.2.0'
         shapedrawer = '2.3.0'
@@ -61,19 +59,37 @@ project(":desktop") {
 
 
     dependencies {
-        implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api project(":client")
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-
-        implementation "ch.qos.logback:logback-classic:$logback"
-
-        compileOnly "org.projectlombok:lombok:$lombok"
-        annotationProcessor "org.projectlombok:lombok:$lombok"
     }
 }
 
-project(":core") {
+project(":client") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api project(":common")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+
+        api "space.earlygrey:shapedrawer:$shapedrawer"
+        api "com.github.payne911:PieMenu:$pieMenuVersion"
+    }
+}
+
+project(":server") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api project(":common")
+        api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":common") {
     apply plugin: "java-library"
 
 
@@ -83,17 +99,9 @@ project(":core") {
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
+        // todo: do we need both logging libraries? p.s. kryonet uses Minlog
         api "org.slf4j:slf4j-api:$slf4j"
-
-        compileOnly "org.projectlombok:lombok:$lombok"
-        annotationProcessor "org.projectlombok:lombok:$lombok"
-
-        implementation "space.earlygrey:shapedrawer:$shapedrawer"
-        api "com.github.payne911:PieMenu:$pieMenuVersion"
-
-        implementation 'com.github.EsotericSoftware:kryonet:03a135e203'
-
-        api "com.google.dagger:dagger:$daggerVersion"
-        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+        api "ch.qos.logback:logback-classic:$logback"
+        api "com.github.EsotericSoftware:kryonet:$kryonet"
     }
 }

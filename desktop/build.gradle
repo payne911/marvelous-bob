@@ -1,6 +1,6 @@
 plugins { id 'org.beryx.runtime' version '1.8.4' }
 apply plugin: "java"
-apply plugin: 'idea' // to make IDEA see build/generated/source/apt/main as source folder
+apply plugin: "idea" // to make IDEA see build/generated/source/apt/main as source folder
 
 sourceCompatibility = 14 // run desktop -> Tasks -> build -> jpackageImage for the ".exe"
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -14,11 +14,11 @@ tasks.withType(JavaExec) {
     jvmArgs += '--enable-preview'
 }
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../core/assets"]
+sourceSets.main.resources.srcDirs = ["../client/assets"]
 
 mainClassName = "com.marvelousbob.client.desktop.DesktopLauncher"
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
-project.ext.assetsDir = new File("../core/assets")
+project.ext.assetsDir = new File("../client/assets")
 
 task runGame(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName

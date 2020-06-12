@@ -1,33 +1,37 @@
-# marvelous-bob-client
+# marvelous-bob
 libGDX June game-jam submission.
 
-# Tech Stack
+## Project structure
+This repository contains 4 modules:
+  1) client
+  2) server
+  3) common
+  4) desktop
 
-* libGDX (framework)
+The ``common`` is used by both the ``server`` and the ``client``.
+
+The ``desktop`` is the launcher for the ``client``.
+
+### Other folders
+* ``.github``: CI/CD (GitHub Actions)
+* ``.run``: the provided IntelliJ `Run Configuration`
+* ``utils``: miscellaneous stuff for the developers
+
+## Tech Stack
+### Common to all modules
+* Java 14 (language)
 * Gradle (build)
-* JPackage + JLink (releases)
+* [libGDX](https://libgdx.badlogicgames.com/download.html) (framework)
 * [KryoNet](https://github.com/EsotericSoftware/kryonet) (networking)
 * Lombok (boilerplate)
-* Dagger2 (dependency injection)
-* Logging (undecided): Minlog or libGDX's
+* Slf4j (logging)
+### Client module
+* JPackage + JLink (releases)
+### Server module
+* AWS ECS (cloud)
+* Docker (container)
+* GitHub Actions (CI/CD)
+* ShadowJar (far jar)
 
-# To test the Client locally
-
-IntelliJ Run Configuration:
-
-* Gradle project: ``marvelous-bob-client:desktop``
-* Tasks: ``runGame``
-* VM options: ``--enable-preview``
-* Environment variables: ``mbs_isRemote=true``
-
-The boolean value of ``mbs_isRemote`` depends on whether you want to communicate with the `marvelous-bob-server` that is hosted remotely on AWS, or the one that you might have started locally ([here](https://github.com/L-Applin/marvelous-bob-server) is the repo to clone). `true` contacts AWS.
-
-# To build a release
-
-Trigger the ``desktop:jpackageImage`` task: it will bundle Java 14 with the application, run JLink to optimize, and create an executable for the platform you have ran the task with (for example, from a Windows computer you'll get a `.exe` file).
-
-The relevant generate files will then be inside ``desktop/build/jpackage/desktop``.
-
-# Assets
-
+## Assets
 Most of them come from [Kenney](https://kenney.nl/assets?t=platformer), licensed ``CC0 1.0 Universal)``. Thank you so much!

@@ -1,0 +1,31 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "marvelous-bob-ecs-td-container-name",
+      "image": "payne911/marvelous-bob-server",
+      "cpu": 10,
+      "memory": 300,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "entryPoint": [
+        "./bootstrap.sh"
+      ],
+      "environment": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "workingDirectory": "/"
+    }
+  ],
+  "family": "marvelous-bob-ecs-td",
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "EC2"
+  ]
+}

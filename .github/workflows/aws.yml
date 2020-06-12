@@ -1,0 +1,76 @@
+# This workflow will build and push a new container image to Docker Hub,
+# and then will deploy a new task definition to Amazon ECS,
+# when a push on branch 'master' is done.
+
+on:
+  push:
+    branches:
+      - master
+
+name: Deploy to Amazon ECS
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 # todo: only get common+server
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ca-central-1
+
+      - name: Setup with Java 14
+        id: java-setup
+        uses: actions/setup-java@v1
+        with:
+          java-version: 14
+
+      - name: Run Gradle build
+        id: gradle-build
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: server:shadowJar
+
+      - name: Set Docker Hub variables
+        id: docker-vars
+        env:
+          DH_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
+          DH_REPOSITORY: marvelous-bob-server
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          echo "::set-output name=registry::$DH_REGISTRY"
+          echo "::set-output name=repository:$DH_REPOSITORY"
+          echo "::set-output name=tag::$IMAGE_TAG"
+          echo "::set-output name=name::$DH_REGISTRY/$DH_REPOSITORY"
+          echo "::set-output name=full::$DH_REGISTRY/$DH_REPOSITORY:$IMAGE_TAG"
+
+      - name: Publish Docker
+        id: docker-push
+        uses: elgohr/Publish-Docker-Github-Action@2.16
+        with:
+          name: ${{ steps.docker-vars.outputs.name }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: "latest,${{ github.sha }}"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: utils/deploys/task-definition.json
+          container-name: marvelous-bob-ecs-td-container-name
+          image: ${{ steps.docker-vars.outputs.full }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: marvelous-bob-ecs-service
+          cluster: marvelous-bob-ecs-cluster
+          wait-for-service-stability: true

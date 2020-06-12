@@ -1,1 +1,1 @@
-include 'desktop', 'core'
+include 'desktop', 'client', 'server', 'common'
