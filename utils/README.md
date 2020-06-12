@@ -1,0 +1,1 @@
+Here we put whatever we find useful to share among the team, but isn't to be part of the released game.

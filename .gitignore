@@ -1,0 +1,282 @@
+## SSH KEYS
+*.pem
+*.ppk
+
+
+## Java
+
+*.class
+*.war
+*.ear
+hs_err_pid*
+
+## Robovm
+/ios/robovm-build/
+
+## GWT
+/html/war/
+/html/gwt-unitCache/
+.apt_generated/
+.gwt/
+gwt-unitCache/
+www-test/
+.gwt-tmp/
+
+## Android Studio and Intellij and Android in general
+/android/libs/armeabi/
+/android/libs/armeabi-v7a/
+/android/libs/arm64-v8a/
+/android/libs/x86/
+/android/libs/x86_64/
+/android/gen/
+.idea/
+*.ipr
+*.iws
+*.iml
+/android/out/
+com_crashlytics_export_strings.xml
+
+## Eclipse
+
+.classpath
+.project
+.metadata/
+/android/bin/
+/core/bin/
+/desktop/bin/
+/html/bin/
+/ios/bin/
+/ios-moe/bin/
+*.tmp
+*.bak
+*.swp
+*~.nib
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+
+## NetBeans
+
+/nbproject/private/
+/android/nbproject/private/
+/core/nbproject/private/
+/desktop/nbproject/private/
+/html/nbproject/private/
+/ios/nbproject/private/
+/ios-moe/nbproject/private/
+
+/build/
+/android/build/
+/core/build/
+/desktop/build/
+/html/build/
+/ios/build/
+/ios-moe/build/
+
+/nbbuild/
+/android/nbbuild/
+/core/nbbuild/
+/desktop/nbbuild/
+/html/nbbuild/
+/ios/nbbuild/
+/ios-moe/nbbuild/
+
+/dist/
+/android/dist/
+/core/dist/
+/desktop/dist/
+/html/dist/
+/ios/dist/
+/ios-moe/dist/
+
+/nbdist/
+/android/nbdist/
+/core/nbdist/
+/desktop/nbdist/
+/html/nbdist/
+/ios/nbdist/
+/ios-moe/nbdist/
+
+nbactions.xml
+nb-configuration.xml
+
+## Gradle
+
+/local.properties
+.gradle/
+gradle-app.setting
+/build/
+/android/build/
+/core/build/
+/desktop/build/
+/html/build/
+/ios/build/
+/ios-moe/build/
+
+## OS Specific
+.DS_Store
+Thumbs.db
+
+## iOS
+/ios/xcode/*.xcodeproj/*
+!/ios/xcode/*.xcodeproj/xcshareddata
+!/ios/xcode/*.xcodeproj/project.pbxproj
+/ios/xcode/native/
+/ios/IOSLauncher.app
+/ios/IOSLauncher.app.dSYM
+
+/ios-moe/xcode/*.xcodeproj/*
+!/ios-moe/xcode/*.xcodeproj/xcshareddata
+!/ios-moe/xcode/*.xcodeproj/project.pbxproj
+/ios-moe/xcode/native/
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/gradle,intellij+iml,java,gwt
+# Edit at https://www.toptal.com/developers/gitignore?templates=gradle,intellij+iml,java,gwt
+
+### GWT ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+
+# gwt caches and compiled units #
+war/gwt_bree/
+gwt-unitCache/
+
+# boilerplate generated classes #
+.apt_generated/
+
+# more caches and things from deploy #
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+
+#compilation logs
+.gwt/
+
+#gwt junit compilation files
+www-test/
+
+#old GWT (1.5) created this dir
+.gwt-tmp/
+
+### Intellij+iml ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
+
+### Intellij+iml Patch ###
+# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
+
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+
+### Java ###
+# Compiled class file
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Gradle ###
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+### Gradle Patch ###
+**/build/
+
+# End of https://www.toptal.com/developers/gitignore/api/gradle,intellij+iml,java,gwt

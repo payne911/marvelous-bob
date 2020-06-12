@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+        google()
+    }
+    dependencies {
+        
+
+    }
+}
+
+// to force download of sources and JavaDoc
+plugins {
+    id 'java'
+    id 'idea'
+}
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+allprojects {
+
+    version = '1.0'
+    ext {
+        appName = "marvelous-bob"
+        gdxVersion = '1.9.10'
+        roboVMVersion = '2.3.7'
+        box2DLightsVersion = '1.5'
+        ashleyVersion = '1.7.0'
+        aiVersion = '1.8.2'
+
+        slf4j = '1.7.26'
+        logback = '1.2.3'
+        lombok = '1.18.12'
+        daggerVersion = '2.27' // for DI
+
+        pieMenuVersion = '4.2.0'
+        shapedrawer = '2.3.0'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        google()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+project(":desktop") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+
+        implementation "ch.qos.logback:logback-classic:$logback"
+
+        compileOnly "org.projectlombok:lombok:$lombok"
+        annotationProcessor "org.projectlombok:lombok:$lombok"
+    }
+}
+
+project(":core") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+
+        api "org.slf4j:slf4j-api:$slf4j"
+
+        compileOnly "org.projectlombok:lombok:$lombok"
+        annotationProcessor "org.projectlombok:lombok:$lombok"
+
+        implementation "space.earlygrey:shapedrawer:$shapedrawer"
+        api "com.github.payne911:PieMenu:$pieMenuVersion"
+
+        implementation 'com.github.EsotericSoftware:kryonet:03a135e203'
+
+        api "com.google.dagger:dagger:$daggerVersion"
+        annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    }
+}
