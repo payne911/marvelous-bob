@@ -30,7 +30,6 @@ import space.earlygrey.shapedrawer.JoinType;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.GraphDrawerDrawable;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -104,12 +103,16 @@ public class MarvelousBob extends Game {
         MyGame.skin.dispose();
         MyGame.font.dispose();
         MyGame.stage.dispose();
-        try {
-            MyGame.client.getClient().dispose();
-        } catch (IOException e) {
-            e.printStackTrace();
-            MyGame.client.getClient().getUpdateThread().getThreadGroup().destroy();
-        }
+
+        /*
+        This actually hangs the thread...
+        See: https://github.com/EsotericSoftware/kryonet/issues/142
+        */
+//        try {
+//            MyGame.client.getClient().dispose();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     // ============================ INIT ==================================
