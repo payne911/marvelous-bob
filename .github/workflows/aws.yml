@@ -25,7 +25,7 @@ jobs:
           java-version: 14
 
       - name: Allow GitHubActions to run Gradlew
-        run: chown u+x gradlew
+        run: chmod u+x gradlew
 
       - name: Run Gradle build
         id: gradle-build
