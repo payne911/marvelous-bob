@@ -10,7 +10,5 @@ public class Register {
         registrar.getKryo().register(Ping.class);
         registrar.getKryo().register(GameState.class);
         registrar.getKryo().register(MoveAction.class);
-        registrar.getKryo().register(TestClass.class);
-        registrar.getKryo().register(TestClass2.class);
     }
 }
