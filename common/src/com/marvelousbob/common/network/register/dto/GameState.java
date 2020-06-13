@@ -1,6 +1,7 @@
-package com.marvelousbob.common.network.register;
+package com.marvelousbob.common.network.register.dto;
 
 import com.badlogic.gdx.utils.Array;
+import com.marvelousbob.common.network.register.Timestamped;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

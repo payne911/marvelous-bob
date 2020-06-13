@@ -4,9 +4,9 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.constants.NetworkConstants;
-import com.marvelousbob.common.network.register.Msg;
-import com.marvelousbob.common.network.register.Ping;
 import com.marvelousbob.common.network.register.Register;
+import com.marvelousbob.common.network.register.dto.Msg;
+import com.marvelousbob.common.network.register.dto.Ping;
 import lombok.SneakyThrows;
 
 public class MainServer {

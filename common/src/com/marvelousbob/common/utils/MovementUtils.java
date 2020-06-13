@@ -1,8 +1,8 @@
 package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
-import com.marvelousbob.common.network.register.GameState;
-import com.marvelousbob.common.network.register.Player;
+import com.marvelousbob.common.network.register.dto.GameState;
+import com.marvelousbob.common.network.register.dto.Player;
 
 public class MovementUtils {
 

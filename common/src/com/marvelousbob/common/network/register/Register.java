@@ -2,9 +2,12 @@ package com.marvelousbob.common.network.register;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.EndPoint;
+import com.marvelousbob.common.network.register.dto.*;
 
 
-public class Register {
+public final class Register {
+    private Register() {
+    }
 
     public static void registerClasses(EndPoint registrar) {
         registrar.getKryo().register(Msg.class);

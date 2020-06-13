@@ -1,6 +1,6 @@
 package com.marvelousbob.common.state;
 
-import com.marvelousbob.common.network.register.GameState;
+import com.marvelousbob.common.network.register.dto.GameState;
 import lombok.Data;
 
 /**

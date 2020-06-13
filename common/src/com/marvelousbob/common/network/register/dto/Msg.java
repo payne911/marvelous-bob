@@ -1,4 +1,4 @@
-package com.marvelousbob.common.network.register;
+package com.marvelousbob.common.network.register.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

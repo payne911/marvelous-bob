@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.network.MyClient;
-import com.marvelousbob.common.network.register.GameState;
-import com.marvelousbob.common.network.register.Player;
+import com.marvelousbob.common.network.register.dto.GameState;
+import com.marvelousbob.common.network.register.dto.Player;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
