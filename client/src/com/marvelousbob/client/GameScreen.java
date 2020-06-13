@@ -2,7 +2,7 @@ package com.marvelousbob.client;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.marvelousbob.common.state.MovementUtils;
+import com.marvelousbob.common.utils.MovementUtils;
 
 import static com.marvelousbob.client.MyGame.*;
 

@@ -1,4 +1,4 @@
-package com.marvelousbob.common.state;
+package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.marvelousbob.common.network.register.GameState;
