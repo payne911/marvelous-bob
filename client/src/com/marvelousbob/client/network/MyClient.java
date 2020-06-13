@@ -35,7 +35,7 @@ public class MyClient {
     @SneakyThrows
     public void connect() {
 //        client.addListener(new Listener.ThreadedListener(new OnReceiveClientListener()));
-        client.addListener(new OnReceiveClientListener());
+        client.addListener(new ClientListener());
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }
