@@ -34,4 +34,4 @@ The ``desktop`` is the launcher for the ``client``.
 * ShadowJar (far jar)
 
 ## Assets
-Most of them come from [Kenney](https://kenney.nl/assets?t=platformer), licensed ``CC0 1.0 Universal)``. Thank you so much!
+Most of them come from [Kenney](https://kenney.nl/assets?t=platformer), licensed ``CC0 1.0 Universal``. Thank you so much!
