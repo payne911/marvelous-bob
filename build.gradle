@@ -37,7 +37,7 @@ allprojects {
         slf4j = '1.7.26'
         logback = '1.2.3'
         lombok = '1.18.12'
-        kryonet = '03a135e203' // a git commit hash built via JitPack
+        kryonet = '2.22.6'
 
         pieMenuVersion = '4.2.0'
         shapedrawer = '2.3.0'
@@ -102,6 +102,6 @@ project(":common") {
         // todo: do we need both logging libraries? p.s. kryonet uses Minlog
         api "org.slf4j:slf4j-api:$slf4j"
         api "ch.qos.logback:logback-classic:$logback"
-        api "com.github.EsotericSoftware:kryonet:$kryonet"
+        api "com.github.crykn:kryonet:$kryonet"
     }
 }

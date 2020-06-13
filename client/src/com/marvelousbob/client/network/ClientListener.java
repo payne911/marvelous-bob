@@ -10,7 +10,7 @@ import com.marvelousbob.common.network.register.dto.Ping;
  * The callbacks to be used on different events from the network:
  * { received, connected, disconnected, idle }
  */
-public class ClientListener extends Listener {
+public class ClientListener implements Listener {
 
     @Override
     public void received(Connection connection, Object receivedObject) {

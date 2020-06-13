@@ -6,7 +6,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
 
-public class ServerListener extends Listener {
+public class ServerListener implements Listener {
     private final Server server;
 
     public ServerListener(Server server) {

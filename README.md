@@ -22,7 +22,7 @@ The ``desktop`` is the launcher for the ``client``.
 * Java 14 (language)
 * Gradle (build)
 * [libGDX](https://libgdx.badlogicgames.com/download.html) (framework)
-* [KryoNet](https://github.com/EsotericSoftware/kryonet) (networking)
+* [KryoNet](https://github.com/crykn/kryonet) (networking)
 * Lombok (boilerplate)
 * Slf4j (logging)
 ### Client module
