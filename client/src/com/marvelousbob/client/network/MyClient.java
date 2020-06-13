@@ -5,22 +5,17 @@ import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.net.InetAddress;
 
-
+@Getter
 public class MyClient {
-
-
-    @Getter
-    private final InetAddress addr;
-
-    @Getter
-    private final Client client;
-
-    @Getter
+    @Setter
     private IncrementalAverage latencyReport;
+    private final InetAddress addr;
+    private final Client client;
 
 
     public MyClient() {
