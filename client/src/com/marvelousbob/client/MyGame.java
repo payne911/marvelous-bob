@@ -16,7 +16,9 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
  * {@link MarvelousBob#create()} in order for their access
  * throughout the program to be safe.
  */
-public class MyGame {
+public final class MyGame {
+    private MyGame() {
+    }
 
     /* Client. */
     public static MyClient client;
