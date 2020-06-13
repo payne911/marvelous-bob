@@ -1,12 +1,8 @@
 package com.marvelousbob.client.network;
 
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
-import com.marvelousbob.common.network.register.Msg;
-import com.marvelousbob.common.network.register.Ping;
 import com.marvelousbob.common.network.register.Register;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -43,19 +39,8 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
-        Listener onReceiveCallback = new Listener() {
-            @Override
-            public void received(Connection connection, Object o) {
-                if (o instanceof Msg m) {
-                    System.out.println(m);
-                }
-                if (o instanceof Ping p) {
-                    latencyReport.addToRunningAverage(p.getTimeStamp());
-                }
-            }
-        };
-//        client.addListener(new Listener.ThreadedListener(onReceiveCallback));
-        client.addListener(onReceiveCallback);
+//        client.addListener(new Listener.ThreadedListener(new OnReceiveClientListener()));
+        client.addListener(new OnReceiveClientListener());
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }
