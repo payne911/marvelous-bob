@@ -3,12 +3,11 @@ package com.marvelousbob.server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.marvelousbob.common.register.Msg;
-import com.marvelousbob.common.register.Ping;
-import com.marvelousbob.common.register.Register;
+import com.marvelousbob.common.network.constants.NetworkConstants;
+import com.marvelousbob.common.network.register.Msg;
+import com.marvelousbob.common.network.register.Ping;
+import com.marvelousbob.common.network.register.Register;
 import lombok.SneakyThrows;
-
-import static com.marvelousbob.server.ServerInit.PORT;
 
 public class MainServer {
 
@@ -41,6 +40,6 @@ public class MainServer {
             }
         }));
         server.start();
-        server.bind(PORT);
+        server.bind(NetworkConstants.PORT);
     }
 }

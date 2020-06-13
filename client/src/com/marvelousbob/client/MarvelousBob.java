@@ -19,10 +19,12 @@ import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.network.MyClient;
+import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
-import com.marvelousbob.common.register.Msg;
-import com.marvelousbob.common.register.Ping;
-import com.marvelousbob.common.register.Player;
+import com.marvelousbob.common.network.register.GameState;
+import com.marvelousbob.common.network.register.Msg;
+import com.marvelousbob.common.network.register.Ping;
+import com.marvelousbob.common.network.register.Player;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
@@ -31,6 +33,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.GraphDrawerDrawable;
 
 import java.util.List;
+
+import static com.marvelousbob.client.MyGame.*;
 
 
 /**
@@ -45,6 +49,11 @@ public class MarvelousBob extends Game {
     private ISplashWorker splashWorker;
 
 
+    /**
+     * Very first method called in the whole game.
+     * All the static variables of {@link MyGame} are to be initialized here.
+     * The calling order is most probably very sensible.
+     */
     @Override
     public void create() {
         removeSplashScreen();
@@ -53,63 +62,41 @@ public class MarvelousBob extends Game {
         initializeDisplayElements();
         createController();
         setUpInputProcessors();
-        displayNetworkDebuggingUi();
-        instanciatePlayer();
+//        displayNetworkDebuggingUi();
+        instantiatePlayer();
+        prepareGameState();
 
-        setScreen(new GameScreen());
+        changeScreen();
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(.2f, .2f, .2f, 1); // sets a bg color
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
+        super.render(); // calls the GameScreen's `render()`
 
-        updateGameState();
-
-        /* Draws that do not require Scene2d (Stage, Table, etc.). */
-        MyGame.batch.begin();
-        MyGame.shapeDrawer.rectangle(MyGame.selfPlayer.getCurrX(), MyGame.selfPlayer.getCurrY(), 40, 40);
-        MyGame.batch.end();
-
-        /* Drawing the UI over the game. */
-        MyGame.stage.act();
-        MyGame.stage.draw();
-    }
-
-    private void updateGameState() {
-//        float x, y;
-//        if (percent == 0) {
-//            x = startX;
-//            y = startY;
-//        } else if (percent == 1) {
-//            x = endX;
-//            y = endY;
-//        } else {
-//            x = startX + (endX - startX) * percent;
-//            y = startY + (endY - startY) * percent;
-//        }
-//        target.setPosition(x, y, alignment);
+        // todo: loading screen with AssetManager, THEN `changeScreen()`
     }
 
     @Override
     public void resize(int width, int height) {
         // this changes viewed screen size, rather than stretch the view
-        MyGame.stage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void dispose() {
-        MyGame.batch.dispose();
-        MyGame.skin.dispose();
-        MyGame.font.dispose();
-        MyGame.stage.dispose();
+        batch.dispose();
+        skin.dispose();
+        font.dispose();
+        stage.dispose();
+        getScreen().dispose();
 
         /*
-        This actually hangs the thread...
+        This actually hangs the thread when closing the application...
         See: https://github.com/EsotericSoftware/kryonet/issues/142
         */
 //        try {
-//            MyGame.client.getClient().dispose();
+//            client.getClient().dispose();
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -125,92 +112,103 @@ public class MarvelousBob extends Game {
     private void createClient() {
 //        Log.set(LEVEL_TRACE);
         log.warn("\nisLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        MyGame.client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        MyGame.client.connect();
+        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")));
+        client.connect();
     }
 
     private void initializeDisplayElements() {
         /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
-        MyGame.batch = new SpriteBatch();
-        MyGame.stage = new Stage(new ScreenViewport(), MyGame.batch);
-        MyGame.skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        MyGame.shapeDrawer = new ShapeDrawer(MyGame.stage.getBatch(),
-                MyGame.skin.getRegion("white"));
-        MyGame.font = new BitmapFont();
-        MyGame.root = new Table(MyGame.skin);
-        MyGame.root.setFillParent(true);
-        MyGame.stage.addActor(MyGame.root);
+        batch = new SpriteBatch();
+        stage = new Stage(new ScreenViewport(), batch);
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        shapeDrawer = new ShapeDrawer(stage.getBatch(),
+                skin.getRegion("white"));
+        font = new BitmapFont();
+        root = new Table(skin);
+        root.setFillParent(true);
+        stage.addActor(root);
     }
 
     private void createController() {
-        MyGame.controller = new Controller();
+        controller = new Controller();
     }
 
     private void setUpInputProcessors() {
-        MyInputProcessor inputProcessor1 = new MyInputProcessor(MyGame.stage.getCamera(),
-                MyGame.controller);
-        MyGestureListener inputProcessor2 = new MyGestureListener(MyGame.stage.getCamera(),
-                MyGame.controller);
+        MyInputProcessor inputProcessor1 = new MyInputProcessor(stage.getCamera(),
+                controller);
+        MyGestureListener inputProcessor2 = new MyGestureListener(stage.getCamera(),
+                controller);
         Gdx.input.setInputProcessor(new InputMultiplexer(
-                MyGame.stage,
+                stage,
                 inputProcessor1,
                 new GestureDetector(inputProcessor2)));
     }
 
     private void displayNetworkDebuggingUi() {
-        MyGame.root.setDebug(true);
-        MyGame.root.defaults().fillX().pad(20);
+        root.setDebug(true);
+        root.defaults().fillX().pad(20);
         addPingComponent();
-        MyGame.root.row();
+        root.row();
         addMsgComponent();
-        MyGame.root.row();
+        root.row();
         addGraphComponent();
     }
 
-    private void instanciatePlayer() {
-        MyGame.selfPlayer = new Player();
-        MyGame.selfPlayer.setCurrX(MathUtils.random(Gdx.graphics.getWidth()));
-        MyGame.selfPlayer.setCurrY(MathUtils.random(Gdx.graphics.getHeight()));
+    private void instantiatePlayer() {
+        selfPlayer = new Player();
+        selfPlayer.stampNow();
+        selfPlayer.setCurrX(MathUtils.random(Gdx.graphics.getWidth() - selfPlayer.getSize()));
+        selfPlayer.setCurrY(MathUtils.random(Gdx.graphics.getHeight() - selfPlayer.getSize()));
+    }
+
+    private void prepareGameState() {
+        gameState = new GameState();
+        gameState.stampNow();
+        gameState.getPlayers().add(selfPlayer);
+    }
+
+    private void changeScreen() {
+        setScreen(new GameScreen()); // delegates logic (assigns "super.")
     }
 
     // ============================= UI ===================================
 
 
     public void addMsgComponent() {
-        Table msgComponent = new Table(MyGame.skin);
-        Button btn2 = new TextButton("  > MSG <  ", MyGame.skin);
+        Table msgComponent = new Table(skin);
+        Button btn2 = new TextButton("  > MSG <  ", skin);
         btn2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 btn2.setDisabled(true);
-                MyGame.client.getClient()
+                client.getClient()
                         .sendTCP(new Msg("Just a test message sent from a button."));
                 btn2.setDisabled(false);
             }
         });
         msgComponent.add(btn2);
-        MyGame.root.add(msgComponent);
+        root.add(msgComponent);
     }
 
     public void addPingComponent() {
-        Table pingComponent = new Table(MyGame.skin);
-        TextArea textArea = new TextArea("placeholder", MyGame.skin);
+        Table pingComponent = new Table(skin);
+        TextArea textArea = new TextArea("placeholder", skin);
         pingComponent.add(textArea).width(300).height(90);
-        Button btn = new TextButton("  > PING <  ", MyGame.skin);
+        Button btn = new TextButton("  > PING <  ", skin);
         btn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 btn.setDisabled(true);
-                for (int i = 0; i < 500; i++) {
-                    MyGame.client.getClient().sendTCP(new Ping(System.currentTimeMillis()));
+                for (int i = 0; i < 5; i++) {
+                    client.getClient().sendTCP(new Ping(System.currentTimeMillis()));
                 }
-                textArea.setText(MyGame.client.getLatencyReport()
+                textArea.setText(client.getLatencyReport()
                         .toString()); // todo: should be in a callback in the client?
                 btn.setDisabled(false);
             }
         });
         pingComponent.add(btn);
-        MyGame.root.add(pingComponent);
+        root.add(pingComponent);
     }
 
 
@@ -219,10 +217,10 @@ public class MarvelousBob extends Game {
     private List<Float> graphData;
 
     public void addGraphComponent() {
-        graphDrawer = new GraphDrawer(MyGame.shapeDrawer);
+        graphDrawer = new GraphDrawer(shapeDrawer);
         graphDrawerDrawable = new GraphDrawerDrawable(graphDrawer);
 
-        graphDrawerDrawable.setColor(MyGame.skin.getColor("green"));
+        graphDrawerDrawable.setColor(skin.getColor("green"));
         graphDrawerDrawable.setJoinType(JoinType.SMOOTH);
         graphDrawerDrawable.setLineWidth(2);
         graphDrawerDrawable.setSamples(100);
@@ -242,7 +240,7 @@ public class MarvelousBob extends Game {
         graphDrawerDrawable.setInterpolation(customFunc);
 
         Table graphRoot = new Table();
-        MyGame.root.add(graphRoot).expand().grow();
+        root.add(graphRoot).expand().grow();
 
         graphRoot.pad(20);
         graphRoot.defaults().space(12);
@@ -253,25 +251,26 @@ public class MarvelousBob extends Game {
         Table table = new Table();
         graphRoot.add(table).growX();
 
-        Label label = new Label("Graph: ", MyGame.skin);
+        Label label = new Label("Graph: ", skin);
         table.add(label);
 
         final Array<String> graphs = Array.with("Min", "Max", "Ping", "Average");
-        final SelectBox<String> graphSelectBox = new SelectBox<>(MyGame.skin);
+        final SelectBox<String> graphSelectBox = new SelectBox<>(skin);
         graphSelectBox.setItems(graphs);
         graphSelectBox.setSelectedIndex(2); // Ping
-        graphData = MyGame.client.getLatencyReport().pingData;
+        graphData = client.getLatencyReport().pingData;
         table.add(graphSelectBox).uniformX().fillX();
         graphSelectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                switch (graphSelectBox.getSelected()) {
-                    case "Min" -> graphData = MyGame.client.getLatencyReport().minData;
-                    case "Max" -> graphData = MyGame.client.getLatencyReport().maxData;
-                    case "Average" -> graphData = MyGame.client.getLatencyReport().avgData;
-                    case "Ping" -> graphData = MyGame.client.getLatencyReport().pingData;
-                    default -> graphData = MyGame.client.getLatencyReport().pingData;
-                }
+                IncrementalAverage average = client.getLatencyReport();
+                graphData = switch (graphSelectBox.getSelected()) {
+                    case "Min" -> average.minData;
+                    case "Max" -> average.maxData;
+                    case "Average" -> average.avgData;
+                    case "Ping" -> average.pingData;
+                    default -> average.pingData;
+                };
             }
         });
 
@@ -281,15 +280,15 @@ public class MarvelousBob extends Game {
         graphRoot.add(table);
 
         table.defaults().space(8).right();
-        label = new Label("Samples:", MyGame.skin);
+        label = new Label("Samples:", skin);
         table.add(label);
 
-        final Slider samplesSlider = new Slider(3, 300, 1, false, MyGame.skin);
+        final Slider samplesSlider = new Slider(3, 300, 1, false, skin);
         samplesSlider.setValue(graphDrawerDrawable.getSamples());
         table.add(samplesSlider);
 
         final Label samplesLabel = new Label(
-                Integer.toString(MathUtils.round(graphDrawerDrawable.getSamples())), MyGame.skin);
+                Integer.toString(MathUtils.round(graphDrawerDrawable.getSamples())), skin);
         table.add(samplesLabel).uniformX().fillX();
         samplesSlider.addListener(new ChangeListener() {
             @Override

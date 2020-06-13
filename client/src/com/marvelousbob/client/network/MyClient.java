@@ -4,9 +4,10 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
-import com.marvelousbob.common.register.Msg;
-import com.marvelousbob.common.register.Ping;
-import com.marvelousbob.common.register.Register;
+import com.marvelousbob.common.network.constants.NetworkConstants;
+import com.marvelousbob.common.network.register.Msg;
+import com.marvelousbob.common.network.register.Ping;
+import com.marvelousbob.common.network.register.Register;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -15,9 +16,6 @@ import java.net.InetAddress;
 
 public class MyClient {
 
-    public static final String REMOTE_SERVER = "52.60.181.140";
-    public static final int PORT = 80;
-    public static final int TIMEOUT = 15000;
 
     @Getter
     private final InetAddress addr;
@@ -39,7 +37,7 @@ public class MyClient {
         Register.registerClasses(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
-                : InetAddress.getByName(REMOTE_SERVER);
+                : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
         this.latencyReport = new IncrementalAverage();
     }
 
@@ -48,19 +46,17 @@ public class MyClient {
         Listener onReceiveCallback = new Listener() {
             @Override
             public void received(Connection connection, Object o) {
-                if (o instanceof Msg) {
-                    Msg m = (Msg) o;
+                if (o instanceof Msg m) {
                     System.out.println(m);
                 }
-                if (o instanceof Ping) {
-                    Ping p = (Ping) o;
+                if (o instanceof Ping p) {
                     latencyReport.addToRunningAverage(p.getTimeStamp());
                 }
             }
         };
-        client.addListener(new Listener.ThreadedListener(onReceiveCallback));
-//        client.addListener(onReceiveCallback);
+//        client.addListener(new Listener.ThreadedListener(onReceiveCallback));
+        client.addListener(onReceiveCallback);
         client.start();
-        client.connect(TIMEOUT, addr, PORT);
+        client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }
 }

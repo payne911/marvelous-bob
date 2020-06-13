@@ -1,4 +1,4 @@
-package com.marvelousbob.common.register;
+package com.marvelousbob.common.network.register;
 
 import lombok.Data;
 

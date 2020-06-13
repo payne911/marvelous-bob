@@ -7,13 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.network.MyClient;
-import com.marvelousbob.common.register.Player;
+import com.marvelousbob.common.network.register.GameState;
+import com.marvelousbob.common.network.register.Player;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+/**
+ * Every single class in here needs to be initialized within
+ * {@link MarvelousBob#create()} in order for their access
+ * throughout the program to be safe.
+ */
 public class MyGame {
 
     /* Client. */
     public static MyClient client;
+    public static GameState gameState; // todo: probably will change to StateUpdater
     public static Player selfPlayer;
     public static Controller controller;
 

@@ -1,5 +1,6 @@
-package com.marvelousbob.common.register;
+package com.marvelousbob.common.network.register;
 
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.EndPoint;
 
 
@@ -10,5 +11,7 @@ public class Register {
         registrar.getKryo().register(Ping.class);
         registrar.getKryo().register(GameState.class);
         registrar.getKryo().register(MoveAction.class);
+        registrar.getKryo().register(Player.class);
+        registrar.getKryo().register(Array.class);
     }
 }
