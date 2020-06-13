@@ -155,10 +155,10 @@ public class MarvelousBob extends Game {
     }
 
     private void instantiatePlayer() {
-        selfPlayer = new Player();
-        selfPlayer.stampNow();
-        selfPlayer.setCurrX(MathUtils.random(Gdx.graphics.getWidth() - selfPlayer.getSize()));
-        selfPlayer.setCurrY(MathUtils.random(Gdx.graphics.getHeight() - selfPlayer.getSize()));
+        if (selfPlayer != null) {
+            selfPlayer.setCurrX(MathUtils.random(Gdx.graphics.getWidth() - selfPlayer.getSize()));
+            selfPlayer.setCurrY(MathUtils.random(Gdx.graphics.getHeight() - selfPlayer.getSize()));
+        }
     }
 
     private void prepareGameState() {

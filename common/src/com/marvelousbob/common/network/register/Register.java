@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.marvelousbob.common.network.register.dto.*;
 
+import java.util.UUID;
+
 
 public final class Register {
     private Register() {
@@ -16,5 +18,6 @@ public final class Register {
         registrar.getKryo().register(MoveAction.class);
         registrar.getKryo().register(Player.class);
         registrar.getKryo().register(Array.class);
+        registrar.getKryo().register(UUID.class);
     }
 }

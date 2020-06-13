@@ -2,12 +2,12 @@ package com.marvelousbob.common.network.register;
 
 import lombok.Data;
 
-@Data
-public abstract class Timestamped {
+public interface Timestamped {
 
-    protected long timestamp;
+    long getTimestamp();
+    void setTimestamp(long timestammp);
 
-    public void stampNow() {
-        timestamp = System.currentTimeMillis();
+    default void stampNow() {
+        setTimestamp(System.currentTimeMillis());
     }
 }
