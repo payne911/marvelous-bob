@@ -23,7 +23,7 @@ import static com.marvelousbob.client.MyGame.stage;
  */
 public class ClientListener implements Listener {
 
-    private Game gdxGame;
+    private final Game gdxGame;
 
     public ClientListener(Game gdxGame) {
         this.gdxGame = gdxGame;
@@ -33,7 +33,7 @@ public class ClientListener implements Listener {
     public void received(Connection connection, Object receivedObject) {
         if (receivedObject instanceof Msg msg) onMsg(msg);
         if (receivedObject instanceof Ping ping) onPing(ping);
-        if (receivedObject instanceof GameIntialization intialization) onGameInitialized(intialization);
+        if (receivedObject instanceof GameIntialization initialization) onGameInitialized(initialization);
     }
 
     private void onGameInitialized(GameIntialization game) {
@@ -63,9 +63,7 @@ public class ClientListener implements Listener {
                 inputProcessor1,
                 new GestureDetector(inputProcessor2)));
 
-        // setScreen here
         gdxGame.setScreen(new GameScreen());
-
     }
 
 
