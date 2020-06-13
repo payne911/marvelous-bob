@@ -10,7 +10,7 @@ import com.marvelousbob.common.network.register.dto.Player;
 
 import java.util.UUID;
 
-public class ServerListener extends Listener {
+public class ServerListener implements Listener {
     private final Server server;
     private GameState gameState;
 
