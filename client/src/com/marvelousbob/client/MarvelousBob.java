@@ -15,16 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
-import com.marvelousbob.common.network.register.dto.GameState;
+import com.marvelousbob.common.events.PlayerConnection;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
-import com.marvelousbob.common.network.register.dto.Player;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
@@ -60,19 +58,25 @@ public class MarvelousBob extends Game {
         createClient();
 
         initializeDisplayElements();
-        createController();
-        setUpInputProcessors();
+//        setUpInputProcessors();
 //        displayNetworkDebuggingUi();
         instantiatePlayer();
-        prepareGameState();
+//        prepareGameState();
 
         changeScreen();
+    }
+
+    private void instantiatePlayer() {
+        client.getClient().sendTCP(new PlayerConnection());
     }
 
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
-        super.render(); // calls the GameScreen's `render()`
+        if (gameState != null) {
+            /// todo gameState static ???
+            super.render(); // calls the GameScreen's `render()`
+        }
 
         // todo: loading screen with AssetManager, THEN `changeScreen()`
     }
@@ -112,7 +116,7 @@ public class MarvelousBob extends Game {
     private void createClient() {
 //        Log.set(LEVEL_TRACE);
         log.warn("\nisLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")));
+        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")), this);
         client.connect();
     }
 
@@ -129,9 +133,6 @@ public class MarvelousBob extends Game {
         stage.addActor(root);
     }
 
-    private void createController() {
-        controller = new Controller();
-    }
 
     private void setUpInputProcessors() {
         MyInputProcessor inputProcessor1 = new MyInputProcessor(stage.getCamera(),
@@ -154,18 +155,6 @@ public class MarvelousBob extends Game {
         addGraphComponent();
     }
 
-    private void instantiatePlayer() {
-        if (selfPlayer != null) {
-            selfPlayer.setCurrX(MathUtils.random(Gdx.graphics.getWidth() - selfPlayer.getSize()));
-            selfPlayer.setCurrY(MathUtils.random(Gdx.graphics.getHeight() - selfPlayer.getSize()));
-        }
-    }
-
-    private void prepareGameState() {
-        gameState = new GameState();
-        gameState.stampNow();
-        gameState.getPlayers().add(selfPlayer);
-    }
 
     private void changeScreen() {
         setScreen(new GameScreen()); // delegates logic (assigns "super.")

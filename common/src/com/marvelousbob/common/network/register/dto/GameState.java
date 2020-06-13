@@ -1,14 +1,19 @@
 package com.marvelousbob.common.network.register.dto;
 
-import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.network.register.Timestamped;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class GameState implements Timestamped, Comparable<GameState> {
 
-    private Array<Player> players = new Array<>(8); // todo: could be set as unordered?
+    private List<PlayerDto> playerDtos = new ArrayList<>(8); // todo: could be set as unordered?
     private long timestamp;
 
     @Override
@@ -17,7 +22,7 @@ public class GameState implements Timestamped, Comparable<GameState> {
     }
 
 
-    private void addPlayer(Player player) {
-        players.add(player);
+    private void addPlayer(PlayerDto playerDto) {
+        playerDtos.add(playerDto);
     }
 }

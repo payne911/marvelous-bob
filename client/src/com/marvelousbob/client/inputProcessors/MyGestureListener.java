@@ -45,4 +45,5 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
         controller.playerTapped(vec.x, vec.y);
         return true;
     }
+
 }

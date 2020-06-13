@@ -1,13 +1,21 @@
 package com.marvelousbob.client.network;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.marvelousbob.client.GameScreen;
 import com.marvelousbob.client.MyGame;
-import com.marvelousbob.common.network.register.dto.Msg;
-import com.marvelousbob.common.network.register.dto.Ping;
-import com.marvelousbob.common.network.register.dto.Player;
+import com.marvelousbob.client.controllers.Controller;
+import com.marvelousbob.client.inputProcessors.MyGestureListener;
+import com.marvelousbob.client.inputProcessors.MyInputProcessor;
+import com.marvelousbob.common.network.register.dto.*;
 
-import java.util.UUID;
+import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.stage;
+
 
 /**
  * The callbacks to be used on different events from the network:
@@ -15,22 +23,51 @@ import java.util.UUID;
  */
 public class ClientListener implements Listener {
 
+    private Game gdxGame;
+
+    public ClientListener(Game gdxGame) {
+        this.gdxGame = gdxGame;
+    }
+
     @Override
     public void received(Connection connection, Object receivedObject) {
-        if (receivedObject instanceof Msg msg)   onMsg(msg);
+        if (receivedObject instanceof Msg msg) onMsg(msg);
         if (receivedObject instanceof Ping ping) onPing(ping);
-        if (receivedObject instanceof Player player) onPlayer(player);
+        if (receivedObject instanceof GameIntialization intialization) onGameInitialized(intialization);
     }
 
-    private void onPlayer(Player player) {
-        if (player.isSelf()){
-            MyGame.selfPlayer = player;
+    private void onGameInitialized(GameIntialization game) {
+        // if the game is not initialized yet
+        UUID currentPlayerUuid = game.getCurrentPlayerId();
+        if (MyGame.controller == null) {
+            PlayerDto self = null;
+            for (PlayerDto p : game.getGameState().getPlayerDtos()) {
+                if (p.isEqulas(currentPlayerUuid)) {
+                    self = p;
+                }
+            }
+            if (self != null) {
+                MyGame.controller = new Controller(self);
+            }
         }
+
+        // update current game state
+        MyGame.gameState = game.getGameState();
+
+        MyInputProcessor inputProcessor1 = new MyInputProcessor(stage.getCamera(),
+                controller);
+        MyGestureListener inputProcessor2 = new MyGestureListener(stage.getCamera(),
+                controller);
+        Gdx.input.setInputProcessor(new InputMultiplexer(
+                stage,
+                inputProcessor1,
+                new GestureDetector(inputProcessor2)));
+
+        // setScreen here
+        gdxGame.setScreen(new GameScreen());
+
     }
 
-    private void onUuid(UUID uuid) {
-        MyGame.selfPlayer.setId(uuid);
-    }
 
     private void onPing(Ping ping) {
         MyGame.client.getLatencyReport().addToRunningAverage(ping.getTimestamp());

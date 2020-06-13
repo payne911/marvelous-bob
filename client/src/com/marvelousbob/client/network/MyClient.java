@@ -1,5 +1,6 @@
 package com.marvelousbob.client.network;
 
+import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
@@ -16,15 +17,12 @@ public class MyClient {
     private IncrementalAverage latencyReport;
     private final InetAddress addr;
     private final Client client;
-
-
-    public MyClient() {
-        this(false);
-    }
+    private Game game;
 
     @SneakyThrows
-    public MyClient(boolean isLocalServer) {
+    public MyClient(boolean isLocalServer, Game game) {
         this.client = new Client();
+        this.game = game;
         Register.registerClasses(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
@@ -35,7 +33,7 @@ public class MyClient {
     @SneakyThrows
     public void connect() {
 //        client.addListener(new Listener.ThreadedListener(new OnReceiveClientListener()));
-        client.addListener(new ClientListener());
+        client.addListener(new ClientListener(game));
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }

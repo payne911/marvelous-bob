@@ -1,15 +1,21 @@
 package com.marvelousbob.client.controllers;
 
+import com.marvelousbob.common.network.register.dto.PlayerDto;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.marvelousbob.client.MyGame.selfPlayer;
 
 @Slf4j
 public class Controller {
 
+    private PlayerDto selfPlayerDto;
+
+    public Controller(PlayerDto selfPlayerDto) {
+        this.selfPlayerDto = selfPlayerDto;
+    }
+
     public void playerTapped(float x, float y) {
         log.debug("Tapped on (%f,%f)".formatted(x, y));
-        selfPlayer.setDestX(x - selfPlayer.getSize() / 2);
-        selfPlayer.setDestY(y - selfPlayer.getSize() / 2);
+        selfPlayerDto.setDestX(x - selfPlayerDto.getSize() / 2);
+        selfPlayerDto.setDestY(y - selfPlayerDto.getSize() / 2);
     }
 }

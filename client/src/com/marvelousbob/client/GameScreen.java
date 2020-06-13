@@ -20,7 +20,7 @@ public class GameScreen extends ScreenAdapter {
 
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
-        gameState.getPlayers().forEach(p -> shapeDrawer.rectangle(
+        gameState.getPlayerDtos().forEach(p -> shapeDrawer.rectangle(
                 p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize()));
         batch.end();
 
