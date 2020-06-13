@@ -6,6 +6,10 @@ import com.marvelousbob.common.utils.MovementUtils;
 
 import static com.marvelousbob.client.MyGame.*;
 
+/**
+ * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the
+ * job of the {@link #render(float) render} method to
+ */
 public class GameScreen extends ScreenAdapter {
 
     @Override
@@ -21,7 +25,7 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
 
         /* Drawing the Scene2d stuff (UI and Actors). */
-        stage.act();
+        stage.act(delta);
         stage.draw();
     }
 
