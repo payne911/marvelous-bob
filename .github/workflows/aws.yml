@@ -2,6 +2,8 @@
 # and then will deploy a new task definition to Amazon ECS,
 # when a push on branch 'master' is done.
 
+# todo: If we want to deploy only when server is modified, see:
+# https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpaths
 on:
   push:
     branches:
@@ -24,7 +26,7 @@ jobs:
         with:
           java-version: 14
 
-      - name: Allow GitHubActions to run Gradlew
+      - name: Allow GitHub Actions to run Gradlew
         run: chmod u+x gradlew
 
       - name: Run Gradle build
