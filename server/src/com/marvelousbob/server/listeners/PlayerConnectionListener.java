@@ -22,7 +22,6 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnection>
 
     @Override
     public void accept(Connection connection, PlayerConnection playerConnection) {
-
         UUID uuid = UUID.randomUUID();
         PlayerDto playerDto = new PlayerDto(uuid);
         float x = MathUtils.random(0, sizeX);
