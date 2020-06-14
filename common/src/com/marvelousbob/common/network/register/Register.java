@@ -22,5 +22,6 @@ public final class Register {
         registrar.getKryo().register(GameInitialization.class);
         registrar.getKryo().register(PlayerConnection.class);
         registrar.getKryo().register(ArrayList.class);
+        registrar.getKryo().register(PlayerDisconnectionDto.class);
     }
 }
