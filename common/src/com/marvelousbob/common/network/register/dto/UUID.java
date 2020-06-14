@@ -23,4 +23,16 @@ public final class UUID implements Dto {
         return new UUID(Integer.toString(TEST++));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UUID uuid = (UUID) o;
+        return Integer.parseInt(id) == Integer.parseInt(uuid.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(Integer.parseInt(id));
+    }
 }
