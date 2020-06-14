@@ -19,8 +19,8 @@ public class MoveAction implements Action {
     public MoveAction(MoveActionDto dto) {
         this.timestamp = dto.getTimestamp(); // // TODO: 2020-06-13 Can we trust player received timestamps ?   --- OLA
         this.playerId = dto.getPlayerId();
-        this.deltaX = dto.getDeltaX();
-        this.deltaY = dto.getDeltaY();
+        this.deltaX = dto.getDestX();
+        this.deltaY = dto.getDestY();
     }
 
 

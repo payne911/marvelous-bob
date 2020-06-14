@@ -1,4 +1,4 @@
-package com.marvelousbob.server;
+package com.marvelousbob.server.listeners;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;

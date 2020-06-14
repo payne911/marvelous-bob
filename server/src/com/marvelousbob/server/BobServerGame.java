@@ -6,7 +6,9 @@ import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.server.listeners.MoveActionListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
+import com.marvelousbob.server.listeners.ServerListener;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +32,7 @@ public class BobServerGame extends Game {
         gameStateDto.stampNow();
         server.addListener(new Listener.ThreadedListener(new ServerListener(server, gameStateDto)));
         server.addListener(new Listener.ThreadedListener(new PlayerConnectionListener(server, gameStateDto)));
+        server.addListener(new Listener.ThreadedListener(new MoveActionListener(gameStateDto)));
         server.start();
         server.bind(NetworkConstants.PORT);
         log.info("SERVER STARTED!!!");

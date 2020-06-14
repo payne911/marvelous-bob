@@ -5,8 +5,7 @@ import lombok.Data;
 
 @Data
 public final class MoveActionDto implements Timestamped, Dto {
-
     private long timestamp;
     private UUID playerId;
-    private float deltaX, deltaY;
+    private float destX, destY;
 }

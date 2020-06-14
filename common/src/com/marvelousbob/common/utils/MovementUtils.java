@@ -10,7 +10,7 @@ public class MovementUtils {
         game.getPlayerDtos().forEach(p -> interpolatePlayer(p, delta));
     }
 
-    private static void interpolatePlayer(PlayerDto p, float delta) {
+    public static void interpolatePlayer(PlayerDto p, float delta) {
         // https://github.com/libgdx/libgdx/wiki/Interpolation
         p.setCurrX(Interpolation.exp10Out.apply(p.getCurrX(), p.getDestX(), delta));
         p.setCurrY(Interpolation.exp10Out.apply(p.getCurrY(), p.getDestY(), delta));
