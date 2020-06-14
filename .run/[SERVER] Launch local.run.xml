@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="[SERVER] Launch local" type="Application" factoryName="Application">
-        <option name="MAIN_CLASS_NAME" value="com.marvelousbob.server.ServerInit"/>
+        <option name="MAIN_CLASS_NAME" value="com.marvelousbob.server.BobServerLauncher"/>
         <module name="marvelous-bob.server.main"/>
         <option name="VM_PARAMETERS" value="--enable-preview"/>
         <extension name="coverage">

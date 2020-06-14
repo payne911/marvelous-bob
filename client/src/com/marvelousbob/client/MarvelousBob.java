@@ -2,11 +2,9 @@ package com.marvelousbob.client;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,14 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.marvelousbob.client.inputProcessors.MyGestureListener;
-import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
-import com.marvelousbob.common.events.PlayerConnection;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
+import com.marvelousbob.common.network.register.dto.PlayerConnection;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
@@ -58,12 +54,8 @@ public class MarvelousBob extends Game {
         createClient();
 
         initializeDisplayElements();
-//        setUpInputProcessors();
-//        displayNetworkDebuggingUi();
         instantiatePlayer();
-//        prepareGameState();
 
-        changeScreen();
     }
 
     private void instantiatePlayer() {
@@ -73,7 +65,7 @@ public class MarvelousBob extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
-        if (gameState != null) {
+        if (gameStateDto != null) {
             /// todo gameState static ???
             super.render(); // calls the GameScreen's `render()`
         }
@@ -133,17 +125,6 @@ public class MarvelousBob extends Game {
         stage.addActor(root);
     }
 
-
-    private void setUpInputProcessors() {
-        MyInputProcessor inputProcessor1 = new MyInputProcessor(stage.getCamera(),
-                controller);
-        MyGestureListener inputProcessor2 = new MyGestureListener(stage.getCamera(),
-                controller);
-        Gdx.input.setInputProcessor(new InputMultiplexer(
-                stage,
-                inputProcessor1,
-                new GestureDetector(inputProcessor2)));
-    }
 
     private void displayNetworkDebuggingUi() {
         root.setDebug(true);

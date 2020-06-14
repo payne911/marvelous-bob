@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GameState implements Timestamped, Comparable<GameState> {
+public final class GameStateDto implements Timestamped, Comparable<GameStateDto>, Dto {
 
     private List<PlayerDto> playerDtos = new ArrayList<>(8); // todo: could be set as unordered?
     private long timestamp;
 
     @Override
-    public int compareTo(GameState o) {
+    public int compareTo(GameStateDto o) {
         return Long.compare(timestamp, o.timestamp);
     }
 

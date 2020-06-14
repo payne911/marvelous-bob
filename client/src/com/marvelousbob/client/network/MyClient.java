@@ -2,6 +2,9 @@ package com.marvelousbob.client.network;
 
 import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Client;
+import com.marvelousbob.client.network.listeners.DebugListener;
+import com.marvelousbob.client.network.listeners.GameInitializerListener;
+import com.marvelousbob.client.network.listeners.GameStateListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
@@ -32,8 +35,9 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
-//        client.addListener(new Listener.ThreadedListener(new OnReceiveClientListener()));
-        client.addListener(new ClientListener(game));
+        client.addListener(new DebugListener());
+        client.addListener(new GameInitializerListener(game));
+        client.addListener(new GameStateListener(game));
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }

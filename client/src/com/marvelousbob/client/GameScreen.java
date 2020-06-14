@@ -20,7 +20,7 @@ public class GameScreen extends ScreenAdapter {
 
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
-        gameState.getPlayerDtos().forEach(p -> shapeDrawer.rectangle(
+        gameStateDto.getPlayerDtos().forEach(p -> shapeDrawer.rectangle(
                 p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize()));
         batch.end();
 
@@ -30,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateGameState(float delta) {
-        MovementUtils.interpolatePlayers(gameState, delta);
+        MovementUtils.interpolatePlayers(gameStateDto, delta);
     }
 
     @Override

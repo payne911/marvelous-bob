@@ -9,7 +9,7 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UUID {
+public final class UUID implements Dto {
     private static final Random random = new Random();
     private String id;
 

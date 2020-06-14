@@ -2,12 +2,11 @@ package com.marvelousbob.common.network.register.dto;
 
 import com.marvelousbob.common.network.register.Timestamped;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-public class MoveAction implements Timestamped {
+public final class MoveActionDto implements Timestamped, Dto {
 
     private long timestamp;
-    private int id;
+    private UUID playerId;
     private float deltaX, deltaY;
 }

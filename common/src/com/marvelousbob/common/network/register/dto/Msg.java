@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Msg implements Timestamped {
+public final class Msg implements Timestamped, Dto {
 
     private String msg;
     private long timestamp;

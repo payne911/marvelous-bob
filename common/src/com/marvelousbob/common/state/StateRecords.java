@@ -1,10 +1,10 @@
 package com.marvelousbob.common.state;
 
-import com.marvelousbob.common.network.register.dto.GameState;
+import com.marvelousbob.common.network.register.dto.GameStateDto;
 import lombok.Data;
 
 /**
- * Contains a record of {@link GameState} from the past up to the present.
+ * Contains a record of {@link GameStateDto} from the past up to the present.
  * <p>
  * Should be trimmed periodically to contain data up to 2 ticks in the past?
  * <p>
