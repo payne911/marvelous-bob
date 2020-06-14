@@ -23,6 +23,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnection>
     @Override
     public void accept(Connection connection, PlayerConnection playerConnection) {
         UUID uuid = UUID.randomUUID();
+        System.out.println("SENDING UUID: " + uuid);
         PlayerDto playerDto = new PlayerDto(uuid);
         float x = MathUtils.random(0, sizeX);
         float y = MathUtils.random(0, sizeY);
@@ -30,7 +31,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnection>
         playerDto.setCurrY(y);
         playerDto.setDestX(x);
         playerDto.setDestY(y);
-        gameStateDto.getPlayerDtos().add(playerDto);
-        server.sendToTCP(connection.getID(), new GameIntialization(gameStateDto, uuid));
+        gameStateDto.addPlayer(playerDto);
+        server.sendToTCP(connection.getID(), new GameInitialization(gameStateDto, uuid));
     }
 }

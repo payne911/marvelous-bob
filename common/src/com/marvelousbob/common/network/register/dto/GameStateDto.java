@@ -28,7 +28,7 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
     }
 
 
-    private void addPlayer(PlayerDto playerDto) {
+    public void addPlayer(PlayerDto playerDto) {
         playerDtos.add(playerDto);
     }
 }

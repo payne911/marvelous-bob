@@ -31,6 +31,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateGameState(float delta) {
         MovementUtils.interpolatePlayers(gameStateDto, delta);
+        System.out.println(gameStateDto);
     }
 
     @Override

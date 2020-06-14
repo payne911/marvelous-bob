@@ -19,7 +19,7 @@ public final class Register {
         registrar.getKryo().register(PlayerDto.class);
         registrar.getKryo().register(Array.class);
         registrar.getKryo().register(UUID.class);
-        registrar.getKryo().register(GameIntialization.class);
+        registrar.getKryo().register(GameInitialization.class);
         registrar.getKryo().register(PlayerConnection.class);
         registrar.getKryo().register(ArrayList.class);
     }
