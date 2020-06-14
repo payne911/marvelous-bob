@@ -21,12 +21,13 @@ public class MyClient {
     private final InetAddress addr;
     private final Client client;
     private final Game marvelousBob;
+    private final Register register;
 
     @SneakyThrows
     public MyClient(boolean isLocalServer, Game marvelousBob) {
         this.client = new Client();
         this.marvelousBob = marvelousBob;
-        Register.registerClasses(client);
+        this.register = new Register(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
                 : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
@@ -35,6 +36,7 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
+        register.registerClasses();
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob));
         client.addListener(new GameStateListener());

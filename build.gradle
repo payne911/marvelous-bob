@@ -41,6 +41,8 @@ allprojects {
 
         pieMenuVersion = '4.2.0'
         shapeDrawer = '2.3.0'
+
+        reflectionsVersion = '0.9.12'
     }
 
     repositories {
@@ -103,5 +105,6 @@ project(":common") {
         api "org.slf4j:slf4j-api:$slf4j"
         api "ch.qos.logback:logback-classic:$logback"
         api "com.github.crykn:kryonet:$kryonet"
+        api "org.reflections:reflections:$reflectionsVersion"
     }
 }

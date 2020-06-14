@@ -17,7 +17,7 @@ public class BobServerScreen extends ScreenAdapter {
 
     public BobServerScreen(Server server) {
         this.server = server;
-        gameStateDto = new GameStateDto();
+        this.gameStateDto = new GameStateDto();
     }
 
     @Override
