@@ -27,5 +27,6 @@ public class BobServerGame extends Game {
         screen = new BobServerScreen(server);
         server.start();
         log.info("SERVER STARTED!!!");
+        setScreen(screen);
     }
 }
