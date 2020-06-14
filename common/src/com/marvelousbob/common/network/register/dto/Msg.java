@@ -1,5 +1,6 @@
-package com.marvelousbob.common.register;
+package com.marvelousbob.common.network.register.dto;
 
+import com.marvelousbob.common.network.register.Timestamped;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Msg {
+public final class Msg implements Timestamped, Dto {
 
     private String msg;
     private long timestamp;

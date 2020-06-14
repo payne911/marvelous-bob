@@ -1,22 +1,12 @@
 # Server
-
 Server-side application for Marvelous Bob game.
 
-## Tech Stack
+## To launch the server locally (for devs)
+The ``.run`` folder at the root of the repository contains a few IntelliJ ``Run Configuration``.
 
-* AWS ECS
-* Docker
-* Java 14
-* Lombok
-* [KryoNet](https://github.com/EsotericSoftware/kryonet)
-* GitHub Actions (CI/CD)
-* Gradle (build)
-* ShadowJar (far jar build plugin)
-* H2 (or Redis?)
-* Kafka ?
+If you open the project in IntelliJ, you will automatically have your Run Configurations set up: simply launch `[SERVER] Local`.
 
-### AWS
-
+## AWS
 Listing the services and resources used so that we can easily go back and clean everything, eventually.
 
 **[Free-Tier](https://aws.amazon.com/free/)** started on: **17 february 2020** (it lasts 12 months)
@@ -38,8 +28,7 @@ Listing the services and resources used so that we can easily go back and clean 
 * Cost Explorer -> Budget Alarm
 
 ### ECS configuration
-
- Initial set up was done through following [this tutorial](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started-ecs-ec2.html).
+Initial set up was done through following [this tutorial](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/getting-started-ecs-ec2.html).
  
  Then, to customize the set up to work with GitHub Actions, the following changes were made:
  
@@ -54,7 +43,6 @@ Listing the services and resources used so that we can easily go back and clean 
    9. The minimum healthy percentage modified from ``100%`` to `0%`, and maximum from `200%` to `100%`: this is to ensure that we can kill a running task and then start a new one, and never have more than 1 task in the Container. See [this](https://stackoverflow.com/a/40741816/9768291) SO answer to understand better.
 
 ## CI/CD
-
 Done through GitHub Actions: deploying a Docker image into our public Docker Hub repository, and updating the ECS stack subsequently.
 
 The Dockerfile looks for the result of calling the ``shadowJar`` on this current module (``server``).

@@ -15,7 +15,6 @@ tasks.withType(JavaExec) {
     jvmArgs += '--enable-preview'
 }
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["assets"]
 
 //repositories {
 //    mavenCentral()

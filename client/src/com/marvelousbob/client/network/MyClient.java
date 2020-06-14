@@ -1,66 +1,44 @@
 package com.marvelousbob.client.network;
 
+import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
+import com.marvelousbob.client.network.listeners.DebugListener;
+import com.marvelousbob.client.network.listeners.GameInitializerListener;
+import com.marvelousbob.client.network.listeners.GameStateListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
-import com.marvelousbob.common.register.Msg;
-import com.marvelousbob.common.register.Ping;
-import com.marvelousbob.common.register.Register;
+import com.marvelousbob.common.network.constants.NetworkConstants;
+import com.marvelousbob.common.network.register.Register;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 import java.net.InetAddress;
 
-
+@Getter
 public class MyClient {
-
-    public static final String REMOTE_SERVER = "52.60.181.140";
-    public static final int PORT = 80;
-    public static final int TIMEOUT = 15000;
-
-    @Getter
-    private final InetAddress addr;
-
-    @Getter
-    private final Client client;
-
-    @Getter
+    @Setter
     private IncrementalAverage latencyReport;
-
-
-    public MyClient() {
-        this(false);
-    }
+    private final InetAddress addr;
+    private final Client client;
+    private final Game marvelousBob;
 
     @SneakyThrows
-    public MyClient(boolean isLocalServer) {
+    public MyClient(boolean isLocalServer, Game marvelousBob) {
         this.client = new Client();
+        this.marvelousBob = marvelousBob;
         Register.registerClasses(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
-                : InetAddress.getByName(REMOTE_SERVER);
+                : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
         this.latencyReport = new IncrementalAverage();
     }
 
     @SneakyThrows
     public void connect() {
-        Listener onReceiveCallback = new Listener() {
-            @Override
-            public void received(Connection connection, Object o) {
-                if (o instanceof Msg) {
-                    Msg m = (Msg) o;
-                    System.out.println(m);
-                }
-                if (o instanceof Ping) {
-                    Ping p = (Ping) o;
-                    latencyReport.addToRunningAverage(p.getTimeStamp());
-                }
-            }
-        };
-        client.addListener(new Listener.ThreadedListener(onReceiveCallback));
-//        client.addListener(onReceiveCallback);
+        client.addListener(new DebugListener());
+        client.addListener(new GameInitializerListener(marvelousBob));
+        client.addListener(new GameStateListener());
         client.start();
-        client.connect(TIMEOUT, addr, PORT);
+        client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }
 }
