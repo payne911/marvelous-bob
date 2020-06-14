@@ -37,7 +37,7 @@ public class MyClient {
     public void connect() {
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(game));
-        client.addListener(new GameStateListener(game));
+        client.addListener(new GameStateListener());
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }
