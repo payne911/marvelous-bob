@@ -43,7 +43,7 @@ public class ServerListener implements Listener {
         playerDto.setDestX(x);
         playerDto.setDestY(y);
         gameStateDto.getPlayerDtos().add(playerDto);
-        server.sendToTCP(connection.getID(), new GameIntialization(gameStateDto, uuid));
+        server.sendToTCP(connection.getID(), new GameInitialization(gameStateDto, uuid));
     }
 
 

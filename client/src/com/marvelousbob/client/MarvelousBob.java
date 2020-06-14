@@ -55,11 +55,6 @@ public class MarvelousBob extends Game {
 
         initializeDisplayElements();
         instantiatePlayer();
-
-    }
-
-    private void instantiatePlayer() {
-        client.getClient().sendTCP(new PlayerConnection());
     }
 
     @Override
@@ -112,13 +107,16 @@ public class MarvelousBob extends Game {
         client.connect();
     }
 
+    private void instantiatePlayer() {
+        client.getClient().sendTCP(new PlayerConnection());
+    }
+
     private void initializeDisplayElements() {
         /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
         batch = new SpriteBatch();
         stage = new Stage(new ScreenViewport(), batch);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        shapeDrawer = new ShapeDrawer(stage.getBatch(),
-                skin.getRegion("white"));
+        shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
         font = new BitmapFont();
         root = new Table(skin);
         root.setFillParent(true);
