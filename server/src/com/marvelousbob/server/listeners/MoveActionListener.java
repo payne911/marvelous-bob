@@ -22,7 +22,7 @@ public class MoveActionListener extends AbstractListener<MoveActionDto> {
         log.debug("Received MoveAction: " + moveActionDto);
         for (PlayerDto p : gameState.getPlayerDtos()) {
             if (moveActionDto.getPlayerId().equals(p.getId())) {
-                System.out.println("Moce avtion for player %s detected".formatted(p.getId().getId()));
+                System.out.println("Move action for player %s detected".formatted(p.getId().getId()));
                 p.setDestX(moveActionDto.getDestX());
                 p.setDestY(moveActionDto.getDestY());
                 break;
