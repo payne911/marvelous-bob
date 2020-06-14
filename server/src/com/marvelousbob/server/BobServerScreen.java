@@ -33,4 +33,14 @@ public class BobServerScreen extends ScreenAdapter {
         MovementUtils.interpolatePlayers(gameStateDto, delta);
         server.sendToAllTCP(gameStateDto);
     }
+
+    @Override
+    public void hide() {
+        super.hide();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 }

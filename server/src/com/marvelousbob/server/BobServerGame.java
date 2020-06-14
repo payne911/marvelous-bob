@@ -29,4 +29,10 @@ public class BobServerGame extends Game {
         log.info("SERVER STARTED!!!");
         setScreen(screen);
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        screen.dispose();
+    }
 }

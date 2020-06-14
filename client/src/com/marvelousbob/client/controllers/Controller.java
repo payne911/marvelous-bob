@@ -23,9 +23,6 @@ public class Controller {
         float destX = x - selfPlayerDto.getSize() / 2;
         float destY = y - selfPlayerDto.getSize() / 2;
 
-//        selfPlayerDto.setDestX(destX);
-//        selfPlayerDto.setDestY(destY);
-
         var moveActionDto = new MoveActionDto();
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);

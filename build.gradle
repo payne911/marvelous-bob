@@ -40,7 +40,7 @@ allprojects {
         kryonet = '2.22.6'
 
         pieMenuVersion = '4.2.0'
-        shapedrawer = '2.3.0'
+        shapeDrawer = '2.3.0'
     }
 
     repositories {
@@ -73,7 +73,7 @@ project(":client") {
         api project(":common")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 
-        api "space.earlygrey:shapedrawer:$shapedrawer"
+        api "space.earlygrey:shapedrawer:$shapeDrawer"
         api "com.github.payne911:PieMenu:$pieMenuVersion"
     }
 }
