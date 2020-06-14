@@ -7,11 +7,11 @@ import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
 
-public class ServerListener implements Listener {
+public class DebugListener implements Listener {
     private final Server server;
     private final GameStateDto gameStateDto;
 
-    public ServerListener(Server server, GameStateDto gameStateDto) {
+    public DebugListener(Server server, GameStateDto gameStateDto) {
         this.server = server;
         this.gameStateDto = gameStateDto;
     }
