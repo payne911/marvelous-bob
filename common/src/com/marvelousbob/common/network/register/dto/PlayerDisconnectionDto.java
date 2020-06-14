@@ -1,8 +1,12 @@
 package com.marvelousbob.common.network.register.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class PlayerDisconnectionDto implements Dto {
+@NoArgsConstructor
+@AllArgsConstructor
+public final class PlayerDisconnectionDto implements Dto {
     private UUID playerId;
 }
