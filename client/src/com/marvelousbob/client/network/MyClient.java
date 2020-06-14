@@ -20,12 +20,12 @@ public class MyClient {
     private IncrementalAverage latencyReport;
     private final InetAddress addr;
     private final Client client;
-    private Game game;
+    private final Game marvelousBob;
 
     @SneakyThrows
-    public MyClient(boolean isLocalServer, Game game) {
+    public MyClient(boolean isLocalServer, Game marvelousBob) {
         this.client = new Client();
-        this.game = game;
+        this.marvelousBob = marvelousBob;
         Register.registerClasses(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
@@ -36,7 +36,7 @@ public class MyClient {
     @SneakyThrows
     public void connect() {
         client.addListener(new DebugListener());
-        client.addListener(new GameInitializerListener(game));
+        client.addListener(new GameInitializerListener(marvelousBob));
         client.addListener(new GameStateListener());
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);

@@ -2,6 +2,7 @@ package com.marvelousbob.client.controllers;
 
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.marvelousbob.client.MyGame.client;
@@ -10,6 +11,7 @@ import static com.marvelousbob.client.MyGame.client;
 @Slf4j
 public class Controller {
 
+    @Getter
     private PlayerDto selfPlayerDto;
 
     public Controller(PlayerDto selfPlayerDto) {
@@ -21,13 +23,13 @@ public class Controller {
         float destX = x - selfPlayerDto.getSize() / 2;
         float destY = y - selfPlayerDto.getSize() / 2;
 
-        selfPlayerDto.setDestX(destX);
-        selfPlayerDto.setDestY(destY);
+//        selfPlayerDto.setDestX(destX);
+//        selfPlayerDto.setDestY(destY);
 
         var moveActionDto = new MoveActionDto();
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);
         moveActionDto.setPlayerId(selfPlayerDto.getId());
-        client.getClient().sendTCP(new MoveActionDto());
+        client.getClient().sendTCP(moveActionDto);
     }
 }

@@ -32,7 +32,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
     public void accept(Connection connection, GameInitialization gameInitialization) {
         // if the game is not initialized yet
         UUID currentPlayerUuid = gameInitialization.getCurrentPlayerId();
-        System.out.println("RECEIVING UID: " + currentPlayerUuid);
         PlayerDto selfPlayer = null;
         for (PlayerDto p : gameInitialization.getGameStateDto().getPlayerDtos()) {
             if (p.isEquals(currentPlayerUuid)) {
