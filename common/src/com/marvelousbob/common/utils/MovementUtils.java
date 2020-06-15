@@ -6,6 +6,9 @@ import com.marvelousbob.common.network.register.dto.PlayerDto;
 
 public class MovementUtils {
 
+    private MovementUtils() {
+    }
+
     public static void interpolatePlayers(GameStateDto game, float delta) {
         game.getPlayerDtos().forEach(p -> interpolatePlayer(p, delta));
     }

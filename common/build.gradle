@@ -17,3 +17,9 @@ tasks.withType(JavaExec) {
 }
 
 sourceSets.main.java.srcDirs = [ "src/" ]
+
+jar {
+    from('src') {
+        include '**/*.properties'
+    }
+}
