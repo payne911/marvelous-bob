@@ -1,5 +1,14 @@
 package com.marvelousbob.client;
 
+import static com.marvelousbob.client.MyGame.batch;
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.font;
+import static com.marvelousbob.client.MyGame.gameStateDto;
+import static com.marvelousbob.client.MyGame.root;
+import static com.marvelousbob.client.MyGame.shapeDrawer;
+import static com.marvelousbob.client.MyGame.skin;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,7 +18,15 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -19,6 +36,7 @@ import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
 import com.marvelousbob.common.network.register.dto.PlayerConnection;
+import java.util.List;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
@@ -26,14 +44,10 @@ import space.earlygrey.shapedrawer.JoinType;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.GraphDrawerDrawable;
 
-import java.util.List;
-
-import static com.marvelousbob.client.MyGame.*;
-
 
 /**
- * Takes care of setting up the most basic requirements of the game.
- * Among other things: {@link MyGame} which contains static links to "Singletons".
+ * Takes care of setting up the most basic requirements of the game. Among other things: {@link
+ * MyGame} which contains static links to "Singletons".
  */
 @Slf4j
 public class MarvelousBob extends Game {
@@ -44,9 +58,8 @@ public class MarvelousBob extends Game {
 
 
     /**
-     * Very first method called in the whole game.
-     * All the static variables of {@link MyGame} are to be initialized here.
-     * The calling order is most probably very sensible.
+     * Very first method called in the whole game. All the static variables of {@link MyGame} are to
+     * be initialized here. The calling order is most probably very sensible.
      */
     @Override
     public void create() {
