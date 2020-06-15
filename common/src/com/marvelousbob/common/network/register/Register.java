@@ -12,7 +12,7 @@ import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -66,13 +66,15 @@ public final class Register {
         otherClassesToRegister.add(clz);
     }
 
+
     public void registerClasses() {
         registerClasses(Object.class);
     }
 
+
     public void registerClasses(Class<?> filter) {
-        registeredDtos = new HashSet<>();
-        otherClassesToRegister = new HashSet<>();
+        registeredDtos = new LinkedHashSet<>();
+        otherClassesToRegister = new LinkedHashSet<>();
         if (dtoPackage == null) {
             throw new MarvelousBobException("Cannot find property %s".formatted(KYRO_PACKAGE_KEY));
         }
@@ -93,12 +95,6 @@ public final class Register {
         }
     }
 
-    public Set<Class<?>> getAllRegisteredClasses() {
-        return new HashSet<>() {{
-            addAll(registeredDtos);
-            addAll(otherClassesToRegister);
-        }};
-    }
 
     private void addMissingFields(Class<?> clz) {
         for (Field field : clz.getDeclaredFields()) {
