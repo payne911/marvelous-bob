@@ -30,23 +30,6 @@ jobs:
         run: |
           chmod u+x gradlew
           ./gradlew server:jpackageImage
-          pwd
-          ls
-          echo "1"
-          cd server && ls
-          echo "2"
-          cd build && ls
-          echo "3"
-          cd jpackage && ls
-          echo "4"
-          cd server && ls -la *
-          echo "5"
-      #          cd bin && ls -la
-      #          echo "6"
-      #          cd server && ls -la
-      #          echo "7"
-      #          cd ../../lib && ls -la
-      #          echo "8"
 
       #      - name: Run Gradle build
       #        id: gradle-build
