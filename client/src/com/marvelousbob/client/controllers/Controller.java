@@ -27,6 +27,7 @@ public class Controller {
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);
         moveActionDto.setPlayerId(selfPlayerDto.getId());
+        log.debug("sending MoveActionDto: " + moveActionDto);
         client.getClient().sendTCP(moveActionDto);
     }
 }

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="[CLIENT] Local" type="Application" factoryName="Application">
+    <configuration default="false" name="[CLIENT-1] Local" type="Application" factoryName="Application">
         <envs>
             <env name="mbs_isLocal" value="true"/>
         </envs>
