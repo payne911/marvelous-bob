@@ -1,11 +1,11 @@
 package com.marvelousbob.client.controllers;
 
+import static com.marvelousbob.client.MyGame.client;
+
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.marvelousbob.client.MyGame.client;
 
 
 @Slf4j
@@ -26,7 +26,7 @@ public class Controller {
         var moveActionDto = new MoveActionDto();
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);
-        moveActionDto.setPlayerId(selfPlayerDto.getId());
+        moveActionDto.setPlayerId(selfPlayerDto.getUuid());
         log.debug("sending MoveActionDto: " + moveActionDto);
         client.getClient().sendTCP(moveActionDto);
     }

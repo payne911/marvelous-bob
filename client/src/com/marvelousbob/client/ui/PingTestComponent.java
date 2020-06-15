@@ -1,151 +1,42 @@
-package com.marvelousbob.client;
+package com.marvelousbob.client.ui;
 
-import static com.marvelousbob.client.MyGame.batch;
-import static com.marvelousbob.client.MyGame.client;
-import static com.marvelousbob.client.MyGame.font;
-import static com.marvelousbob.client.MyGame.gameStateDto;
-import static com.marvelousbob.client.MyGame.root;
-import static com.marvelousbob.client.MyGame.shapeDrawer;
-import static com.marvelousbob.client.MyGame.skin;
-import static com.marvelousbob.client.MyGame.stage;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.network.test.IncrementalAverage;
-import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
-import com.marvelousbob.common.network.register.dto.PlayerConnection;
-import java.util.List;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
 import space.earlygrey.shapedrawer.JoinType;
-import space.earlygrey.shapedrawer.ShapeDrawer;
 import space.earlygrey.shapedrawer.scene2d.GraphDrawerDrawable;
 
+import java.util.List;
 
-/**
- * Takes care of setting up the most basic requirements of the game. Among other things: {@link
- * MyGame} which contains static links to "Singletons".
- */
-@Slf4j
-public class MarvelousBob extends Game {
+import static com.marvelousbob.client.MyGame.*;
 
-    /* Splash Screen. */
-    @Setter
-    private ISplashWorker splashWorker;
+public class PingTestComponent {
 
+    private final Table root;
+    private GraphDrawer graphDrawer;
+    private GraphDrawerDrawable graphDrawerDrawable;
+    private List<Float> graphData;
 
-    /**
-     * Very first method called in the whole game. All the static variables of {@link MyGame} are to
-     * be initialized here. The calling order is most probably very sensible.
-     */
-    @Override
-    public void create() {
-        removeSplashScreen();
-        createClient();
-
-        initializeDisplayElements();
-        instantiatePlayer();
+    public PingTestComponent(Table root) {
+        this.root = root;
     }
 
-    @Override
-    public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
-        if (gameStateDto != null) {
-            /// todo gameState static ???
-            super.render(); // calls the GameScreen's `render()`
-        }
-
-        // todo: loading screen with AssetManager, THEN `changeScreen()`
+    public void displayNetworkDebuggingUi() {
+        this.root.setDebug(true);
+        this.root.defaults().fillX().pad(20);
+        addPingComponent();
+        this.root.row();
+        addMsgComponent();
+        this.root.row();
+        addGraphComponent();
     }
-
-    @Override
-    public void resize(int width, int height) {
-        // this changes viewed screen size, rather than stretch the view
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
-        skin.dispose();
-        font.dispose();
-        stage.dispose();
-        getScreen().dispose();
-
-        /*
-        This actually hangs the thread when closing the application...
-        See: https://github.com/EsotericSoftware/kryonet/issues/142
-        */
-//        try {
-//            client.getClient().dispose();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    // ============================ INIT ==================================
-
-
-    private void removeSplashScreen() {
-        splashWorker.closeSplashScreen();
-    }
-
-    private void createClient() {
-//        Log.set(LEVEL_TRACE);
-        log.warn("\nisLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")), this);
-        client.connect();
-    }
-
-    private void instantiatePlayer() {
-        client.getClient().sendTCP(new PlayerConnection());
-    }
-
-    private void initializeDisplayElements() {
-        /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
-        batch = new SpriteBatch();
-        stage = new Stage(new ScreenViewport(), batch);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
-        font = new BitmapFont();
-        root = new Table(skin);
-        root.setFillParent(true);
-        stage.addActor(root);
-
-//        /* Networking debugging UI component. */
-//        var networkDebugUi = new PingTestComponent(root);
-//        networkDebugUi.displayNetworkDebuggingUi();
-    }
-
-    private void changeScreen() {
-        setScreen(new GameScreen()); // delegates logic
-    }
-
-    // ============================= UI ===================================
-
 
     public void addMsgComponent() {
         Table msgComponent = new Table(skin);
@@ -160,7 +51,7 @@ public class MarvelousBob extends Game {
             }
         });
         msgComponent.add(btn2);
-        root.add(msgComponent);
+        this.root.add(msgComponent);
     }
 
     public void addPingComponent() {
@@ -181,13 +72,8 @@ public class MarvelousBob extends Game {
             }
         });
         pingComponent.add(btn);
-        root.add(pingComponent);
+        this.root.add(pingComponent);
     }
-
-
-    private GraphDrawer graphDrawer;
-    private GraphDrawerDrawable graphDrawerDrawable;
-    private List<Float> graphData;
 
     public void addGraphComponent() {
         graphDrawer = new GraphDrawer(shapeDrawer);
@@ -213,7 +99,7 @@ public class MarvelousBob extends Game {
         graphDrawerDrawable.setInterpolation(customFunc);
 
         Table graphRoot = new Table();
-        root.add(graphRoot).expand().grow();
+        this.root.add(graphRoot).expand().grow();
 
         graphRoot.pad(20);
         graphRoot.defaults().space(12);

@@ -11,27 +11,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class PlayerDto implements Identifiable, Timestamped, Dto {
-    private UUID id;
+
+    private UUID uuid;
     private long timestamp;
     private float speed = 20;
     private float size = 40;
     private float currX, currY, destX, destY;
 
-    public PlayerDto(UUID id) {
-        this.id = id;
-        timestamp = System.currentTimeMillis();
+    public PlayerDto(UUID uuid) {
+        this.uuid = uuid;
+        stampNow();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PlayerDto playerDto = (PlayerDto) o;
-        return id.equals(playerDto.id);
+        return uuid.equals(playerDto.uuid);
     }
 
     @Override
     public int hashCode() {
-        return id.getId().hashCode();
+        return uuid.getStringId().hashCode();
     }
 }
