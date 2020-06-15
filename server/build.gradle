@@ -20,7 +20,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 jar {
     project.version="" // to remove version number from the built jar's name
     manifest {
-        attributes 'Main-Class': 'com.marvelousbob.server.ServerInit'
+        attributes 'Main-Class': 'com.marvelousbob.server.BobServerLauncher'
     }
 }
 

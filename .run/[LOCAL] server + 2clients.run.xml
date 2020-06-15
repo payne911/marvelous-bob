@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="[LOCAL] server + 2clients" type="CompoundRunConfigurationType">
+        <toRun name="[SERVER] Launch local" type="Application"/>
+        <toRun name="[CLIENT-2] Local" type="Application"/>
+        <toRun name="[CLIENT-1] Local" type="Application"/>
+        <method v="2"/>
+    </configuration>
+</component>

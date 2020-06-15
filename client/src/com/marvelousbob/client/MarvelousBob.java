@@ -1,6 +1,6 @@
 package com.marvelousbob.client;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.marvelousbob.client.network.MyClient;
+import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
-import com.marvelousbob.common.register.Msg;
-import com.marvelousbob.common.register.Ping;
+import com.marvelousbob.common.network.register.dto.Msg;
+import com.marvelousbob.common.network.register.dto.Ping;
+import com.marvelousbob.common.network.register.dto.PlayerConnection;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.GraphDrawer;
@@ -26,80 +28,44 @@ import space.earlygrey.shapedrawer.scene2d.GraphDrawerDrawable;
 
 import java.util.List;
 
+import static com.marvelousbob.client.MyGame.*;
 
+
+/**
+ * Takes care of setting up the most basic requirements of the game.
+ * Among other things: {@link MyGame} which contains static links to "Singletons".
+ */
 @Slf4j
-public class MarvelousBob extends ApplicationAdapter {
-
-    /* Client. */
-    public static MyClient client;
+public class MarvelousBob extends Game {
 
     /* Splash Screen. */
     @Setter
     private ISplashWorker splashWorker;
 
-    /* Display. */
-    public static ShapeDrawer shapeDrawer;
-    public static SpriteBatch batch;
-    public static BitmapFont font;
-    public static Skin skin;
-    public static Table root;
-    public static Stage stage;
 
-
+    /**
+     * Very first method called in the whole game.
+     * All the static variables of {@link MyGame} are to be initialized here.
+     * The calling order is most probably very sensible.
+     */
     @Override
     public void create() {
         removeSplashScreen();
         createClient();
 
         initializeDisplayElements();
-    }
-
-    private void initializeDisplayElements() {
-        /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
-        batch = new SpriteBatch();
-        stage = new Stage(new ScreenViewport(), batch);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
-        Gdx.input.setInputProcessor(stage);
-        font = new BitmapFont();
-        root = new Table(skin);
-        root.setFillParent(true);
-        stage.addActor(root);
-
-        /* Specifics */
-        root.setDebug(true);
-        root.defaults().fillX().pad(20);
-        addPingComponent();
-        root.row();
-        addMsgComponent();
-        root.row();
-        addGraphComponent();
-    }
-
-    private void createClient() {
-        log.warn("\nisLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        client.connect();
-    }
-
-    private void removeSplashScreen() {
-        splashWorker.closeSplashScreen();
+        instantiatePlayer();
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(.2f, .2f, .2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
+        if (gameStateDto != null) {
+            /// todo gameState static ???
+            super.render(); // calls the GameScreen's `render()`
+        }
 
-//        batch.begin();
-//        batch.draw(img, 0, 0);
-//        batch.end();
-
-
-
-        /* Drawing the UI over the game. */
-        stage.act();
-        stage.draw();
+        // todo: loading screen with AssetManager, THEN `changeScreen()`
     }
 
     @Override
@@ -114,6 +80,63 @@ public class MarvelousBob extends ApplicationAdapter {
         skin.dispose();
         font.dispose();
         stage.dispose();
+        getScreen().dispose();
+
+        /*
+        This actually hangs the thread when closing the application...
+        See: https://github.com/EsotericSoftware/kryonet/issues/142
+        */
+//        try {
+//            client.getClient().dispose();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    // ============================ INIT ==================================
+
+
+    private void removeSplashScreen() {
+        splashWorker.closeSplashScreen();
+    }
+
+    private void createClient() {
+//        Log.set(LEVEL_TRACE);
+        log.warn("\nisLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
+        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")), this);
+        client.connect();
+    }
+
+    private void instantiatePlayer() {
+        client.getClient().sendTCP(new PlayerConnection());
+    }
+
+    private void initializeDisplayElements() {
+        /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
+        batch = new SpriteBatch();
+        stage = new Stage(new ScreenViewport(), batch);
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
+        font = new BitmapFont();
+        root = new Table(skin);
+        root.setFillParent(true);
+        stage.addActor(root);
+    }
+
+
+    private void displayNetworkDebuggingUi() {
+        root.setDebug(true);
+        root.defaults().fillX().pad(20);
+        addPingComponent();
+        root.row();
+        addMsgComponent();
+        root.row();
+        addGraphComponent();
+    }
+
+
+    private void changeScreen() {
+        setScreen(new GameScreen()); // delegates logic (assigns "super.")
     }
 
     // ============================= UI ===================================
@@ -126,7 +149,8 @@ public class MarvelousBob extends ApplicationAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 btn2.setDisabled(true);
-                client.getClient().sendTCP(new Msg("Just a test message sent from a button."));
+                client.getClient()
+                        .sendTCP(new Msg("Just a test message sent from a button."));
                 btn2.setDisabled(false);
             }
         });
@@ -143,7 +167,7 @@ public class MarvelousBob extends ApplicationAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 btn.setDisabled(true);
-                for (int i = 0; i < 500; i++) {
+                for (int i = 0; i < 5; i++) {
                     client.getClient().sendTCP(new Ping(System.currentTimeMillis()));
                 }
                 textArea.setText(client.getLatencyReport()
@@ -207,13 +231,14 @@ public class MarvelousBob extends ApplicationAdapter {
         graphSelectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                switch (graphSelectBox.getSelected()) {
-                    case "Min" -> graphData = client.getLatencyReport().minData;
-                    case "Max" -> graphData = client.getLatencyReport().maxData;
-                    case "Average" -> graphData = client.getLatencyReport().avgData;
-                    case "Ping" -> graphData = client.getLatencyReport().pingData;
-                    default -> graphData = client.getLatencyReport().pingData;
-                }
+                IncrementalAverage average = client.getLatencyReport();
+                graphData = switch (graphSelectBox.getSelected()) {
+                    case "Min" -> average.minData;
+                    case "Max" -> average.maxData;
+                    case "Average" -> average.avgData;
+                    case "Ping" -> average.pingData;
+                    default -> average.pingData;
+                };
             }
         });
 
