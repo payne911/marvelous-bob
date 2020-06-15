@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -15,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public final class GameStateDto extends IndexedDto<GameStateDto> implements Timestamped, Comparable<GameStateDto> {
 
-    private List<PlayerDto> playerDtos = new ArrayList<>(8); // todo: could be set as unordered?
+    private ArrayList<PlayerDto> playerDtos = new ArrayList<>(8); // todo: could be set as unordered?
     private long timestamp;
 
     public GameStateDto(GameStateDto dto, long index) {

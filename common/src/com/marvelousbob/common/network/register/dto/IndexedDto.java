@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IndexedDto<T extends Dto> implements Dto {
+public abstract class IndexedDto<T extends Dto> implements Dto {
     private T dto;
     private long index;
 }
