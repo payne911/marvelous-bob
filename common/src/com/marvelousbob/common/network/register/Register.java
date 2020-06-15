@@ -21,6 +21,9 @@ import java.util.Set;
 /**
  * Using reflexion, we scan all classes that extends DTO in the package defined by the property
  * bob.network.dtopackage and register them to the EndPoint instance passed in.
+ * <p>
+ * Field from registered class wil be recursivly registered, unless the field is declared as a Parameterized type
+ * or is an interface. Thos will have to be manually registered.
  */
 @Slf4j
 public final class Register {
@@ -57,6 +60,12 @@ public final class Register {
         this.registrar = Objects.requireNonNull(registrar);
         this.dtoPackage = Objects.requireNonNull(dtoPackage);
     }
+
+
+    private void addClassToregister(Class<?> clz) {
+        otherClassesToRegister.add(clz);
+    }
+
 
     public void registerClasses() {
         registeredDtos = new HashSet<>();
