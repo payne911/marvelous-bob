@@ -18,11 +18,12 @@ import java.util.Set;
 
 
 /**
- * Using reflexion, we scan all classes that extends DTO in the package defined by the property
- * bob.network.dtopackage and register them to the EndPoint instance passed in.
+ * Using reflexion, we scan all classes that extends a desired class (or interface)
+ * in the package defined by the property {@code kryo.network.dtopackage} (in the
+ * {@code config.properties} file) and register them to the {@link EndPoint} instance passed in.
  * <p>
- * Field from registered class wil be recursivly registered, unless the field is declared as a Parameterized type
- * or is an interface. Thos will have to be manually registered.
+ * Fields from registered class will be recursively registered, unless the field is declared as a
+ * Parameterized type (Generic) or is an Interface. This will have to be manually registered.
  */
 @Slf4j
 public final class Register {
@@ -79,7 +80,7 @@ public final class Register {
         try {
             registeredDtos = reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter);
             registeredDtos.forEach(this::register);
-            log.debug("REGISTERED {} DOTS", registeredDtos.size());
+            log.debug("REGISTERED {} DTOs", registeredDtos.size());
 
             for (Class<?> dto : registeredDtos) {
                 addMissingFields(dto);
@@ -110,7 +111,7 @@ public final class Register {
                 try {
                     registrar.getKryo().getRegistration(fieldType);
                 } catch (IllegalArgumentException iae) {
-                    log.debug("{} used in {} is not registered by Kyro", fieldType.getName(), clz.getName());
+                    log.debug("{} used in {} is not registered by Kryo", fieldType.getName(), clz.getName());
                     otherClassesToRegister.add(fieldType);
                     addMissingFields(fieldType);
                 }

@@ -11,10 +11,11 @@ import java.util.Properties;
 public class MarvelousBobProperties {
 
     // add properties file here
-    private static final List<String> PROPERTY_FILES = List.of(
-            "config.properties");
-
+    private static final List<String> PROPERTY_FILES = List.of("config.properties");
     private static Properties props;
+
+    private MarvelousBobProperties() {
+    }
 
     @SneakyThrows
     public static Properties getProps() {
