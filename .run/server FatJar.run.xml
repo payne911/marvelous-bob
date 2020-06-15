@@ -11,7 +11,7 @@
             <option name="taskNames">
                 <list>
                     <option value="server:clean"/>
-                    <option value="shadowJar"/>
+                    <option value="server:shadowJar"/>
                 </list>
             </option>
             <option name="vmOptions" value="--enable-preview"/>
