@@ -26,7 +26,7 @@ jobs:
         with:
           java-version: 14
 
-      - name: Allow GitHub Actions to run Gradlew
+      - name: Building with Gradlew
         run: |
           chmod u+x gradlew
           ./gradlew server:jpackageImage
@@ -45,7 +45,6 @@ jobs:
           echo "6"
           cd ../lib && ls
           echo "7"
-
 
       #      - name: Run Gradle build
       #        id: gradle-build
