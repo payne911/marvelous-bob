@@ -39,12 +39,14 @@ jobs:
           echo "3"
           cd jpackage && ls
           echo "4"
-          cd server && ls
+          cd server && ls -la
           echo "5"
-          cd bin && ls
+          cd bin && ls -la
           echo "6"
-          cd ../lib && ls
+          cd server && ls -la
           echo "7"
+          cd ../../lib && ls -la
+          echo "8"
 
       #      - name: Run Gradle build
       #        id: gradle-build
