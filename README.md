@@ -21,17 +21,15 @@ The ``desktop`` is the launcher for the ``client``.
 ### Common to all modules
 * Java 14 (language)
 * Gradle (build)
+* JPackage + JLink (lightweight releases)
 * [libGDX](https://libgdx.badlogicgames.com/download.html) (framework)
 * [KryoNet](https://github.com/crykn/kryonet) (networking)
 * Lombok (boilerplate)
 * Slf4j (logging)
-### Client module
-* JPackage + JLink (releases)
 ### Server module
 * AWS ECS (cloud)
 * Docker (container)
 * GitHub Actions (CI/CD)
-* ShadowJar (far jar)
 
 ## Assets
 Most of them come from [Kenney](https://kenney.nl/assets?t=platformer), licensed ``CC0 1.0 Universal``. Thank you so much!
