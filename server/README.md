@@ -46,8 +46,3 @@ Initial set up was done through following [this tutorial](https://docs.aws.amazo
 Done through GitHub Actions: deploying a Docker image into our public Docker Hub repository, and updating the ECS stack subsequently.
 
 The Dockerfile looks for the result of calling the ``shadowJar`` on this current module (``server``).
-
-## To build a release
-Trigger the ``server:jpackageImage`` task: it will bundle Java 14 with the application, run JLink to optimize, and create an executable for the platform you have ran the task with (for example, from a Windows computer you'll get a `.exe` file).
-
-The relevant generated files will then be inside ``server/build/jpackage/server``.

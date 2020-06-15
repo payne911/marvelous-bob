@@ -1,5 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 echo "========== LAUNCHING SERVER APP ========="
-cd /server/bin
-chmod +x server
-./server
+apk add --no-cache libstdc++
+java --enable-preview -jar /app.jar
