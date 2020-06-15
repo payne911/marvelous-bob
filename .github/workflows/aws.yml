@@ -41,6 +41,10 @@ jobs:
           echo "4"
           cd server && ls
           echo "5"
+          cd bin && ls
+          echo "6"
+          cd ../lib && ls
+          echo "7"
 
 
       #      - name: Run Gradle build
