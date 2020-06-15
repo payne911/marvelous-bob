@@ -32,8 +32,15 @@ jobs:
           ./gradlew server:jpackageImage
           pwd
           ls
-          cd server/build/jpackage/server
-          ls
+          echo "1"
+          cd server && ls
+          echo "2"
+          cd build && ls
+          echo "3"
+          cd jpackage && ls
+          echo "4"
+          cd server && ls
+          echo "5"
 
 
       #      - name: Run Gradle build
