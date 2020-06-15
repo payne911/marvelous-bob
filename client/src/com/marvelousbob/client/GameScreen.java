@@ -1,12 +1,17 @@
 package com.marvelousbob.client;
 
+import static com.marvelousbob.client.MyGame.batch;
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.gameStateDto;
+import static com.marvelousbob.client.MyGame.shapeDrawer;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import com.marvelousbob.common.utils.MovementUtils;
-
-import static com.marvelousbob.client.MyGame.*;
 
 /**
  * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the
@@ -23,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
         gameStateDto.getPlayerDtos().forEach(p -> {
-            float someValue = 32f * Integer.parseInt(p.getId().getId());
+            float someValue = 32f * Integer.parseInt(p.getUuid().getStringId());
             shapeDrawer.setColor(new Color(someValue % 8, (255f - someValue) % 8, 0f, 1f));
             shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
         });
@@ -41,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         // anything to dispose?
-        client.getClient().sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayerDto().getId()));
+        client.getClient()
+                .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayerDto().getUuid()));
     }
 }

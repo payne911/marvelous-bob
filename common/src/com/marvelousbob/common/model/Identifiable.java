@@ -4,9 +4,9 @@ package com.marvelousbob.common.model;
 import com.marvelousbob.common.network.register.dto.UUID;
 
 public interface Identifiable {
-    UUID getId();
+    UUID getUuid();
 
     default boolean isEquals(UUID other) {
-        return getId().equals(other);
+        return getUuid().equals(other);
     }
 }

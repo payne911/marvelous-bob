@@ -1,7 +1,5 @@
 package com.marvelousbob.common.network.register;
 
-import lombok.Data;
-
 public interface Timestamped {
 
     long getTimestamp();
