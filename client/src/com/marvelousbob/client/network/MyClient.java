@@ -8,6 +8,7 @@ import com.marvelousbob.client.network.listeners.GameStateListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
+import com.marvelousbob.common.network.register.dto.Dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -36,7 +37,7 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
-        register.registerClasses();
+        register.registerClasses(Dto.class);
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob));
         client.addListener(new GameStateListener());

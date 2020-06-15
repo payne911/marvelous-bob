@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
+import com.marvelousbob.common.network.register.dto.Dto;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,7 @@ public class BobServerGame extends Game {
     @Override
     @SneakyThrows
     public void create() {
-        register.registerClasses();
+        register.registerClasses(Dto.class);
         log.info("SERVER STARTING!!!");
         server.bind(NetworkConstants.PORT);
         server.start();

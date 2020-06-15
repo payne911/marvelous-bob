@@ -2,7 +2,6 @@ package com.marvelousbob.common.network.register;
 
 import com.esotericsoftware.kryonet.EndPoint;
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.utils.MarvelousBobProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,7 @@ public final class Register {
     public static final String KYRO_PACKAGE_KEY = "kryo.network.dtopackage";
 
     @Getter
-    private Set<Class<? extends Dto>> registeredDtos;
+    private Set<Class<?>> registeredDtos;
     @Getter
     private Set<Class<? extends Object>> otherClassesToRegister;
 
@@ -66,8 +65,11 @@ public final class Register {
         otherClassesToRegister.add(clz);
     }
 
-
     public void registerClasses() {
+        registerClasses(Object.class);
+    }
+
+    public void registerClasses(Class<?> filter) {
         registeredDtos = new HashSet<>();
         otherClassesToRegister = new HashSet<>();
         if (dtoPackage == null) {
@@ -75,7 +77,7 @@ public final class Register {
         }
         var reflex = new Reflections(dtoPackage, new SubTypesScanner(), new MemberUsageScanner());
         try {
-            registeredDtos = reflex.getSubTypesOf(Dto.class);
+            registeredDtos = reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter);
             registeredDtos.forEach(this::register);
             log.debug("REGISTERED {} DOTS", registeredDtos.size());
 
