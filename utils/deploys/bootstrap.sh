@@ -2,10 +2,12 @@
 echo "========== LAUNCHING SERVER APP ========="
 #apk add --no-cache libstdc++  # get a missing library
 #java --enable-preview -jar /app.jar
-cd / && ls -la *
+cd /server && ls -la *
 echo "1"
-cd server && ls -la *
+cd bin && ls -la *
 echo "2"
-cd /server/bin
+cd /server/bin && ls -la *
+echo "3"
 chmod +x server
+echo "4"
 ./server
