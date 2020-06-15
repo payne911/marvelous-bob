@@ -28,7 +28,7 @@ import java.util.Set;
 @Slf4j
 public final class Register {
 
-    public static final String KYRO_PACKAGE_KEY = "kryo.network.dtopackage";
+    public static final String KRYO_PACKAGE_KEY = "kryo.network.dtopackage";
 
     @Getter
     private Set<Class<?>> registeredDtos;
@@ -40,13 +40,13 @@ public final class Register {
 
 
     /**
-     * Will use a package declared in a property named {@link Register#KYRO_PACKAGE_KEY}
+     * Will use a package declared in a property named {@value Register#KRYO_PACKAGE_KEY}
      *
      * @param registrar the {@link EndPoint} on which to register all classes
      */
     public Register(EndPoint registrar) {
         this.registrar = Objects.requireNonNull(registrar);
-        this.dtoPackage = MarvelousBobProperties.getProps().getProperty(KYRO_PACKAGE_KEY);
+        this.dtoPackage = MarvelousBobProperties.getProps().getProperty(KRYO_PACKAGE_KEY);
     }
 
 
@@ -76,7 +76,7 @@ public final class Register {
         registeredDtos = new LinkedHashSet<>();
         otherClassesToRegister = new LinkedHashSet<>();
         if (dtoPackage == null) {
-            throw new MarvelousBobException("Cannot find property %s".formatted(KYRO_PACKAGE_KEY));
+            throw new MarvelousBobException("Cannot find property %s".formatted(KRYO_PACKAGE_KEY));
         }
         var reflex = new Reflections(dtoPackage, new SubTypesScanner(), new MemberUsageScanner());
         try {
