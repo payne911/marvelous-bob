@@ -30,6 +30,11 @@ jobs:
         run: |
           chmod u+x gradlew
           ./gradlew server:jpackageImage
+          pwd
+          ls
+          cd server/build/jpackage/server
+          ls
+
 
       #      - name: Run Gradle build
       #        id: gradle-build
@@ -81,3 +86,5 @@ jobs:
           service: marvelous-bob-ecs-service
           cluster: marvelous-bob-ecs-cluster
           wait-for-service-stability: true
+
+      #todo: verify that the ECS Service latest Event is "steady state", else revert
