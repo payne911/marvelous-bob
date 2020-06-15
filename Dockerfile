@@ -4,4 +4,4 @@ COPY server/build/jpackage/server /server
 COPY utils/deploys/bootstrap.sh /bootstrap.sh
 RUN chmod +x /bootstrap.sh
 EXPOSE 80
-ENTRYPOINT ["./bootstrap.sh"]
+#ENTRYPOINT ["./bootstrap.sh"]
