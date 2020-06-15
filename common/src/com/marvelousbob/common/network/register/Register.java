@@ -12,9 +12,7 @@ import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -81,14 +79,20 @@ public final class Register {
         var reflex = new Reflections(dtoPackage, new SubTypesScanner(), new MemberUsageScanner());
         try {
             registeredDtos = reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter);
-            registeredDtos.forEach(this::register);
+            List<Class<?>> sortedList = new ArrayList<>();
+            sortedList.addAll(registeredDtos);
+            Collections.sort(sortedList, Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
+            sortedList.forEach(this::register);
             log.debug("REGISTERED {} DTOs", registeredDtos.size());
 
             for (Class<?> dto : registeredDtos) {
                 addMissingFields(dto);
             }
 
-            otherClassesToRegister.forEach(this::register);
+            sortedList = new ArrayList<>();
+            sortedList.addAll(otherClassesToRegister);
+            Collections.sort(sortedList, Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
+            sortedList.forEach(this::register);
 
         } catch (ReflectionsException re) {
             throw new MarvelousBobException("Could not load classes from package %s".formatted(dtoPackage), re);
