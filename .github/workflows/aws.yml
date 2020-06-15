@@ -27,13 +27,15 @@ jobs:
           java-version: 14
 
       - name: Allow GitHub Actions to run Gradlew
-        run: chmod u+x gradlew
+        run: |
+          chmod u+x gradlew
+          gradlew server:jpackageImage
 
-      - name: Run Gradle build
-        id: gradle-build
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: shadowJar
+      #      - name: Run Gradle build
+      #        id: gradle-build
+      #        uses: eskatos/gradle-command-action@v1
+      #        with:
+      #          arguments: shadowJar
 
       - name: Set Docker Hub variables
         id: docker-vars

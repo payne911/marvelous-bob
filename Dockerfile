@@ -1,5 +1,6 @@
-FROM openjdk:14-jdk-alpine
-COPY server/build/libs/server-all.jar /app.jar
+#FROM openjdk:14-jdk-alpine
+FROM alpine:3.7
+COPY server/build/jpackage/server /
 COPY utils/deploys/bootstrap.sh /bootstrap.sh
 RUN chmod +x /bootstrap.sh
 EXPOSE 80
