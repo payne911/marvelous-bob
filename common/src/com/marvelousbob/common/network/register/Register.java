@@ -12,7 +12,10 @@ import org.reflections.scanners.SubTypesScanner;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 /**
@@ -29,9 +32,9 @@ public final class Register {
     public static final String KRYO_PACKAGE_KEY = "kryo.network.dtopackage";
 
     @Getter
-    private Set<Class<?>> registeredDtos;
+    private SortedSet<Class<?>> registeredDtos;
     @Getter
-    private Set<Class<? extends Object>> otherClassesToRegister;
+    private SortedSet<Class<? extends Object>> otherClassesToRegister;
 
     private EndPoint registrar;
     private String dtoPackage;
@@ -71,28 +74,22 @@ public final class Register {
 
 
     public void registerClasses(Class<?> filter) {
-        registeredDtos = new LinkedHashSet<>();
-        otherClassesToRegister = new LinkedHashSet<>();
+        registeredDtos = new TreeSet<>(Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
+        otherClassesToRegister = new TreeSet<>(Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
         if (dtoPackage == null) {
             throw new MarvelousBobException("Cannot find property %s".formatted(KRYO_PACKAGE_KEY));
         }
         var reflex = new Reflections(dtoPackage, new SubTypesScanner(), new MemberUsageScanner());
         try {
-            registeredDtos = reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter);
-            List<Class<?>> sortedList = new ArrayList<>();
-            sortedList.addAll(registeredDtos);
-            Collections.sort(sortedList, Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
-            sortedList.forEach(this::register);
+            registeredDtos.addAll(reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter));
+            registeredDtos.forEach(this::register);
             log.debug("REGISTERED {} DTOs", registeredDtos.size());
 
             for (Class<?> dto : registeredDtos) {
                 addMissingFields(dto);
             }
 
-            sortedList = new ArrayList<>();
-            sortedList.addAll(otherClassesToRegister);
-            Collections.sort(sortedList, Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
-            sortedList.forEach(this::register);
+            otherClassesToRegister.forEach(this::register);
 
         } catch (ReflectionsException re) {
             throw new MarvelousBobException("Could not load classes from package %s".formatted(dtoPackage), re);
