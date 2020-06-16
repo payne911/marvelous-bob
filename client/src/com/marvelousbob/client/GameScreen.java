@@ -10,14 +10,27 @@ import static com.marvelousbob.client.MyGame.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import com.marvelousbob.common.utils.MovementUtils;
 
 /**
- * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the
- * job of the {@link #render(float) render} method to
+ * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the job
+ * of the {@link #render(float) render} method to
  */
 public class GameScreen extends ScreenAdapter {
+
+    private final ParticleEffect effect = new ParticleEffect();
+    private final static float PARTICLE_EFFECT_SCALE = .5f;
+
+    @Override
+    public void show() {
+        effect.load(Gdx.files.internal("particles/emitters/BlueFlames"),
+                Gdx.files.internal("particles"));
+        effect.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        effect.scaleEffect(PARTICLE_EFFECT_SCALE);
+        effect.start();
+    }
 
     @Override
     public void render(float delta) {
@@ -32,6 +45,7 @@ public class GameScreen extends ScreenAdapter {
             shapeDrawer.setColor(new Color(someValue % 8, (255f - someValue) % 8, 0f, 1f));
             shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
         });
+        effect.draw(shapeDrawer.getBatch(), delta);
         batch.end();
 
         /* Drawing the Scene2d stuff (UI and Actors). */
@@ -40,7 +54,16 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateGameState(float delta) {
+        updateParticles(delta);
         MovementUtils.interpolatePlayers(gameStateDto, delta);
+    }
+
+    private void updateParticles(float delta) {
+        effect.update(delta);
+        if (effect.isComplete()) {
+            effect.reset();
+            effect.scaleEffect(PARTICLE_EFFECT_SCALE);
+        }
     }
 
     @Override
@@ -48,5 +71,6 @@ public class GameScreen extends ScreenAdapter {
         // anything to dispose?
         client.getClient()
                 .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayerDto().getUuid()));
+        effect.dispose();
     }
 }

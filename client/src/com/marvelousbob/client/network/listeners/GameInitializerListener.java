@@ -55,6 +55,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
         // draw screen
-        marvelousBob.setScreen(new GameScreen());
+        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen()));
     }
 }
