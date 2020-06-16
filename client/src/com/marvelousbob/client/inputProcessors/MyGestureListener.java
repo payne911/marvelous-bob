@@ -22,28 +22,23 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
     private final Camera camera;
     private final Controller controller;
 
-
     public MyGestureListener(Camera camera, Controller controller) {
         this.camera = camera;
         this.controller = controller;
     }
 
+
     /**
-     * Converts a click's position into a Tile coordinate, and then assigns the appropriate action
-     * according to what is on the Tile that was clicked.
-     *
      * @param x      screen x-coordinate
      * @param y      screen y-coordinate
-     * @param count  ?
      * @param button left(0), right(1), and middle(2) mouse-click.
      * @return 'true' only if the event shouldn't be passed to the next InputProcessor.
      */
     @Override
-    public boolean tap(float x, float y, int count, int button) {
+    public boolean touchDown(float x, float y, int pointer, int button) {
         Vector3 vec = camera.unproject(new Vector3(x, y, 1));
         log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
         controller.playerTapped(vec.x, vec.y);
         return true;
     }
-
 }
