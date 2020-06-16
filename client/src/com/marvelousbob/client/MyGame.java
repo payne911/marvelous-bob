@@ -19,7 +19,7 @@ public final class MyGame {
     private MyGame() {
     }
 
-    /* Client. */
+    /* Player. */
     public static MyClient client;
     public static GameStateDto gameStateDto; // todo: probably will change to StateUpdater
     public static Controller controller;

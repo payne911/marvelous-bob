@@ -2,6 +2,7 @@ package com.marvelousbob.client.controllers;
 
 import static com.marvelousbob.client.MyGame.client;
 
+import com.marvelousbob.client.entities.Player;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import lombok.Getter;
@@ -13,6 +14,8 @@ public class Controller {
 
     @Getter
     private PlayerDto selfPlayerDto;
+    @Getter
+    private Player selfPlayer;
 
     public Controller(PlayerDto selfPlayerDto) {
         this.selfPlayerDto = selfPlayerDto;

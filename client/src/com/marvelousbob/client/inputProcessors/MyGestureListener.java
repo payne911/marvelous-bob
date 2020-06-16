@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyGestureListener extends GestureDetector.GestureAdapter {
 
-    private Camera camera;
-    private Controller controller;
+    private final Camera camera;
+    private final Controller controller;
 
 
     public MyGestureListener(Camera camera, Controller controller) {
