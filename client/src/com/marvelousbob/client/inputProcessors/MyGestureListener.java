@@ -35,7 +35,7 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
      * @param x      screen x-coordinate
      * @param y      screen y-coordinate
      * @param count  ?
-     * @param button left(0), right(1), and middle(2)         mouse-click.
+     * @param button left(0), right(1), and middle(2) mouse-click.
      * @return 'true' only if the event shouldn't be passed to the next InputProcessor.
      */
     @Override
