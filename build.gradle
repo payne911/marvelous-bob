@@ -38,11 +38,10 @@ allprojects {
         logback = '1.2.3'
         lombok = '1.18.12'
         kryonet = '2.22.6'
+        reflectionsVersion = '0.9.12'
 
         pieMenuVersion = '4.2.0'
         shapeDrawer = '2.3.0'
-
-        reflectionsVersion = '0.9.12'
     }
 
     repositories {
@@ -64,6 +63,7 @@ project(":desktop") {
         api project(":client")
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 

@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ParticleEditor" type="Application" factoryName="Application"
+    nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="com.badlogic.gdx.tools.particleeditor.ParticleEditor"/>
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.badlogic.gdx.tools.particleeditor.*"/>
+        <option name="ENABLED" value="true"/>
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true"/>
+    </method>
+  </configuration>
+</component>

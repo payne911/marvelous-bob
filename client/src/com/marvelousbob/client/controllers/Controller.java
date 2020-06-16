@@ -13,23 +13,24 @@ import lombok.extern.slf4j.Slf4j;
 public class Controller {
 
     @Getter
-    private PlayerDto selfPlayerDto;
+    private final PlayerDto selfPlayerDto;
     @Getter
-    private Player selfPlayer;
+    private final Player selfPlayer;
 
     public Controller(PlayerDto selfPlayerDto) {
         this.selfPlayerDto = selfPlayerDto;
+        this.selfPlayer = new Player(selfPlayerDto);
     }
 
     public void playerTapped(float x, float y) {
         log.debug("Tapped on (%f,%f)".formatted(x, y));
-        float destX = x - selfPlayerDto.getSize() / 2;
-        float destY = y - selfPlayerDto.getSize() / 2;
+        float destX = x - selfPlayer.getSize() / 2;
+        float destY = y - selfPlayer.getSize() / 2;
 
         var moveActionDto = new MoveActionDto();
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);
-        moveActionDto.setPlayerId(selfPlayerDto.getUuid());
+        moveActionDto.setPlayerId(selfPlayer.getUuid());
         log.debug("sending MoveActionDto: " + moveActionDto);
         client.getClient().sendTCP(moveActionDto);
     }
