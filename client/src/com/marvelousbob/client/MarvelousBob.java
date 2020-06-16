@@ -1,5 +1,6 @@
 package com.marvelousbob.client;
 
+import static com.marvelousbob.client.MyGame.GAME_TITLE;
 import static com.marvelousbob.client.MyGame.batch;
 import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.font;
@@ -73,6 +74,9 @@ public class MarvelousBob extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
+
+        Gdx.graphics.setTitle(GAME_TITLE + " -:- " + Gdx.graphics.getFramesPerSecond() + " FPS");
+
         if (gameStateDto != null) {
             /// todo gameState static ???
             super.render(); // calls the GameScreen's `render()`

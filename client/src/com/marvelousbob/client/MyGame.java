@@ -11,13 +11,15 @@ import com.marvelousbob.common.network.register.dto.GameStateDto;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
- * Every single class in here needs to be initialized within
- * {@link MarvelousBob#create()} in order for their access
- * throughout the program to be safe.
+ * Every single class in here needs to be initialized within {@link MarvelousBob#create()} in order
+ * for their access throughout the program to be safe.
  */
 public final class MyGame {
+
     private MyGame() {
     }
+
+    public static final String GAME_TITLE = "Marvelous Bob";
 
     /* Player. */
     public static MyClient client;
