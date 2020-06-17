@@ -32,9 +32,6 @@ public class StateRecords {
      */
     private ConcurrentNavigableMap<Long, GameStateDto> localRecord = new ConcurrentSkipListMap<>();
 
-    public StateRecords() {
-    }
-
     /**
      * Overwrites an older value if it's the same key (timestamp).
      *
