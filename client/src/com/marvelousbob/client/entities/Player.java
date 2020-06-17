@@ -16,6 +16,6 @@ public class Player extends Actor implements Identifiable {
     }
 
     public void updateFromDto(PlayerDto playerDto) {
-
+//        this.dto = playerDto;
     }
 }
