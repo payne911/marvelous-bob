@@ -33,6 +33,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.network.test.IncrementalAverage;
+import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;

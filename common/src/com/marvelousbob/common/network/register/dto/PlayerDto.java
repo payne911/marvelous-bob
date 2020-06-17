@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class PlayerDto implements Identifiable, Timestamped, Dto {
 
+    private int colorIndex;
     private UUID uuid;
     private long timestamp;
     private float speed = 20;

@@ -1,4 +1,4 @@
-package com.marvelousbob.client;
+package com.marvelousbob.client.screens;
 
 import static com.marvelousbob.client.MyGame.batch;
 import static com.marvelousbob.client.MyGame.client;
@@ -9,8 +9,8 @@ import static com.marvelousbob.client.MyGame.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import com.marvelousbob.common.utils.MovementUtils;
 
@@ -41,8 +41,7 @@ public class GameScreen extends ScreenAdapter {
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
         gameStateDto.getPlayerDtos().forEach(p -> {
-            float someValue = 32f * Integer.parseInt(p.getUuid().getStringId());
-            shapeDrawer.setColor(new Color(someValue % 8, (255f - someValue) % 8, 0f, 1f));
+            shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
             shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
         });
         effect.draw(shapeDrawer.getBatch(), delta);
