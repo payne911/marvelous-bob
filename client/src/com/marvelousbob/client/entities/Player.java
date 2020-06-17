@@ -12,10 +12,10 @@ public class Player extends Actor implements Identifiable {
 
     public Player(PlayerDto playerDto) {
         this.dto = playerDto;
-        adjustToDto(playerDto);
+        updateFromDto(playerDto);
     }
 
-    public void adjustToDto(PlayerDto playerDto) {
+    public void updateFromDto(PlayerDto playerDto) {
 
     }
 }

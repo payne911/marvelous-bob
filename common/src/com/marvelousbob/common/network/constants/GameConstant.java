@@ -11,6 +11,6 @@ public class GameConstant {
     public static final short MAX_PLAYER_AMOUNT = 8;
 
     public static final Array<Color> playerColors = Array
-            .with(Color.WHITE, Color.TEAL, Color.GREEN, Color.MAGENTA,
-                    Color.RED, Color.YELLOW, Color.ORANGE, Color.BROWN);
+            .with(Color.WHITE, Color.GREEN, Color.RED, Color.MAGENTA,
+                    Color.YELLOW, Color.BROWN, Color.ORANGE, Color.TEAL);
 }
