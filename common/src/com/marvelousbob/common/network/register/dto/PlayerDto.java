@@ -17,7 +17,7 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
     private long timestamp;
     private float speed = 20;
     private float size = 40;
-    private float currX, currY, destX, destY;
+    private float currX, destX, currY, destY;
 
     public PlayerDto(UUID uuid) {
         this.uuid = uuid;
