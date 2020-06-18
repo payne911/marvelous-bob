@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MoveActionListener extends AbstractListener<MoveActionDto> {
 
-    private GameStateDto gameState;
+    private final GameStateDto gameState;
 
     public MoveActionListener(GameStateDto gameState) {
         super(MoveActionDto.class);
@@ -20,11 +20,10 @@ public class MoveActionListener extends AbstractListener<MoveActionDto> {
     @Override
     public void accept(Connection connection, MoveActionDto moveActionDto) {
         log.debug("Received MoveAction: " + moveActionDto);
-        log.debug(gameState.toString());
+        log.debug("Current GameState before changing 'dest' values: " + gameState.toString());
         for (PlayerDto p : gameState.getPlayerDtos()) {
             if (moveActionDto.getPlayerId().equals(p.getUuid())) {
-                System.out.println(
-                        "Move action for player %s detected".formatted(p.getUuid().getStringId()));
+                log.info("Move action for player %s detected".formatted(p.getUuid().getStringId()));
                 p.setDestX(moveActionDto.getDestX());
                 p.setDestY(moveActionDto.getDestY());
                 break;

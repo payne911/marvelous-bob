@@ -4,6 +4,7 @@ import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.Timestamped;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,8 +20,7 @@ import lombok.NoArgsConstructor;
 public final class GameStateDto extends IndexedDto<GameStateDto> implements Timestamped,
         Comparable<GameStateDto> {
 
-    private ArrayList<PlayerDto> playerDtos = new ArrayList<>(
-            GameConstant.MAX_PLAYER_AMOUNT); // todo: could be set as unordered?
+    private List<PlayerDto> playerDtos = new ArrayList<>(GameConstant.MAX_PLAYER_AMOUNT);
     private long timestamp;
 
     public GameStateDto(GameStateDto dto, long index) {

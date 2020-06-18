@@ -3,12 +3,14 @@ package com.marvelousbob.client.inputProcessors;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.marvelousbob.client.controllers.Controller;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This is more or less the "Desktop" input processor.
  * <br>
  * The `keyTyped(char character)` method will be called repeatedly if a key is KEPT DOWN.
  */
+@Slf4j
 public class MyInputProcessor extends InputAdapter {
 
     private Camera camera;
@@ -25,7 +27,7 @@ public class MyInputProcessor extends InputAdapter {
     public boolean keyDown(int keycode) {
 
         switch (keycode) {
-//            case Input.Keys.SPACE: // todo: should TOGGLE a centerView option?
+//            case Input.Keys.SPACE:
 //                var ma = new MoveAction();
 //                ma.stampNow();
 //                MyGame.client.getClient().sendTCP(ma);
@@ -45,24 +47,8 @@ public class MyInputProcessor extends InputAdapter {
 //                MyGame.client.getClient().sendTCP(cc);
 //                System.out.println("S");
 //                break;
-//            case Input.Keys.A:
-//                Player p = new Player();
-//                p.setDestY(15);
-//                TestClass2 cc2 = new TestClass2();
-//                cc2.setX(p);
-//                MyGame.client.getClient().sendTCP(cc2);
-//                System.out.println("A");
-//                break;
-//            case Input.Keys.D:
-//                MyGame.client.getClient().sendTCP(new Player());
-//                System.out.println("D");
-//                break;
-//            case Input.Keys.Q:
-//                MyGame.client.getClient().sendTCP(new MarvelousBob());
-//                System.out.println("Q");
-//                break;
             default:
-                System.out.println("keyDown_keyCode: " + keycode);
+                log.info("keyDown_keyCode: " + keycode);
                 break;
         }
 
