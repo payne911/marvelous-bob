@@ -16,7 +16,10 @@ import com.marvelousbob.common.utils.MovementUtils;
 
 /**
  * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the job
- * of the {@link #render(float) render} method to
+ * of the {@link #render(float) render} method to handle all of that (it's the Game Loop).
+ * <p>
+ * This class is instantiated by the {@link com.esotericsoftware.kryonet.Client Kryo Client} in
+ * {@link com.marvelousbob.client.network.listeners.GameInitializerListener}.
  */
 public class GameScreen extends ScreenAdapter {
 
