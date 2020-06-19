@@ -42,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
 
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
-        controller.getLocalState().getPlayerDtos()
+        controller.getLocalState().getPlayersDtos()
                 .forEach(p -> {
                     shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
                     shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());

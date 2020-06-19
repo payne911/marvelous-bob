@@ -17,9 +17,9 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
 
     @Override
     public void accept(Connection conncetion, PlayerDisconnectionDto elem) {
-        for (PlayerDto p : gameStateDto.getPlayerDtos()) {
+        for (PlayerDto p : gameStateDto.getPlayersDtos()) {
             if (elem.getPlayerId().equals(p.getUuid())) {
-                gameStateDto.getPlayerDtos().remove(p);
+                gameStateDto.getPlayersDtos().remove(p);
                 break;
             }
         }

@@ -4,6 +4,7 @@ import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.Timestamped;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,7 +20,8 @@ import lombok.NoArgsConstructor;
 public final class GameStateDto extends IndexedDto<GameStateDto> implements Timestamped,
         Comparable<GameStateDto> {
 
-    private final ArrayList<PlayerDto> playerDtos = new ArrayList<>(GameConstant.MAX_PLAYER_AMOUNT);
+    private final ArrayList<PlayerDto> playersDtos = new ArrayList<>(
+            GameConstant.MAX_PLAYER_AMOUNT);
     private long timestamp;
 
     public GameStateDto(GameStateDto dto, long index) {
@@ -32,7 +34,7 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
     }
 
     public void addPlayer(PlayerDto playerDto) {
-        playerDtos.add(playerDto);
+        playersDtos.add(playerDto);
     }
 
     /**
@@ -40,9 +42,9 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
      * @return if all the values are the same (<b>without regards to timestamp</b>!)
      */
     public boolean isSameStateWithoutGameStateTime(GameStateDto gameStateDto) {
-        // todo: O(n^2) is bad... maybe change to HashMap ?
-        for (var player : playerDtos) {
-            boolean foundMatch = gameStateDto.getPlayerDtos().stream()
+        // todo: O(n^2) is bad... maybe change from ArrayList to HashMap ?
+        for (var player : playersDtos) {
+            boolean foundMatch = gameStateDto.getPlayersDtos().stream()
                     .anyMatch(player::isSameStateSamePlayerWithoutTime);
             if (!foundMatch) {
                 return false;
@@ -52,7 +54,14 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
     }
 
     public void updateFromDto(GameStateDto inputDto) {
+        // todo: for better algo, change ArrayList -> HashMap
+        for (var player : inputDto.getPlayersDtos()) {
+            getPlayer(player.getColorIndex()); // todo
+        }
+    }
 
+    public Optional<PlayerDto> getPlayer(int colorIndex) {
+        return playersDtos.stream().filter(p -> p.getColorIndex() == colorIndex).findAny();
     }
 
     /**
@@ -65,7 +74,7 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
      * @see GameConstant#MAX_PLAYER_AMOUNT
      */
     public int getFreeId() throws MarvelousBobException {
-        final Set<Integer> takenIds = playerDtos.stream()
+        final Set<Integer> takenIds = playersDtos.stream()
                 .map(PlayerDto::getColorIndex)
                 .collect(Collectors.toSet());
         return IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT)

@@ -7,15 +7,19 @@ import com.marvelousbob.common.network.register.dto.UUID;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Container of the visual representation of a {@link PlayerDto}. Call {@link
+ * #updateFromDto(PlayerDto)} to update it accordingly. todo: introduce "PlayerContainer" in
+ * `GameScreen` and call `updateFromDto` accordingly
+ */
 @Slf4j
 public class Player extends Stack implements Identifiable {
 
     @Getter
-    private PlayerDto dto;
-
+    private final UUID uuid;
 
     public Player(PlayerDto playerDto) {
-        this.dto = playerDto;
+        this.uuid = playerDto.getUuid();
         updateFromDto(playerDto);
 
 //        // UI stuff should run on UI thread
@@ -41,17 +45,19 @@ public class Player extends Stack implements Identifiable {
 //        MyGame.stage.addActor(this);
     }
 
-    public void updateFromDto(PlayerDto playerDto) {
-//        this.dto = playerDto;
+    public void updateFromDto(PlayerDto input) {
+        setSize(input.getSize(), input.getSize());
+        setX(input.getCurrX());
+        setY(input.getCurrY());
     }
 
     @Override
     public UUID getUuid() {
-        return dto.getUuid();
+        return uuid;
     }
 
     @Override
     public boolean isEquals(UUID other) {
-        return dto.isEquals(other);
+        return uuid.equals(other);
     }
 }

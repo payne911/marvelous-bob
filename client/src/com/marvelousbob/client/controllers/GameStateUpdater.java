@@ -44,7 +44,7 @@ public class GameStateUpdater {
                 + (mutableCurrentLocalGameState.getTimestamp() - serverGameState.getTimestamp()));
         log.debug("Starting actual reconciliation with server GS: " + serverGameState);
         // todo: interpolate each GS chronologically until reaching current state
-
+        mutableCurrentLocalGameState.updateFromDto(serverGameState);
     }
 
     /**

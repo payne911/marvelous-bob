@@ -38,7 +38,7 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
     public boolean touchDown(float x, float y, int pointer, int button) {
         Vector3 vec = camera.unproject(new Vector3(x, y, 1));
         log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
-        controller.playerTapped(vec.x, vec.y);
+        controller.playerClicked(vec.x, vec.y);
         return true;
     }
 }

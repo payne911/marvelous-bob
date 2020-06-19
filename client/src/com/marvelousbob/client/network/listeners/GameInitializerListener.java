@@ -1,6 +1,7 @@
 package com.marvelousbob.client.network.listeners;
 
 import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.selfColorIndex;
 import static com.marvelousbob.client.MyGame.stage;
 
 import com.badlogic.gdx.Game;
@@ -54,7 +55,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         log.debug("Received initial GS: " + gameInit);
         UUID currentPlayerUuid = gameInit.getCurrentPlayerId();
         PlayerDto selfPlayerDto = null;
-        for (PlayerDto p : gameInit.getGameStateDto().getPlayerDtos()) {
+        for (PlayerDto p : gameInit.getGameStateDto().getPlayersDtos()) {
             if (p.isEquals(currentPlayerUuid)) {
                 selfPlayerDto = p;
                 break;
@@ -65,7 +66,8 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException(
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
-        controller = new Controller(selfPlayerDto, kryoClient, gameInit.getGameStateDto());
+        selfColorIndex = selfPlayerDto.getColorIndex();
+        controller = new Controller(kryoClient, gameInit.getGameStateDto());
 
         // processors
         MyGestureListener inputProcessor1 = new MyGestureListener(stage.getCamera(), controller);

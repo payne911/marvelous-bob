@@ -25,7 +25,7 @@ public class MovementUtils {
      * @return {@code true} only if at least one movement occurred.
      */
     public static boolean interpolatePlayers(GameStateDto game, float delta) {
-        return game.getPlayerDtos().stream()
+        return game.getPlayersDtos().stream()
                 .map(p -> interpolatePlayer(p, delta))
                 .anyMatch(b -> b.equals(true));
     }
