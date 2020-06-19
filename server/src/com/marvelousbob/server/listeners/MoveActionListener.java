@@ -21,7 +21,7 @@ public class MoveActionListener extends AbstractListener<MoveActionDto> {
     public void accept(Connection connection, MoveActionDto moveActionDto) {
         log.debug("Received MoveAction: " + moveActionDto);
         log.debug("Current GameState before changing 'dest' values: " + gameState.toString());
-        for (PlayerDto p : gameState.getPlayerDtos()) {
+        for (PlayerDto p : gameState.getPlayerDtos()) { // todo: create new State and THEN update
             if (moveActionDto.getPlayerId().equals(p.getUuid())) {
                 log.info("Move action for player %s detected".formatted(p.getUuid().getStringId()));
                 p.setDestX(moveActionDto.getDestX());

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.network.MyClient;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
@@ -23,7 +22,6 @@ public final class MyGame {
 
     /* Player. */
     public static MyClient client;
-    public static GameStateDto gameStateDto; // todo: probably will change to StateUpdater
     public static Controller controller;
 
     /* Display. */

@@ -14,8 +14,6 @@ public class GameStateListener extends AbstractListener<GameStateDto> {
 
     @Override
     public void accept(Connection connection, GameStateDto gameStateDto) {
-        //TODO: 2020-06-13 Better game state update
-        // --- OLA
-        MyGame.gameStateDto = gameStateDto;
+        MyGame.controller.getGameStateUpdater().reconcile(gameStateDto);
     }
 }

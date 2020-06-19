@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public final class GameStateDto extends IndexedDto<GameStateDto> implements Timestamped,
         Comparable<GameStateDto> {
 
-    private ArrayList<PlayerDto> playerDtos = new ArrayList<>(GameConstant.MAX_PLAYER_AMOUNT);
+    private final ArrayList<PlayerDto> playerDtos = new ArrayList<>(GameConstant.MAX_PLAYER_AMOUNT);
     private long timestamp;
 
     public GameStateDto(GameStateDto dto, long index) {
@@ -33,6 +33,26 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
 
     public void addPlayer(PlayerDto playerDto) {
         playerDtos.add(playerDto);
+    }
+
+    /**
+     * @param gameStateDto the input comparing to
+     * @return if all the values are the same (<b>without regards to timestamp</b>!)
+     */
+    public boolean isSameStateWithoutGameStateTime(GameStateDto gameStateDto) {
+        // todo: O(n^2) is bad... maybe change to HashMap ?
+        for (var player : playerDtos) {
+            boolean foundMatch = gameStateDto.getPlayerDtos().stream()
+                    .anyMatch(player::isSameStateSamePlayerWithoutTime);
+            if (!foundMatch) {
+                return false;
+            }
+        }
+        return true; // if there are no players, it's the same state
+    }
+
+    public void updateFromDto(GameStateDto inputDto) {
+
     }
 
     /**

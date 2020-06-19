@@ -3,12 +3,16 @@ package com.marvelousbob.client.entities;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import lombok.experimental.Delegate;
+import com.marvelousbob.common.network.register.dto.UUID;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Player extends Stack implements Identifiable {
 
-    @Delegate
+    @Getter
     private PlayerDto dto;
+
 
     public Player(PlayerDto playerDto) {
         this.dto = playerDto;
@@ -39,5 +43,15 @@ public class Player extends Stack implements Identifiable {
 
     public void updateFromDto(PlayerDto playerDto) {
 //        this.dto = playerDto;
+    }
+
+    @Override
+    public UUID getUuid() {
+        return dto.getUuid();
+    }
+
+    @Override
+    public boolean isEquals(UUID other) {
+        return dto.isEquals(other);
     }
 }

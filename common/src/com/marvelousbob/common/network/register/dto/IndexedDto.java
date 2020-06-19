@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class IndexedDto<T extends Dto> implements Dto {
-    private T dto;
+    private T dto; // todo: this gives us a recursive (and useless) getter... do we really need it?
     private long index;
 }

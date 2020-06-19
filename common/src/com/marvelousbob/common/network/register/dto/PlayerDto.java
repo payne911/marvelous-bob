@@ -24,6 +24,27 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
         stampNow();
     }
 
+    /**
+     * @param otherPlayerDto input compared to
+     * @return if all the values are the same, <b>excluding timestamp</b>. The <b>{@link
+     * #colorIndex} is not</b> considered because the {@link UUID} in enough for that purpose.
+     */
+    public boolean isSameStateSamePlayerWithoutTime(PlayerDto otherPlayerDto) {
+        return isSamePosition(otherPlayerDto)
+                && hasSameDestination(otherPlayerDto)
+                && speed == otherPlayerDto.speed
+                && size == otherPlayerDto.size
+                && uuid.getStringId().equals(otherPlayerDto.getUuid().getStringId());
+    }
+
+    public boolean isSamePosition(PlayerDto otherPlayerDto) {
+        return currX == otherPlayerDto.currX && currY == otherPlayerDto.currY;
+    }
+
+    public boolean hasSameDestination(PlayerDto otherPlayerDto) {
+        return destX == otherPlayerDto.destX && destY == otherPlayerDto.destY;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

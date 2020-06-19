@@ -3,7 +3,6 @@ package com.marvelousbob.client.screens;
 import static com.marvelousbob.client.MyGame.batch;
 import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.controller;
-import static com.marvelousbob.client.MyGame.gameStateDto;
 import static com.marvelousbob.client.MyGame.shapeDrawer;
 import static com.marvelousbob.client.MyGame.stage;
 
@@ -43,10 +42,11 @@ public class GameScreen extends ScreenAdapter {
 
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
-        gameStateDto.getPlayerDtos().forEach(p -> {
-            shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
-            shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
-        });
+        controller.getLocalState().getPlayerDtos()
+                .forEach(p -> {
+                    shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
+                    shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
+                });
         effect.draw(shapeDrawer.getBatch(), delta);
         batch.end();
 
@@ -57,10 +57,14 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateGameState(float delta) {
         updateParticles(delta);
-        MovementUtils.interpolatePlayers(gameStateDto, delta);
+        boolean hasMoved = MovementUtils.interpolatePlayers(controller.getLocalState(), delta);
+        if (hasMoved) {
+            controller.registerCurrentLocalState();
+        }
     }
 
     private void updateParticles(float delta) {
+        // for changing angle, see: https://gamedev.stackexchange.com/a/110725/130731
         effect.update(delta);
         if (effect.isComplete()) {
             effect.reset();

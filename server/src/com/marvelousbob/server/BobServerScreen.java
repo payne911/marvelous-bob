@@ -32,8 +32,11 @@ public class BobServerScreen extends ScreenAdapter {
     @Override
     @SneakyThrows
     public void render(float delta) {
-        MovementUtils.interpolatePlayers(gameStateDto, delta);
-        server.sendToAllTCP(gameStateDto);
+        boolean hasMoved = MovementUtils.interpolatePlayers(gameStateDto, delta);
+        if (hasMoved) {
+            gameStateDto.stampNow();
+            server.sendToAllTCP(gameStateDto);
+        }
     }
 
     @Override
