@@ -28,10 +28,7 @@ public class GameStateRecords {
      */
     public void addLocalRecord(GameStateDto localGameState) {
         localRecord.put(localGameState.getTimestamp(), localGameState);
-
         log.debug("First timestamp in the SkipList: " + localRecord.firstKey());
-        log.debug("First timestamp higher than last record (should be `null`): "
-                + localRecord.higherKey(localGameState.getTimestamp()));
     }
 
     /**

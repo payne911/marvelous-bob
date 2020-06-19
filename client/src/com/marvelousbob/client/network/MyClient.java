@@ -40,7 +40,7 @@ public class MyClient {
         register.registerClasses(Dto.class);
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob, client));
-        client.addListener(new LagListener(250, 700,
+        client.addListener(new LagListener(0, 0,
                 new GameStateListener())); // todo: keep in mind this LagListener
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);

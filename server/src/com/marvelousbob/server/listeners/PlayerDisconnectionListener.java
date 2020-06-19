@@ -4,25 +4,23 @@ import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
 
+/**
+ * On the Client-side, the GameState is used to determine if the player has left: no need for
+ * sending a specific Event.
+ */
 public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconnectionDto> {
 
-    private final GameStateDto gameStateDto;
+    private final GameStateDto currentGameStateDto;
 
-    public PlayerDisconnectionListener(GameStateDto gameStateDto) {
+    public PlayerDisconnectionListener(GameStateDto currentGameStateDto) {
         super(PlayerDisconnectionDto.class);
-        this.gameStateDto = gameStateDto;
+        this.currentGameStateDto = currentGameStateDto;
     }
 
     @Override
-    public void accept(Connection conncetion, PlayerDisconnectionDto elem) {
-        for (PlayerDto p : gameStateDto.getPlayersDtos()) {
-            if (elem.getPlayerId().equals(p.getUuid())) {
-                gameStateDto.getPlayersDtos().remove(p);
-                break;
-            }
-        }
-        conncetion.close();
+    public void accept(Connection connection, PlayerDisconnectionDto elem) {
+        currentGameStateDto.removePlayer(elem.getPlayerId());
+        connection.close();
     }
 }

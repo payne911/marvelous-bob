@@ -18,8 +18,8 @@ import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitialization;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.network.register.dto.UUID;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -53,20 +53,14 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
         log.debug("Received initial GS: " + gameInit);
-        UUID currentPlayerUuid = gameInit.getCurrentPlayerId();
-        PlayerDto selfPlayerDto = null;
-        for (PlayerDto p : gameInit.getGameStateDto().getPlayersDtos()) {
-            if (p.isEquals(currentPlayerUuid)) {
-                selfPlayerDto = p;
-                break;
-            }
-        }
+        Optional<PlayerDto> selfPlayerDto = gameInit.getGameStateDto()
+                .getPlayer(gameInit.getCurrentPlayerId());
 
-        if (Objects.isNull(selfPlayerDto) || Objects.isNull(selfPlayerDto.getUuid())) {
+        if (selfPlayerDto.isEmpty() || Objects.isNull(selfPlayerDto.get().getUuid())) {
             throw new IllegalStateException(
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
-        selfColorIndex = selfPlayerDto.getColorIndex();
+        selfColorIndex = selfPlayerDto.get().getColorIndex();
         controller = new Controller(kryoClient, gameInit.getGameStateDto());
 
         // processors

@@ -13,29 +13,29 @@ import lombok.SneakyThrows;
 public class BobServerScreen extends ScreenAdapter {
 
     private final Server server;
-    private final GameStateDto gameStateDto;
+    private final GameStateDto mutableGameState;
 
     public BobServerScreen(Server server) {
         this.server = server;
-        this.gameStateDto = new GameStateDto();
+        this.mutableGameState = new GameStateDto();
     }
 
     @Override
     public void show() {
-        gameStateDto.stampNow();
-        server.addListener(new DebugListener(server, gameStateDto));
-        server.addListener(new PlayerConnectionListener(server, gameStateDto));
-        server.addListener(new MoveActionListener(gameStateDto));
-        server.addListener(new PlayerDisconnectionListener(gameStateDto));
+        mutableGameState.stampNow();
+        server.addListener(new DebugListener(server, mutableGameState));
+        server.addListener(new PlayerConnectionListener(server, mutableGameState));
+        server.addListener(new MoveActionListener(mutableGameState));
+        server.addListener(new PlayerDisconnectionListener(mutableGameState));
     }
 
     @Override
     @SneakyThrows
     public void render(float delta) {
-        boolean hasMoved = MovementUtils.interpolatePlayers(gameStateDto, delta);
+        boolean hasMoved = MovementUtils.interpolatePlayers(mutableGameState, delta);
         if (hasMoved) {
-            gameStateDto.stampNow();
-            server.sendToAllTCP(gameStateDto);
+            mutableGameState.stampNow();
+            server.sendToAllTCP(mutableGameState);
         }
     }
 
