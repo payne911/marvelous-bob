@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public final class GameInitialization implements Dto {
+public final class GameInitializationDto implements Dto {
     private GameStateDto gameStateDto;
     private UUID currentPlayerId;
 }

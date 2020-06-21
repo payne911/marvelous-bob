@@ -2,8 +2,8 @@ package com.marvelousbob.server.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
+import com.marvelousbob.server.model.ServerState;
 
 /**
  * On the Client-side, the GameState is used to determine if the player has left: no need for
@@ -11,16 +11,16 @@ import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
  */
 public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconnectionDto> {
 
-    private final GameStateDto currentGameStateDto;
+    private final ServerState serverState;
 
-    public PlayerDisconnectionListener(GameStateDto currentGameStateDto) {
+    public PlayerDisconnectionListener(ServerState serverState) {
         super(PlayerDisconnectionDto.class);
-        this.currentGameStateDto = currentGameStateDto;
+        this.serverState = serverState;
     }
 
     @Override
     public void accept(Connection connection, PlayerDisconnectionDto elem) {
-        currentGameStateDto.removePlayer(elem.getPlayerId());
+        serverState.removePlayer(elem.getPlayerId());
         connection.close();
     }
 }

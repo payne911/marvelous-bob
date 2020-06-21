@@ -72,7 +72,7 @@ public final class Register {
         registerClasses(Object.class);
     }
 
-
+    @SuppressWarnings("unchecked")
     public void registerClasses(Class<?> filter) {
         registeredDtos = new TreeSet<>(Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
         otherClassesToRegister = new TreeSet<>(Comparator.comparing(Class::getName, String.CASE_INSENSITIVE_ORDER));
@@ -101,7 +101,7 @@ public final class Register {
         for (Field field : clz.getDeclaredFields()) {
             Class<?> fieldType = field.getType();
             if (!fieldType.isPrimitive()
-                    && !fieldType.isInterface()
+                    && !fieldType.isInterface() // see issue https://github.com/payne911/marvelous-bob/issues/1
                     && !Modifier.isStatic(field.getModifiers())
                     && !registeredDtos.contains(fieldType)
                     && !otherClassesToRegister.contains(fieldType)) {

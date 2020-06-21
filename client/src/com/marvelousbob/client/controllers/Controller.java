@@ -1,18 +1,19 @@
 package com.marvelousbob.client.controllers;
 
-import static com.marvelousbob.client.MyGame.client;
-import static com.marvelousbob.client.MyGame.controller;
-
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.client.MyGame;
 import com.marvelousbob.client.entities.Player;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.state.GameStateRecords;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.controller;
 
 
 @Slf4j
@@ -40,12 +41,16 @@ public class Controller {
     private final Client kryoClient;
 
 
+    private long moveIndex;
+
+
     public Controller(Client kryoClient, GameStateDto initialGameState) {
         this.kryoClient = kryoClient;
         this.gameStateUpdater =
                 new GameStateUpdater(new GameStateRecords(), kryoClient.getKryo(),
                         initialGameState);
         this.selfPlayer = new Player(getSelfPlayerDto());
+        this.moveIndex = 0;
     }
 
 
@@ -72,7 +77,9 @@ public class Controller {
         moveActionDto.setPlayerId(self.getUuid());
         moveActionDto.stampNow();
         log.debug("sending MoveActionDto: " + moveActionDto);
-        client.getClient().sendTCP(moveActionDto);
+        IndexedMoveActionDto moveDTO = new IndexedMoveActionDto(moveActionDto, moveIndex++);
+        gameStateUpdater.addLocalProcessedInput(moveDTO);
+        client.getClient().sendTCP(moveDTO);
         log.debug("After changes, game state is: " + controller.getLocalState());
 
         /* Make sure to record this local state for future reconciliation. */

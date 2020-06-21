@@ -2,32 +2,25 @@ package com.marvelousbob.server.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
-import com.marvelousbob.common.network.register.dto.MoveActionDto;
+import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
+import com.marvelousbob.server.model.ServerState;
+import com.marvelousbob.server.model.actions.MoveAction;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MoveActionListener extends AbstractListener<MoveActionDto> {
+public class MoveActionListener extends AbstractListener<IndexedMoveActionDto> {
 
-    private final GameStateDto gameState;
+    private final ServerState serverState;
 
-    public MoveActionListener(GameStateDto gameState) {
-        super(MoveActionDto.class);
-        this.gameState = gameState;
+    public MoveActionListener(ServerState serverState) {
+        super(IndexedMoveActionDto.class);
+        this.serverState = serverState;
     }
 
+
     @Override
-    public void accept(Connection connection, MoveActionDto moveActionDto) {
+    public void accept(Connection connection, IndexedMoveActionDto moveActionDto) {
         log.debug("Received MoveAction: " + moveActionDto);
-        log.debug("Current GameState before changing 'dest' values: " + gameState.toString());
-        // todo: create new State and THEN update ?
-        gameState.getPlayer(moveActionDto.getPlayerId())
-                .ifPresent(p -> {
-                    log.info("Move action for player %s detected"
-                            .formatted(p.getUuid().getStringId()));
-                    p.setDestX(moveActionDto.getDestX());
-                    p.setDestY(moveActionDto.getDestY());
-                });
-        connection.sendTCP(gameState);
+        serverState.addAction(new MoveAction(moveActionDto));
     }
 }

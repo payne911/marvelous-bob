@@ -2,7 +2,6 @@ package com.marvelousbob.client.network;
 
 import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Listener.LagListener;
 import com.marvelousbob.client.network.listeners.DebugListener;
 import com.marvelousbob.client.network.listeners.GameInitializerListener;
 import com.marvelousbob.client.network.listeners.GameStateListener;
@@ -10,10 +9,11 @@ import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
 import com.marvelousbob.common.network.register.dto.Dto;
-import java.net.InetAddress;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+
+import java.net.InetAddress;
 
 @Getter
 public class MyClient {
@@ -40,8 +40,9 @@ public class MyClient {
         register.registerClasses(Dto.class);
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob, client));
-        client.addListener(new LagListener(0, 0,
-                new GameStateListener())); // todo: keep in mind this LagListener
+        client.addListener(new GameStateListener());
+//        client.addListener(new LagListener(0, 0,
+//                new GameStateListener())); // todo: keep in mind this LagListener
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }

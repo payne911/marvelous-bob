@@ -2,41 +2,45 @@ package com.marvelousbob.server;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.esotericsoftware.kryonet.Server;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
-import com.marvelousbob.common.utils.MovementUtils;
+import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
 import com.marvelousbob.server.listeners.DebugListener;
 import com.marvelousbob.server.listeners.MoveActionListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
 import com.marvelousbob.server.listeners.PlayerDisconnectionListener;
+import com.marvelousbob.server.model.ServerState;
 import lombok.SneakyThrows;
 
 public class BobServerScreen extends ScreenAdapter {
 
+    private static final float LOOP_SPEED = 100;
+
     private final Server server;
-    private final GameStateDto mutableGameState;
+    private final ServerState serverState;
+
+    private float deltaAcc;
+
 
     public BobServerScreen(Server server) {
         this.server = server;
-        this.mutableGameState = new GameStateDto();
+        this.serverState = new ServerState();
+        this.deltaAcc = 0;
     }
 
     @Override
     public void show() {
-        mutableGameState.stampNow();
-        server.addListener(new DebugListener(server, mutableGameState));
-        server.addListener(new PlayerConnectionListener(server, mutableGameState));
-        server.addListener(new MoveActionListener(mutableGameState));
-        server.addListener(new PlayerDisconnectionListener(mutableGameState));
+        server.addListener(new DebugListener(server));
+        server.addListener(new PlayerConnectionListener(server, serverState));
+        server.addListener(new MoveActionListener(serverState));
+        server.addListener(new PlayerDisconnectionListener(serverState));
     }
 
     @Override
     @SneakyThrows
     public void render(float delta) {
-        boolean hasMoved = MovementUtils.interpolatePlayers(mutableGameState, delta);
-        if (hasMoved) {
-            mutableGameState.stampNow();
-            server.sendToAllTCP(mutableGameState);
-        }
+        deltaAcc = 0;
+        serverState.executeAll(delta);
+        IndexedGameStateDto gameState = serverState.update(delta);
+        server.sendToAllTCP(gameState);
     }
 
     @Override

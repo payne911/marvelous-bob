@@ -1,31 +1,33 @@
 package com.marvelousbob.common.network.register.dto;
 
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.Timestamped;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.IntStream;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Data
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Slf4j
-public final class GameStateDto extends IndexedDto<GameStateDto> implements Timestamped,
+public final class GameStateDto implements Dto, Timestamped,
         Comparable<GameStateDto> {
 
-    private final ConcurrentHashMap<Integer, PlayerDto> playersDtos = new ConcurrentHashMap<>(
-            GameConstant.MAX_PLAYER_AMOUNT);
+    private ConcurrentHashMap<Integer, PlayerDto> playersDtos;
+    private ConcurrentHashMap<UUID, Long> processedActionsByPlayer;
     private long timestamp;
 
-    public GameStateDto(GameStateDto dto, long index) {
-        super(dto, index);
+
+    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> players) {
+        this.playersDtos = players;
+        this.timestamp = System.currentTimeMillis();
+    }
+
+    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> playersDtos, long timestamp) {
+        this.playersDtos = playersDtos;
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -131,20 +133,5 @@ public final class GameStateDto extends IndexedDto<GameStateDto> implements Time
                 .findAny();
     }
 
-    /**
-     * To obtain a colorIndex (<b><i>not {@link UUID}</i></b>) which is free, starting from 0, and
-     * iterating through the players.
-     *
-     * @return a free colorIndex to assign to a new {@link PlayerDto}
-     * @throws MarvelousBobException when no free spot was available ({@value GameConstant#MAX_PLAYER_AMOUNT}
-     *                               players max)
-     * @see GameConstant#MAX_PLAYER_AMOUNT
-     */
-    public int getFreeId() throws MarvelousBobException {
-        return IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT)
-                .filter(id -> !playersDtos.containsKey(id))
-                .findFirst()
-                .orElseThrow(() -> new MarvelousBobException(
-                        "Could not find an available Color Index: the room must be full."));
-    }
+
 }

@@ -1,30 +1,29 @@
 package com.marvelousbob.server.listeners;
 
-import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
-import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.GameInitialization;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.PlayerConnection;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.network.register.dto.UUID;
+import com.marvelousbob.server.model.ServerState;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
+import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
 
 @Slf4j
 public class PlayerConnectionListener extends AbstractListener<PlayerConnection> {
 
     private final Server server;
-    private final GameStateDto gameStateDto;
+    private final ServerState serverState;
 
-    public PlayerConnectionListener(Server server, GameStateDto gameStateDto) {
+    public PlayerConnectionListener(Server server, ServerState serverState) {
         super(PlayerConnection.class);
         this.server = server;
-        this.gameStateDto = gameStateDto;
+        this.serverState = serverState;
     }
 
     @Override
@@ -33,13 +32,13 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnection>
         PlayerDto playerDto = new PlayerDto(uuid);
         assignRandomPosition(playerDto);
         assignRandomColorId(playerDto);
-        gameStateDto.addPlayer(playerDto);
-        server.sendToTCP(connection.getID(), new GameInitialization(gameStateDto, uuid));
+        serverState.addPlayer(playerDto);
+        server.sendToTCP(connection.getID(), serverState.getInitializationDto(uuid));
     }
 
     private void assignRandomColorId(PlayerDto playerDto) {
         try {
-            playerDto.setColorIndex(gameStateDto.getFreeId());
+            playerDto.setColorIndex(serverState.getFreeId());
         } catch (MarvelousBobException ex) {
             log.error("Could not find a free Color ID: room must be full.");
             ex.printStackTrace();

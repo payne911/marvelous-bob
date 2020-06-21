@@ -2,9 +2,16 @@ package com.marvelousbob.client.controllers;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedDto;
+import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.state.GameStateRecords;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Comparator;
+import java.util.Queue;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Logic that relates to updating the world based on current and past data.
@@ -15,6 +22,7 @@ public class GameStateUpdater {
     @Getter
     private final GameStateDto mutableCurrentLocalGameState;
     private final GameStateRecords localGameStateRecords;
+    private final Queue<IndexedMoveActionDto> dtosSent;
     private final Kryo kryo; // used for deep copies
 
     public GameStateUpdater(GameStateRecords localGameStateRecords, Kryo kryo,
@@ -24,6 +32,7 @@ public class GameStateUpdater {
 
         this.mutableCurrentLocalGameState = initialGameState;
         setUpInitialGameState(initialGameState);
+        dtosSent = new PriorityBlockingQueue<>(11, Comparator.comparingLong(IndexedDto::getIndex));
     }
 
     /**
@@ -34,17 +43,17 @@ public class GameStateUpdater {
      *
      * @param serverGameState a game state sent by the server, to be taken as the source of truth.
      */
-    public void reconcile(GameStateDto serverGameState) {
+    public void reconcile(IndexedGameStateDto serverGameState) {
         log.info("Reconciliation: before discard size = " + localGameStateRecords.getRecordSize());
-        localGameStateRecords.discardUpTo(serverGameState.getTimestamp());
+        localGameStateRecords.discardUpTo(serverGameState.getDto().getTimestamp());
         log.info("Reconciliation: after discard size = " + localGameStateRecords.getRecordSize());
 
         registerCurrentLocalState();
         log.debug("Timestamp difference between current GS and reconciled server GS: "
-                + (mutableCurrentLocalGameState.getTimestamp() - serverGameState.getTimestamp()));
+                + (mutableCurrentLocalGameState.getTimestamp() - serverGameState.getDto().getTimestamp()));
         log.debug("Starting actual reconciliation with server GS: " + serverGameState);
         // todo: interpolate each GS chronologically until reaching current state
-        mutableCurrentLocalGameState.updateFromDto(serverGameState);
+        mutableCurrentLocalGameState.updateFromDto(serverGameState.getDto());
     }
 
     /**
@@ -82,4 +91,9 @@ public class GameStateUpdater {
                 + (mutableCurrentLocalGameState.getTimestamp() - serverTimestamp));
         registerGameState(mutableCurrentLocalGameState);
     }
+
+    public void addLocalProcessedInput(IndexedMoveActionDto moveActionDto) {
+        dtosSent.offer(moveActionDto);
+    }
+
 }

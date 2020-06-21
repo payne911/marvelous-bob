@@ -37,7 +37,7 @@ public class MovementUtils {
      * @see <a href="https://github.com/libgdx/libgdx/wiki/Interpolation">libGDX Interpolation Wiki
      * Page</a>
      */
-    private static boolean interpolatePlayer(PlayerDto p, float delta) {
+    public static boolean interpolatePlayer(PlayerDto p, float delta) {
         if (wantsToMove(p)) {
             log.info("Interpolating player UUID %s with delta %f from (%f , %f) toward (%f , %f)"
                     .formatted(p.getUuid().getStringId(), delta,

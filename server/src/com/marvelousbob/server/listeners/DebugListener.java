@@ -3,17 +3,14 @@ package com.marvelousbob.server.listeners;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.Msg;
 import com.marvelousbob.common.network.register.dto.Ping;
 
 public class DebugListener implements Listener {
     private final Server server;
-    private final GameStateDto gameStateDto;
 
-    public DebugListener(Server server, GameStateDto gameStateDto) {
+    public DebugListener(Server server) {
         this.server = server;
-        this.gameStateDto = gameStateDto;
     }
 
 

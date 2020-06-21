@@ -1,9 +1,5 @@
 package com.marvelousbob.client.network.listeners;
 
-import static com.marvelousbob.client.MyGame.controller;
-import static com.marvelousbob.client.MyGame.selfColorIndex;
-import static com.marvelousbob.client.MyGame.stage;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,11 +12,14 @@ import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.GameInitialization;
+import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Objects;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
+
+import static com.marvelousbob.client.MyGame.*;
 
 
 /**
@@ -29,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * The {@link GameScreen} is never shown before this class completes the initialization.
  */
 @Slf4j
-public class GameInitializerListener extends AbstractListener<GameInitialization> {
+public class GameInitializerListener extends AbstractListener<GameInitializationDto> {
 
     /**
      * Used to call {@link Game#setScreen(Screen)}.
@@ -42,13 +41,13 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
     private final Client kryoClient;
 
     public GameInitializerListener(Game marvelousBob, Client kryoClient) {
-        super(GameInitialization.class);
+        super(GameInitializationDto.class);
         this.marvelousBob = marvelousBob;
         this.kryoClient = kryoClient;
     }
 
     @Override
-    public void accept(Connection connection, GameInitialization gameInit) {
+    public void accept(Connection connection, GameInitializationDto gameInit) {
         if (Objects.isNull(gameInit)) {
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
