@@ -55,8 +55,8 @@ public class MovementUtils {
         return false;
     }
 
-    private static boolean isBigEnoughDelta(float currX, float destX) {
-        return Math.abs(currX - destX) > SMALLEST_DELTA;
+    private static boolean isBigEnoughDelta(float curr, float dest) {
+        return Math.abs(curr - dest) > SMALLEST_DELTA;
     }
 
     private static boolean wantsToMove(PlayerDto p) {
