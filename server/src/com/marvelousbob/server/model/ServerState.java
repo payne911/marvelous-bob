@@ -2,12 +2,14 @@ package com.marvelousbob.server.model;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
-import com.marvelousbob.common.network.register.dto.*;
+import com.marvelousbob.common.network.register.dto.GameInitializationDto;
+import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedDto;
+import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
+import com.marvelousbob.common.network.register.dto.PlayerDto;
+import com.marvelousbob.common.network.register.dto.UUID;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.server.model.actions.Action;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -15,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
@@ -56,7 +60,8 @@ public class ServerState {
     public ServerState() {
         this.actions = new PriorityBlockingQueue<>();
         this.players = new ConcurrentHashMap<>();
-        this.freePlayerIds = IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT).boxed().collect(Collectors.toSet());
+        this.freePlayerIds = IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT).boxed()
+                .collect(Collectors.toSet());
         this.processedActionsByPlayer = new ConcurrentHashMap<>();
     }
 
@@ -101,12 +106,23 @@ public class ServerState {
     }
 
 
-    public IndexedGameStateDto update(float delta) {
+    public Optional<IndexedGameStateDto> update(float delta) {
 
-        players.values().forEach(p -> MovementUtils.interpolatePlayer(p, delta));
+        boolean hasMoved = players.values().stream()
+                .map(p -> MovementUtils.interpolatePlayer(p, delta))
+                .anyMatch(b -> b.equals(true));
 
-        GameStateDto gameStateDto = new GameStateDto(mapPlayerUuidToColorId(), System.currentTimeMillis());
-        return new IndexedGameStateDto(gameStateDto, index++);
+        Optional<IndexedGameStateDto> optionalIndexedGameStateDto;
+        if (hasMoved) {
+            GameStateDto gameStateDto = new GameStateDto(mapPlayerUuidToColorId(),
+                    System.currentTimeMillis());
+            optionalIndexedGameStateDto = Optional
+                    .of(new IndexedGameStateDto(gameStateDto, index++));
+        } else {
+            optionalIndexedGameStateDto = Optional.empty();
+        }
+
+        return optionalIndexedGameStateDto;
     }
 
 
@@ -129,7 +145,8 @@ public class ServerState {
      */
     public int getFreeId() {
         Integer i = freePlayerIds.stream().findAny().orElseThrow(() ->
-                new MarvelousBobException("Could not find an available Color Index: the room must be full."));
+                new MarvelousBobException(
+                        "Could not find an available Color Index: the room must be full."));
         freePlayerIds.remove(i);
         return i;
     }

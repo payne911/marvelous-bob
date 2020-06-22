@@ -2,12 +2,11 @@ package com.marvelousbob.common.network.register.dto;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.Timestamped;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 @NoArgsConstructor
@@ -20,9 +19,8 @@ public final class GameStateDto implements Dto, Timestamped,
     private long timestamp;
 
 
-    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> players) {
-        this.playersDtos = players;
-        this.timestamp = System.currentTimeMillis();
+    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> playersDtos) {
+        this(playersDtos, System.currentTimeMillis());
     }
 
     public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> playersDtos, long timestamp) {

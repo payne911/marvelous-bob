@@ -8,6 +8,7 @@ import com.marvelousbob.server.listeners.MoveActionListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
 import com.marvelousbob.server.listeners.PlayerDisconnectionListener;
 import com.marvelousbob.server.model.ServerState;
+import java.util.Optional;
 import lombok.SneakyThrows;
 
 public class BobServerScreen extends ScreenAdapter {
@@ -37,10 +38,17 @@ public class BobServerScreen extends ScreenAdapter {
     @Override
     @SneakyThrows
     public void render(float delta) {
-        deltaAcc = 0;
+
+        if (deltaAcc >= LOOP_SPEED) {
+            deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
+            // todo: execute loop
+        } else {
+            deltaAcc += delta;
+        }
+
         serverState.executeAll(delta);
-        IndexedGameStateDto gameState = serverState.update(delta);
-        server.sendToAllTCP(gameState);
+        Optional<IndexedGameStateDto> optionalIndexedGameStateDto = serverState.update(delta);
+        optionalIndexedGameStateDto.ifPresent(server::sendToAllTCP);
     }
 
     @Override
