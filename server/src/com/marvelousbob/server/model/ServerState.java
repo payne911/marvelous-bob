@@ -98,7 +98,7 @@ public class ServerState {
 
     public Optional<IndexedGameStateDto> update(float delta) {
         boolean hasMoved = players.values().stream().reduce(
-                true,
+                false,
                 (Boolean b, PlayerDto p) -> MovementUtils.interpolatePlayer(p, delta),
                 Boolean::logicalOr);
         if (hasMoved) {
