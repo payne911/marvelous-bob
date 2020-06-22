@@ -1,6 +1,6 @@
 package com.marvelousbob.common.network.register.dto;
 
-public class IndexedGameStateDto extends IndexedDto<GameStateDto> {
+public final class IndexedGameStateDto extends IndexedDto<GameStateDto> {
     public IndexedGameStateDto() {
     }
 

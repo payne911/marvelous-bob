@@ -1,6 +1,6 @@
 package com.marvelousbob.common.network.register.dto;
 
-public class IndexedMoveActionDto extends IndexedDto<MoveActionDto> {
+public final class IndexedMoveActionDto extends IndexedDto<MoveActionDto> {
     public IndexedMoveActionDto() {
     }
 
