@@ -3,6 +3,7 @@ package com.marvelousbob.common.utils;
 import com.badlogic.gdx.math.Interpolation;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,9 +26,20 @@ public class MovementUtils {
      * @return {@code true} only if at least one movement occurred.
      */
     public static boolean interpolatePlayers(GameStateDto game, float delta) {
-        return game.getPlayersDtos().values().stream()
-                .map(p -> interpolatePlayer(p, delta))
-                .anyMatch(b -> b.equals(true));
+        return interpolatePlayers(game.getPlayersDtos().values(), delta);
+    }
+
+    /**
+     * @param players collection of players to interpolate
+     * @param delta   amount of time to be used for the interpolation.
+     * @return {@code true} only if at least one movement occurred.
+     */
+    public static boolean interpolatePlayers(Collection<PlayerDto> players, float delta) {
+        boolean hasMoved = false;
+        for (PlayerDto p : players) {
+            hasMoved |= MovementUtils.interpolatePlayer(p, delta);
+        }
+        return hasMoved;
     }
 
     /**

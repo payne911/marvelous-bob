@@ -2,12 +2,14 @@ package com.marvelousbob.server.model;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
-import com.marvelousbob.common.network.register.dto.*;
+import com.marvelousbob.common.network.register.dto.GameInitializationDto;
+import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedDto;
+import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
+import com.marvelousbob.common.network.register.dto.PlayerDto;
+import com.marvelousbob.common.network.register.dto.UUID;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.server.model.actions.Action;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -15,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
@@ -24,7 +28,6 @@ public class ServerState {
      * Index for the incremental game states
      */
     private long index;
-
 
 
     /**
@@ -97,12 +100,10 @@ public class ServerState {
 
 
     public Optional<IndexedGameStateDto> update(float delta) {
-        boolean hasMoved = players.values().stream().reduce(
-                false,
-                (Boolean b, PlayerDto p) -> MovementUtils.interpolatePlayer(p, delta),
-                Boolean::logicalOr);
+        boolean hasMoved = MovementUtils.interpolatePlayers(players.values(), delta);
         if (hasMoved) {
-            GameStateDto gameStateDto = new GameStateDto(mapPlayerUuidToColorId(), System.currentTimeMillis());
+            GameStateDto gameStateDto = new GameStateDto(mapPlayerUuidToColorId(),
+                    System.currentTimeMillis());
             return Optional.of(new IndexedGameStateDto(gameStateDto, index++));
         }
         return Optional.empty();
