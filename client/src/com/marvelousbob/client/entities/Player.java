@@ -1,11 +1,12 @@
 package com.marvelousbob.client.entities;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.network.register.dto.UUID;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
  * Container of the visual representation of a {@link PlayerDto}. Call {@link
@@ -13,13 +14,17 @@ import lombok.extern.slf4j.Slf4j;
  * `GameScreen` and call `updateFromDto` accordingly
  */
 @Slf4j
-public class Player extends Stack implements Identifiable {
+public class Player implements Identifiable, Drawable {
+
+    @Getter
+    private PlayerDto playerDto;
 
     @Getter
     private final UUID uuid;
 
     public Player(PlayerDto playerDto) {
         this.uuid = playerDto.getUuid();
+        this.playerDto = playerDto;
         updateFromDto(playerDto);
 
 //        // UI stuff should run on UI thread
@@ -46,9 +51,9 @@ public class Player extends Stack implements Identifiable {
     }
 
     public void updateFromDto(PlayerDto input) {
-        setSize(input.getSize(), input.getSize());
-        setX(input.getCurrX());
-        setY(input.getCurrY());
+//        setSize(input.getSize(), input.getSize());
+//        setX(input.getCurrX());
+//        setY(input.getCurrY());
     }
 
     @Override
@@ -59,5 +64,10 @@ public class Player extends Stack implements Identifiable {
     @Override
     public boolean isEquals(UUID other) {
         return uuid.equals(other);
+    }
+
+    @Override
+    public void drawMe(ShapeDrawer shapeDrawer) {
+        shapeDrawer.setColor(GameConstant.playerColors.get(playerDto.getColorIndex()));
     }
 }

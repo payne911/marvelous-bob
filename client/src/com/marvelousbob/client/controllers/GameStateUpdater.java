@@ -6,12 +6,11 @@ import com.marvelousbob.common.network.register.dto.IndexedDto;
 import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
 import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.state.GameStateRecords;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Comparator;
 import java.util.Queue;
 import java.util.concurrent.PriorityBlockingQueue;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Logic that relates to updating the world based on current and past data.
@@ -50,9 +49,11 @@ public class GameStateUpdater {
 
         registerCurrentLocalState();
         log.debug("Timestamp difference between current GS and reconciled server GS: "
-                + (mutableCurrentLocalGameState.getTimestamp() - serverGameState.getDto().getTimestamp()));
-        log.debug("Starting actual reconciliation with server GS: " + serverGameState);
+                + (mutableCurrentLocalGameState.getTimestamp() - serverGameState.getDto()
+                .getTimestamp()));
+
         // todo: interpolate each GS chronologically until reaching current state
+        log.debug("Starting actual reconciliation with server GS: " + serverGameState);
         mutableCurrentLocalGameState.updateFromDto(serverGameState.getDto());
     }
 

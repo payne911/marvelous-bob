@@ -27,6 +27,9 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
         stampNow();
     }
 
+    /**
+     * Copies data from the input into the object which calls the function.
+     */
     public void updateFromDto(PlayerDto otherPlayerDto) {
         if (!isSameColor(otherPlayerDto)) { // todo: what about different UUID case?
             throw new MarvelousBobException(

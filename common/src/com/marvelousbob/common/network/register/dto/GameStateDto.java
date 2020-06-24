@@ -78,10 +78,13 @@ public final class GameStateDto implements Dto, Timestamped,
         return true; // if there are no players, it's the same state
     }
 
-    public void updateFromDto(GameStateDto inputDto) {
-        compareAndRemoveDisconnectedPlayers(inputDto);
+    /**
+     * Copies data from the input into the object which calls the function.
+     */
+    public void updateFromDto(GameStateDto otherGameStateDto) {
+        compareAndRemoveDisconnectedPlayers(otherGameStateDto);
 
-        for (var inputEntry : inputDto.playersDtos.entrySet()) {
+        for (var inputEntry : otherGameStateDto.playersDtos.entrySet()) {
             if (!playersDtos.containsKey(inputEntry.getKey())) { // checking if there's new player
                 addPlayer(inputEntry.getValue()); // todo: should this be a deep copy?
             }
