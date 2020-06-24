@@ -1,7 +1,11 @@
 package com.marvelousbob.client.controllers;
 
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.controller;
+
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.client.MyGame;
+import com.marvelousbob.client.entities.MeleePlayer;
 import com.marvelousbob.client.entities.Player;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
@@ -11,9 +15,6 @@ import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.state.GameStateRecords;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.marvelousbob.client.MyGame.client;
-import static com.marvelousbob.client.MyGame.controller;
 
 
 @Slf4j
@@ -49,7 +50,7 @@ public class Controller {
         this.gameStateUpdater =
                 new GameStateUpdater(new GameStateRecords(), kryoClient.getKryo(),
                         initialGameState);
-        this.selfPlayer = new Player(getSelfPlayerDto());
+        this.selfPlayer = new MeleePlayer(getSelfPlayerDto());
         this.moveIndex = 0;
     }
 

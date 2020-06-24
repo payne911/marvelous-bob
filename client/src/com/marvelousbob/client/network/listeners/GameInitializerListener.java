@@ -1,5 +1,9 @@
 package com.marvelousbob.client.network.listeners;
 
+import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.selfColorIndex;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -8,18 +12,16 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.client.controllers.Controller;
+import com.marvelousbob.client.entities.GameWorld;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Objects;
 import java.util.Optional;
-
-import static com.marvelousbob.client.MyGame.*;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -69,6 +71,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
         // draw screen
-        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen()));
+        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(new GameWorld())));
     }
 }

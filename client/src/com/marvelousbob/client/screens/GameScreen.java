@@ -9,6 +9,7 @@ import static com.marvelousbob.client.MyGame.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.marvelousbob.client.entities.GameWorld;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import com.marvelousbob.common.utils.MovementUtils;
@@ -22,8 +23,13 @@ import com.marvelousbob.common.utils.MovementUtils;
  */
 public class GameScreen extends ScreenAdapter {
 
+    private final GameWorld gameWorld;
     private final ParticleEffect effect = new ParticleEffect();
-    private final static float PARTICLE_EFFECT_SCALE = .5f;
+    private static final float PARTICLE_EFFECT_SCALE = .5f;
+
+    public GameScreen(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
 
     @Override
     public void show() {
