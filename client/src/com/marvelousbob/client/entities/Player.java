@@ -14,7 +14,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
  * `GameScreen` and call `updateFromDto` accordingly
  */
 @Slf4j
-public class Player implements Identifiable, Drawable {
+public abstract class Player implements Identifiable, Drawable {
 
     @Getter
     private PlayerDto playerDto;

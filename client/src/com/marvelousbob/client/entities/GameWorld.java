@@ -13,7 +13,7 @@ public class GameWorld {
     private final Intersector intersector = new Intersector();
     private Level level;
 
-    public void generateLevel(List<Player> players) {
+    public void generateLevel() {
         Base base = new Base(
                 new Rectangle(GameConstant.sizeX / 2f, GameConstant.sizeY / 2f, 50, 50));
 
@@ -22,7 +22,6 @@ public class GameWorld {
         walls.add(new Wall(new Rectangle(70, 150, 2, 100)));
         walls.add(new Wall(new Rectangle(170, 360, 30, 2)));
 
-        Level newLevel = new Level(intersector, base, walls);
-        newLevel.setPlayers(players);
+        level = new Level(intersector, base, walls);
     }
 }
