@@ -5,17 +5,17 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-public class SimpleRoundEnnemy extends Ennemy {
+public class SimpleRoundEnemy extends Enemy {
 
     private Circle circle;
     private Color color;
 
-    public SimpleRoundEnnemy(Circle circle, Color color) {
+    public SimpleRoundEnemy(Circle circle, Color color) {
         this.circle = circle;
         this.color = color;
     }
 
-    public SimpleRoundEnnemy(Vector2 center, float radius, Color color) {
+    public SimpleRoundEnemy(Vector2 center, float radius, Color color) {
         this(new Circle(center, radius), color);
     }
 

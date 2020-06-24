@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-public abstract class Ennemy implements Drawable {
+public abstract class Enemy implements Drawable {
     @Getter
     @Setter
     protected float health;
