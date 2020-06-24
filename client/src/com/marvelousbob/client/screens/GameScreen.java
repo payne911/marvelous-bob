@@ -25,7 +25,7 @@ public class GameScreen extends ScreenAdapter {
 
     private final GameWorld gameWorld;
     private final ParticleEffect effect = new ParticleEffect();
-    private final static float PARTICLE_EFFECT_SCALE = .5f;
+    private static final float PARTICLE_EFFECT_SCALE = .5f;
 
     public GameScreen(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
