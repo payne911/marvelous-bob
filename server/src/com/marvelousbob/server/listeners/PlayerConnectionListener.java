@@ -1,5 +1,8 @@
 package com.marvelousbob.server.listeners;
 
+import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
+import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
@@ -7,12 +10,9 @@ import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.PlayerConnection;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.network.register.dto.UUID;
+import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
-import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
 
 @Slf4j
 public class PlayerConnectionListener extends AbstractListener<PlayerConnection> {
@@ -28,7 +28,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnection>
 
     @Override
     public void accept(Connection connection, PlayerConnection playerConnection) {
-        UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.getNext();
         PlayerDto playerDto = new PlayerDto(uuid);
         assignRandomPosition(playerDto);
         assignRandomColorId(playerDto);

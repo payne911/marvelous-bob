@@ -1,7 +1,7 @@
 package com.marvelousbob.server.model.actions;
 
 import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
-import com.marvelousbob.common.network.register.dto.UUID;
+import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,8 +40,8 @@ public class MoveAction implements Action {
     public void execute(final ServerState serverState, final float delta) {
         serverState.getPlayer(playerId)
                 .ifPresent(p -> {
-                    log.info("Move action for player %s detected"
-                            .formatted(p.getUuid().getStringId()));
+                    log.info("Move action for player %d detected"
+                            .formatted(p.getUuid().getId()));
                     p.setDestX(deltaX);
                     p.setDestY(deltaY);
                 });

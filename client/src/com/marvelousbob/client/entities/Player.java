@@ -3,7 +3,7 @@ package com.marvelousbob.client.entities;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.network.register.dto.UUID;
+import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -26,44 +26,9 @@ public abstract class Player implements Identifiable, Drawable {
         this.uuid = playerDto.getUuid();
         this.playerDto = playerDto;
         updateFromDto(playerDto);
-
-//        // UI stuff should run on UI thread
-//        Gdx.app.postRunnable(() -> {
-//
-//            setSize(playerDto.getSize());
-//
-//            Image image = new Image(new Texture("kenney/platformercharacters/PNG/Adventurer/Poses/adventurer_stand.png"));
-//            image.setScaling(Scaling.fillY);
-//            image.setColor(GameConstant.playerColors.get(playerDto.getColorIndex()));
-//            addActor(image);
-//
-//            Label label = new Label(String.valueOf(playerDto.getColorIndex()), skin);
-//            label.setTouchable(Touchable.disabled);
-//            label.setOrigin(Align.center);
-//            label.setAlignment(Align.center);
-//            label.setFontScale(2);
-//            label.setColor(GameConstant.playerColors.get(playerDto.getColorIndex()));
-//            addActor(label);
-//
-//            setDebug(true);
-//        });
-//        MyGame.stage.addActor(this);
     }
 
     public void updateFromDto(PlayerDto input) {
-//        setSize(input.getSize(), input.getSize());
-//        setX(input.getCurrX());
-//        setY(input.getCurrY());
-    }
-
-    @Override
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    @Override
-    public boolean isEquals(UUID other) {
-        return uuid.equals(other);
     }
 
     @Override

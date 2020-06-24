@@ -7,8 +7,8 @@ import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.IndexedDto;
 import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.network.register.dto.UUID;
 import com.marvelousbob.common.utils.MovementUtils;
+import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
 import java.util.Optional;
 import java.util.Queue;
@@ -82,7 +82,7 @@ public class ServerState {
         var iterator = players.entrySet().iterator();
         while (iterator.hasNext()) {
             UUID entryUuid = iterator.next().getValue().getUuid();
-            if (entryUuid.getStringId().equals(uuid.getStringId())) {
+            if (entryUuid.equals(uuid)) {
                 iterator.remove();
                 break;
             }

@@ -3,6 +3,7 @@ package com.marvelousbob.common.network.register.dto;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.Timestamped;
+import com.marvelousbob.common.utils.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -60,7 +61,7 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
     }
 
     private boolean isSameUuid(PlayerDto otherPlayerDto) {
-        return uuid.getStringId().equals(otherPlayerDto.getUuid().getStringId());
+        return uuid.equals(otherPlayerDto.getUuid());
     }
 
     public boolean isSameColorButDifferentPlayer(PlayerDto other) {
@@ -101,6 +102,6 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
 
     @Override
     public int hashCode() {
-        return uuid.getStringId().hashCode();
+        return uuid.hashCode();
     }
 }

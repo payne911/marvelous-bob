@@ -2,6 +2,7 @@ package com.marvelousbob.common.network.register.dto;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.Timestamped;
+import com.marvelousbob.common.utils.UUID;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
@@ -14,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public final class GameStateDto implements Dto, Timestamped,
         Comparable<GameStateDto> {
 
-    private ConcurrentHashMap<Integer, PlayerDto> playersDtos;
+    private ConcurrentHashMap<Integer, PlayerDto> playersDtos; // todo: use UUID/Long instead?
+    private ConcurrentHashMap<Integer, EnemyDto> enemiesDtos;
     private ConcurrentHashMap<UUID, Long> processedActionsByPlayer;
     private long timestamp;
 
@@ -103,7 +105,7 @@ public final class GameStateDto implements Dto, Timestamped,
         var iterator = playersDtos.entrySet().iterator();
         while (iterator.hasNext()) {
             UUID entryUuid = iterator.next().getValue().getUuid();
-            if (entryUuid.getStringId().equals(uuid.getStringId())) {
+            if (entryUuid.equals(uuid)) {
                 iterator.remove();
                 break;
             }
@@ -130,7 +132,7 @@ public final class GameStateDto implements Dto, Timestamped,
 
     public Optional<PlayerDto> getPlayer(UUID uuid) {
         return playersDtos.values().stream()
-                .filter(p -> p.getUuid().getStringId().equals(uuid.getStringId()))
+                .filter(p -> p.getUuid().equals(uuid))
                 .findAny();
     }
 

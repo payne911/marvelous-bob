@@ -1,7 +1,7 @@
 package com.marvelousbob.server.model.actions;
 
 import com.marvelousbob.common.network.register.Timestamped;
-import com.marvelousbob.common.network.register.dto.UUID;
+import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 
 public interface Action extends Timestamped, Comparable<Action> {
