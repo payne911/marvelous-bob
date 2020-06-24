@@ -11,6 +11,14 @@ public class Wall implements Drawable {
     private Rectangle rectangle;
     private Color color;
 
+    public Wall(float blX, float blY, float width, float height, Color color) {
+        this(new Rectangle(blX, blY, width, height), color);
+    }
+
+    public Wall(float blX, float blY, float width, float height) {
+        this(new Rectangle(blX, blY, width, height), Color.BLACK);
+    }
+
     public Wall(Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.color = color;
