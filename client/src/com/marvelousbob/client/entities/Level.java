@@ -1,15 +1,11 @@
 package com.marvelousbob.client.entities;
 
-import com.badlogic.gdx.math.Intersector;
+import java.util.List;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.util.List;
-
 @Data
 public class Level implements Drawable {
-
-    private final Intersector intersector;
 
     private final List<Base> base;
     private final List<EnemySpawnPoint> enemySpawnPoints;

@@ -1,16 +1,20 @@
 package com.marvelousbob.client.entities;
 
-import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.client.LocalGameState;
 import com.marvelousbob.common.network.constants.GameConstant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
-public class GameWorld {
+public class GameWorld implements Drawable {
 
-    private final Intersector intersector = new Intersector();
+    private final ShapeDrawer shapeDrawer;
+    private LocalGameState localGameState;
     private Level level;
 
     public void generateLevel() {
@@ -22,6 +26,16 @@ public class GameWorld {
         walls.add(new Wall(new Rectangle(70, 150, 2, 100)));
         walls.add(new Wall(new Rectangle(170, 360, 30, 2)));
 
-        level = new Level(intersector, base, walls);
+        List<EnemySpawnPoint> enemySpawnPoints = new ArrayList<>();
+        enemySpawnPoints.add(EnemySpawnPoint.starShaped(new Vector2(70, 70), 15, Color.PINK));
+        enemySpawnPoints.add(EnemySpawnPoint.starShaped(new Vector2(270, 270), 15, Color.PINK));
+
+        level = new Level(List.of(base), enemySpawnPoints, walls);
+    }
+
+    @Override
+    public void drawMe(ShapeDrawer shapeDrawer) {
+        level.drawMe(shapeDrawer);
+        localGameState.drawMe(shapeDrawer);
     }
 }
