@@ -9,8 +9,9 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Data
 public class Level implements Drawable {
 
-    private Intersector intersector = new Intersector();
-    private List<Wall> walls = new ArrayList<>();
+    private final Intersector intersector;
+    private final Base base;
+    private final List<Wall> walls;
     private List<Player> players = new ArrayList<>();
 
     @Override
