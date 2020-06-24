@@ -53,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
                     shapeDrawer.setColor(GameConstant.playerColors.get(colorIndex));
                     shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
                 });
+        gameWorld.drawMe(shapeDrawer);
         effect.draw(shapeDrawer.getBatch(), delta);
         batch.end();
 
