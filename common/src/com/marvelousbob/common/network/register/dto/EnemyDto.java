@@ -1,5 +1,5 @@
 package com.marvelousbob.common.network.register.dto;
 
-public class EnnemyDto implements Dto {
+public class EnemyDto implements Dto {
 
 }
