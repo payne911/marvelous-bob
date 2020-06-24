@@ -51,8 +51,8 @@ public class MovementUtils {
      */
     public static boolean interpolatePlayer(PlayerDto p, float delta) {
         if (wantsToMove(p)) {
-            log.info("Interpolating player UUID %s with delta %f from (%f , %f) toward (%f , %f)"
-                    .formatted(p.getUuid().getStringId(), delta,
+            log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
+                    .formatted(p.getUuid().getId(), delta,
                             p.getCurrX(), p.getCurrY(), p.getDestX(), p.getDestY()));
 
             p.setCurrX(isBigEnoughDelta(p.getCurrX(), p.getDestX())
