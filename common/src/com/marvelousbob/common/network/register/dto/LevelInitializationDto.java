@@ -11,6 +11,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public final class LevelInitializationDto implements Dto {
     public ArrayList<WallDto> walls;
-    public ArrayList<BaseDto> bases;
+    public ArrayList<PlayersBaseDto> bases;
     public ArrayList<SpawnPointDto> spawnPointDtos;
 }

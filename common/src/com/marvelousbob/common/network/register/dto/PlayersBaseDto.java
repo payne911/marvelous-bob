@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public final class SpawnPointDto implements Dto {
-    public float x, y, size, r, g, b, a;
+public class PlayersBaseDto implements Dto {
+    public float x, y, width, height;
 }
