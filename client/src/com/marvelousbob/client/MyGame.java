@@ -21,7 +21,6 @@ public final class MyGame {
     public static final String GAME_TITLE = "Marvelous Bob";
 
     /* Player. */
-    public static int selfColorIndex;
     public static MyClient client;
     public static Controller controller;
 

@@ -125,4 +125,15 @@ public final class GameStateDto implements Dto, Timestamped,
     public Optional<PlayerDto> getPlayer(UUID uuid) {
         return Optional.ofNullable(playersDtos.get(uuid));
     }
+
+    /**
+     * @deprecated This method is slower than another alternative. Consider using
+     * `MyGame.controller.getSelfPlayer().getUuid()` instead.
+     */
+    @Deprecated
+    public Optional<PlayerDto> findPlayerUsingColorIndex(int colorIndex) {
+        return playersDtos.values().stream()
+                .filter(p -> p.getColorIndex() == colorIndex)
+                .findAny();
+    }
 }

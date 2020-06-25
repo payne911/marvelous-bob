@@ -4,7 +4,6 @@ import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.controller;
 
 import com.esotericsoftware.kryonet.Client;
-import com.marvelousbob.client.MyGame;
 import com.marvelousbob.client.entities.MeleePlayer;
 import com.marvelousbob.client.entities.Player;
 import com.marvelousbob.common.model.MarvelousBobException;
@@ -102,7 +101,8 @@ public class Controller {
     }
 
     public PlayerDto getSelfPlayerDto() {
-        return gameStateUpdater.getMutableCurrentLocalGameState().getPlayer(MyGame.selfColorIndex)
+        return gameStateUpdater.getMutableCurrentLocalGameState()
+                .getPlayer(selfPlayer.getUuid())
                 .orElseThrow(() -> new MarvelousBobException(
                         "Illegal State: could not find the PlayerDto associated with yourself (your client)."));
     }

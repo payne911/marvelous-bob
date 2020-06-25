@@ -1,5 +1,8 @@
 package com.marvelousbob.client.network.listeners;
 
+import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,12 +19,9 @@ import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Objects;
 import java.util.Optional;
-
-import static com.marvelousbob.client.MyGame.*;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -61,7 +61,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException(
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
-        selfColorIndex = selfPlayerDto.get().getColorIndex();
         controller = new Controller(kryoClient, gameInit.getFirstGameStateDto());
 
         // processors
