@@ -8,8 +8,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Data
 public class Wall implements Drawable {
 
-    private Rectangle rectangle;
-    private Color color;
+    private final Rectangle rectangle;
+    private final Color color;
 
     public Wall(float blX, float blY, float width, float height, Color color) {
         this(new Rectangle(blX, blY, width, height), color);

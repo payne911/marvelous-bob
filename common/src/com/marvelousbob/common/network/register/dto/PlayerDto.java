@@ -4,6 +4,7 @@ import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.register.Timestamped;
 import com.marvelousbob.common.utils.UUID;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PlayerDto implements Identifiable, Timestamped, Dto {
 
+    private ArrayList<BulletDto> bullets;
     private int colorIndex;
     private UUID uuid;
     private long timestamp; // todo: is that useful?
@@ -23,8 +25,16 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
     private float size = 40;
     private float currX, destX, currY, destY;
 
+    /**
+     * Calls the other constructor with an empty list of bullets.
+     */
     public PlayerDto(UUID uuid) {
+        this(uuid, new ArrayList<>());
+    }
+
+    public PlayerDto(UUID uuid, ArrayList<BulletDto> bullets) {
         this.uuid = uuid;
+        this.bullets = bullets;
         stampNow();
     }
 
@@ -32,9 +42,9 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
      * Copies data from the input into the object which calls the function.
      */
     public void updateFromDto(PlayerDto otherPlayerDto) {
-        if (!isSameColor(otherPlayerDto)) { // todo: what about different UUID case?
+        if (!isSameColorAndUuid(otherPlayerDto)) {
             throw new MarvelousBobException(
-                    "Cannot update a PlayerDto using another PlayerDto which does not have the same color.");
+                    "Cannot update a PlayerDto using non-matching UUID and colorIndex.");
         }
 
         speed = otherPlayerDto.speed;
@@ -43,28 +53,29 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
         destX = otherPlayerDto.destX;
         currY = otherPlayerDto.currY;
         destY = otherPlayerDto.destY;
+        bullets = otherPlayerDto.bullets; // todo: deep copy?
 
         stampNow();
     }
 
     /**
      * @param otherPlayerDto input compared to
-     * @return if all the values are the same, <b>excluding timestamp</b>. The <b>{@link
-     * #colorIndex} is not</b> considered because the {@link UUID} in enough for that purpose.
+     * @return if all the values are the same, <b>excluding timestamp</b>.
      */
-    public boolean hasAllMatchingFieldsExceptTimeAndColorIndex(PlayerDto otherPlayerDto) {
+    public boolean hasAllMatchingFieldsExceptTimestamp(PlayerDto otherPlayerDto) {
         return isSamePosition(otherPlayerDto)
-                && hasSameDestination(otherPlayerDto)
+                && isSameUuid(otherPlayerDto)
+                && isSameDestination(otherPlayerDto)
                 && isSameSpeed(otherPlayerDto)
                 && isSameSize(otherPlayerDto)
-                && isSameUuid(otherPlayerDto);
+                && isSameColor(otherPlayerDto);
     }
 
     private boolean isSameUuid(PlayerDto otherPlayerDto) {
         return uuid.equals(otherPlayerDto.getUuid());
     }
 
-    public boolean isSameColorButDifferentPlayer(PlayerDto other) {
+    public boolean isSameColorAndUuid(PlayerDto other) {
         return isSameColor(other) && isSameUuid(other);
     }
 
@@ -84,7 +95,7 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
         return colorIndex == otherPlayerDto.colorIndex;
     }
 
-    public boolean hasSameDestination(PlayerDto otherPlayerDto) {
+    public boolean isSameDestination(PlayerDto otherPlayerDto) {
         return destX == otherPlayerDto.destX && destY == otherPlayerDto.destY;
     }
 

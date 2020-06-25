@@ -21,12 +21,19 @@ public final class GameStateDto implements Dto, Timestamped,
     private long timestamp;
 
 
-    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos) {
-        this(playersDtos, System.currentTimeMillis());
+    /**
+     * Will call the other constructor with a {@code timestamp} value of {@link
+     * System#currentTimeMillis()}.
+     */
+    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos,
+            ConcurrentHashMap<UUID, EnemyDto> enemiesDtos) {
+        this(playersDtos, enemiesDtos, System.currentTimeMillis());
     }
 
-    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos, long timestamp) {
+    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos,
+            ConcurrentHashMap<UUID, EnemyDto> enemiesDtos, long timestamp) {
         this.playersDtos = playersDtos;
+        this.enemiesDtos = enemiesDtos;
         this.timestamp = timestamp;
     }
 
@@ -71,7 +78,7 @@ public final class GameStateDto implements Dto, Timestamped,
         for (var entry : inputEntries) { // checking if players match exactly
             PlayerDto inputPlayerDto = inputDto.playersDtos.get(entry.getKey());
             boolean foundMatch = playersDtos.get(inputPlayerDto.getUuid())
-                    .hasAllMatchingFieldsExceptTimeAndColorIndex(inputPlayerDto);
+                    .hasAllMatchingFieldsExceptTimestamp(inputPlayerDto);
             if (!foundMatch) {
                 return false;
             }
@@ -117,29 +124,5 @@ public final class GameStateDto implements Dto, Timestamped,
 
     public Optional<PlayerDto> getPlayer(UUID uuid) {
         return Optional.ofNullable(playersDtos.get(uuid));
-    }
-
-    /**
-     * @deprecated due to creation of a new {@link UUID}.
-     */
-    @Deprecated
-    public void removePlayer(long uuid) {
-        removePlayer(new UUID(uuid));
-    }
-
-    /**
-     * @deprecated due to creation of a new {@link UUID}.
-     */
-    @Deprecated
-    public Optional<PlayerDto> getPlayer(long uuid) {
-        return getPlayer(new UUID(uuid));
-    }
-
-    /**
-     * @deprecated due to creation of a new {@link UUID}.
-     */
-    @Deprecated
-    public boolean containsPlayerUuid(long uuid) {
-        return containsPlayerUuid(new UUID(uuid));
     }
 }

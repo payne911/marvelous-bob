@@ -2,13 +2,15 @@ package com.marvelousbob.server.model;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
-import com.marvelousbob.common.network.register.dto.*;
+import com.marvelousbob.common.network.register.dto.EnemyDto;
+import com.marvelousbob.common.network.register.dto.GameInitializationDto;
+import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.IndexedDto;
+import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
+import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -16,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Data
@@ -37,6 +41,11 @@ public class ServerState {
      * All players registered for this game
      */
     private ConcurrentHashMap<UUID, PlayerDto> players;
+
+    /**
+     * All enemies currently alive in the game
+     */
+    private ConcurrentHashMap<UUID, EnemyDto> enemies;
 
 
     /**
@@ -99,7 +108,7 @@ public class ServerState {
     public Optional<IndexedGameStateDto> update(float delta) {
         boolean hasMoved = MovementUtils.interpolatePlayers(players.values(), delta);
         if (hasMoved) {
-            GameStateDto gameStateDto = new GameStateDto(players, System.currentTimeMillis());
+            var gameStateDto = new GameStateDto(players, enemies, System.currentTimeMillis());
             return Optional.of(new IndexedGameStateDto(gameStateDto, index++));
         }
         return Optional.empty();
@@ -108,7 +117,7 @@ public class ServerState {
 
     public GameInitializationDto getInitializationDto(UUID playerUuid) {
         GameInitializationDto gameInit = new GameInitializationDto();
-        GameStateDto gameState = new GameStateDto(players);
+        GameStateDto gameState = new GameStateDto(players, enemies);
         gameInit.setFirstGameStateDto(gameState);
         gameInit.setCurrentPlayerId(playerUuid);
 //        gameInit.setFirstLevel();
