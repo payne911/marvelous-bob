@@ -44,12 +44,12 @@ public class Controller {
     private long moveIndex;
 
 
-    public Controller(Client kryoClient, GameStateDto initialGameState) {
+    public Controller(Client kryoClient, GameStateDto initialGameState, PlayerDto initPlayerDto) {
         this.kryoClient = kryoClient;
         this.gameStateUpdater =
                 new GameStateUpdater(new GameStateRecords(), kryoClient.getKryo(),
                         initialGameState);
-        this.selfPlayer = new MeleePlayer(getSelfPlayerDto());
+        this.selfPlayer = new MeleePlayer(initPlayerDto);
         this.moveIndex = 0;
     }
 

@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
 import com.marvelousbob.common.network.register.dto.Dto;
+import java.util.Objects;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,14 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 public class BobServerGame extends Game {
 
     private final Server server;
-    private final BobServerScreen screen;
+    private final BobServerScreen serverScreen;
     private final Register register;
 
     @SneakyThrows
     public BobServerGame() {
         this.server = new Server();
         this.register = new Register(server);
-        this.screen = new BobServerScreen(server);
+        this.serverScreen = new BobServerScreen(server);
     }
 
     @Override
@@ -30,12 +31,13 @@ public class BobServerGame extends Game {
         server.bind(NetworkConstants.PORT);
         server.start();
         log.info("SERVER STARTED!!!");
-        setScreen(screen);
+        setScreen(serverScreen);
     }
 
     @Override
     public void dispose() {
-        super.dispose();
-        screen.dispose();
+        if (Objects.nonNull(getScreen())) {
+            getScreen().dispose();
+        }
     }
 }

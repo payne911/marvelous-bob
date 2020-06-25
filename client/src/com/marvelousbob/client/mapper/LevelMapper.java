@@ -6,7 +6,7 @@ import com.marvelousbob.client.entities.EnemySpawnPoint;
 import com.marvelousbob.client.entities.Level;
 import com.marvelousbob.client.entities.PlayersBase;
 import com.marvelousbob.client.entities.Wall;
-import com.marvelousbob.common.network.register.dto.LevelInitializationDto;
+import com.marvelousbob.common.network.register.dto.NewLevelDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.network.register.dto.WallDto;
@@ -14,18 +14,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LevelMapper {
-    public Level toLevel(LevelInitializationDto levelInitializationDto) {
-        List<Wall> walls = levelInitializationDto.walls.stream()
+
+    public Level toLevel(NewLevelDto newLevelDto) {
+        List<Wall> walls = newLevelDto.walls.stream()
                 .map(this::toWall).collect(Collectors.toList());
-        List<EnemySpawnPoint> spawnPoints = levelInitializationDto.spawnPointDtos.stream()
+        List<EnemySpawnPoint> spawnPoints = newLevelDto.spawnPointDtos.stream()
                 .map(this::toSpawnPoint).collect(Collectors.toList());
-        List<PlayersBase> bases = levelInitializationDto.bases.stream()
+        List<PlayersBase> bases = newLevelDto.bases.stream()
                 .map(this::toBase).collect(Collectors.toList());
         return new Level(bases, spawnPoints, walls);
     }
 
     private PlayersBase toBase(PlayersBaseDto playersBaseDto) {
-        return new PlayersBase(playersBaseDto.x, playersBaseDto.y, playersBaseDto.width, playersBaseDto.height);
+        return new PlayersBase(playersBaseDto.x, playersBaseDto.y, playersBaseDto.width,
+                playersBaseDto.height);
     }
 
     private EnemySpawnPoint toSpawnPoint(SpawnPointDto spawnPointDto) {

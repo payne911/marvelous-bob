@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public final class GameInitializationDto implements Dto {
     private UUID currentPlayerId;
     private GameStateDto firstGameStateDto;
-    private LevelInitializationDto firstLevel;
+    private NewLevelDto firstLevel;
 }

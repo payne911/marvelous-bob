@@ -1,5 +1,14 @@
 package com.marvelousbob.client;
 
+import static com.marvelousbob.client.MyGame.GAME_TITLE;
+import static com.marvelousbob.client.MyGame.batch;
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.font;
+import static com.marvelousbob.client.MyGame.root;
+import static com.marvelousbob.client.MyGame.shapeDrawer;
+import static com.marvelousbob.client.MyGame.skin;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,14 +22,11 @@ import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.register.dto.PlayerConnection;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import java.util.Objects;
-
-import static com.marvelousbob.client.MyGame.*;
 
 
 /**
@@ -33,6 +39,7 @@ public class MarvelousBob extends Game {
     /* Splash Screen. */
     @Setter
     private ISplashWorker splashWorker;
+
     @Getter
     private GameScreen gameScreen;
 

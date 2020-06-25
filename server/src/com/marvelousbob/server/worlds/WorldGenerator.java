@@ -1,9 +1,9 @@
 package com.marvelousbob.server.worlds;
 
-import com.marvelousbob.common.network.register.dto.LevelInitializationDto;
+import com.marvelousbob.common.network.register.dto.NewLevelDto;
 
 public interface WorldGenerator {
 
-    LevelInitializationDto getWorld();
+    NewLevelDto getWorld();
 
 }

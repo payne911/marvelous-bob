@@ -64,19 +64,27 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException(
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
-        controller = new Controller(kryoClient, gameInit.getFirstGameStateDto());
 
-        // processors
+        /* Input processors. */
         MyGestureListener inputProcessor1 = new MyGestureListener(stage.getCamera(), controller);
         MyInputProcessor inputProcessor2 = new MyInputProcessor(stage.getCamera(), controller);
         Gdx.input.setInputProcessor(
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
+        logicAfterPriorChecks(gameInit, selfPlayerDto.get());
+    }
+
+    /**
+     * After all the validation is done, this is called.
+     */
+    private void logicAfterPriorChecks(GameInitializationDto gameInit, PlayerDto selfPlayerDto) {
+        controller = new Controller(kryoClient, gameInit.getFirstGameStateDto(), selfPlayerDto);
+
         GameWorld gameWorld = new GameWorld();
         gameWorld.setLevel(levelMapper.toLevel(gameInit.getFirstLevel()));
 //        gameWorld.setLocalGameState(); todo
 
-        // draw screen
+        /* Draw the screen to start the game. */
         Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(gameWorld)));
     }
 }

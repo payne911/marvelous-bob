@@ -1,5 +1,11 @@
 package com.marvelousbob.client.screens;
 
+import static com.marvelousbob.client.MyGame.batch;
+import static com.marvelousbob.client.MyGame.client;
+import static com.marvelousbob.client.MyGame.controller;
+import static com.marvelousbob.client.MyGame.shapeDrawer;
+import static com.marvelousbob.client.MyGame.stage;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -8,8 +14,6 @@ import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import com.marvelousbob.common.utils.MovementUtils;
 import lombok.Getter;
-
-import static com.marvelousbob.client.MyGame.*;
 
 /**
  * Class where all the core game's stuff happens. All our logic goes in here, and it'll be the job
@@ -81,7 +85,7 @@ public class GameScreen extends ScreenAdapter {
     public void dispose() {
         // anything to dispose?
         client.getClient()
-                .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayerDto().getUuid()));
+                .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayer().getUuid()));
         effect.dispose();
     }
 }
