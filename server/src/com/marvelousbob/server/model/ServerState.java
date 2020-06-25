@@ -6,6 +6,8 @@ import com.marvelousbob.common.network.register.dto.*;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
+import com.marvelousbob.server.worlds.StaticSimpleWorldGenerator;
+import com.marvelousbob.server.worlds.WorldGenerator;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +47,9 @@ public class ServerState {
     private Set<Integer> freePlayerColorIds;
 
 
+    private WorldGenerator worldGenerator;
+
+
     private ConcurrentHashMap<UUID, Long> processedActionsByPlayer;
 
 
@@ -54,6 +59,7 @@ public class ServerState {
         this.freePlayerColorIds = IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT).boxed()
                 .collect(Collectors.toSet());
         this.processedActionsByPlayer = new ConcurrentHashMap<>();
+        worldGenerator = new StaticSimpleWorldGenerator();
     }
 
 
@@ -111,7 +117,7 @@ public class ServerState {
         GameStateDto gameState = new GameStateDto(players);
         gameInit.setFirstGameStateDto(gameState);
         gameInit.setCurrentPlayerId(playerUuid);
-//        gameInit.setFirstLevel();
+        gameInit.setFirstLevel(worldGenerator.getWorld());
         return gameInit;
     }
 
