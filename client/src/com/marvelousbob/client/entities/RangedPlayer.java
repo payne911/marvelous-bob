@@ -1,10 +1,9 @@
 package com.marvelousbob.client.entities;
 
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import space.earlygrey.shapedrawer.ShapeDrawer;
-
 import java.util.HashSet;
 import java.util.Set;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class RangedPlayer extends Player {
 
@@ -21,5 +20,9 @@ public class RangedPlayer extends Player {
         super.drawMe(shapeDrawer);
     }
 
-
+    @Override
+    public void updateFromDto(PlayerDto input) {
+        super.updateFromDto(input);
+//        this.bullets = input.getBullets().stream().map(b -> new TrianglePlayerBullet()) todo
+    }
 }

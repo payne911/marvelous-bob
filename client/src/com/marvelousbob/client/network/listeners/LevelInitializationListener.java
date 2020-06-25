@@ -22,6 +22,5 @@ public class LevelInitializationListener extends AbstractListener<LevelInitializ
     public void accept(Connection conncetion, LevelInitializationDto levelDto) {
         Level level = mapper.toLevel(levelDto);
         gameWorld.setLevel(level);
-        gameWorld.setLocalGameState();
     }
 }

@@ -15,6 +15,7 @@ import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.entities.GameWorld;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
+import com.marvelousbob.client.mapper.LevelMapper;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
@@ -36,6 +37,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
      * Used to call {@link Game#setScreen(Screen)}.
      */
     private final MarvelousBob marvelousBob;
+    private final LevelMapper levelMapper;
 
     /**
      * Used by the {@link com.marvelousbob.client.controllers.GameStateUpdater} to do deep copies.
@@ -46,6 +48,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         super(GameInitializationDto.class);
         this.marvelousBob = marvelousBob;
         this.kryoClient = kryoClient;
+        this.levelMapper = new LevelMapper();
     }
 
     @Override
@@ -69,7 +72,11 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         Gdx.input.setInputProcessor(
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
+        GameWorld gameWorld = new GameWorld();
+        gameWorld.setLevel(levelMapper.toLevel(gameInit.getFirstLevel()));
+//        gameWorld.setLocalGameState(); todo
+
         // draw screen
-        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(new GameWorld())));
+        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(gameWorld)));
     }
 }

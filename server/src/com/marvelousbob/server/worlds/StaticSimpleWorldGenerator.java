@@ -1,12 +1,12 @@
 package com.marvelousbob.server.worlds;
 
-import com.badlogic.gdx.graphics.Color;
+import static com.badlogic.gdx.graphics.Color.PINK;
+
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.LevelInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.network.register.dto.WallDto;
-
 import java.util.ArrayList;
 
 public class StaticSimpleWorldGenerator implements WorldGenerator {
@@ -21,9 +21,8 @@ public class StaticSimpleWorldGenerator implements WorldGenerator {
         walls.add(new WallDto(170, 360, 30, 2));
 
         ArrayList<SpawnPointDto> enemySpawnPoints = new ArrayList<>();
-        int pink = Color.PINK.toIntBits();
-        enemySpawnPoints.add(new SpawnPointDto(70, 70, 15, pink));
-        enemySpawnPoints.add(new SpawnPointDto(270, 270, 15, pink));
+        enemySpawnPoints.add(new SpawnPointDto(70, 70, 15, PINK));
+        enemySpawnPoints.add(new SpawnPointDto(270, 270, 15, PINK));
 
         return new LevelInitializationDto(walls, bases, enemySpawnPoints);
     }

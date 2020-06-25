@@ -1,5 +1,6 @@
 package com.marvelousbob.common.network.register.dto;
 
+import com.badlogic.gdx.graphics.Color;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class SpawnPointDto implements Dto {
     public float x, y, size;
-    public int colorBits;
+    public Color colorBits;
 }

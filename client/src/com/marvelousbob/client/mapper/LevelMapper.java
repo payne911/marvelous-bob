@@ -10,7 +10,6 @@ import com.marvelousbob.common.network.register.dto.LevelInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.network.register.dto.WallDto;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +29,9 @@ public class LevelMapper {
     }
 
     private EnemySpawnPoint toSpawnPoint(SpawnPointDto spawnPointDto) {
-        // todo other shapes ?     --- OLA
-        return EnemySpawnPoint.starShaped(new Vector2(spawnPointDto.x, spawnPointDto.y), spawnPointDto.size, new Color(spawnPointDto.r, spawnPointDto.g, spawnPointDto.b, spawnPointDto.a));
+        return EnemySpawnPoint
+                .starShaped(new Vector2(spawnPointDto.x, spawnPointDto.y), spawnPointDto.size,
+                        new Color(spawnPointDto.colorBits));
     }
 
     public Wall toWall(WallDto wallDto) {

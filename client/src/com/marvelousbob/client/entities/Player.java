@@ -1,5 +1,6 @@
 package com.marvelousbob.client.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
@@ -17,7 +18,14 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public abstract class Player implements Identifiable, Drawable {
 
     @Getter
+    @Deprecated
     private PlayerDto playerDto;
+    private int colorIndex;
+    private long timestamp; // todo: is that useful?
+    private float speed = 20;
+    private float size = 40;
+    private Vector2 currentPos;
+    private Vector2 destination;
 
     @Getter
     private final UUID uuid;
@@ -29,6 +37,11 @@ public abstract class Player implements Identifiable, Drawable {
     }
 
     public void updateFromDto(PlayerDto input) {
+        this.colorIndex = input.getColorIndex();
+        this.timestamp = input.getTimestamp();
+        this.speed = input.getSpeed();
+        this.size = input.getSize();
+        this.currentPos = new Vector2(input.getCurrX(), input.getCurrY());
     }
 
     @Override

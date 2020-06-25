@@ -1,10 +1,10 @@
 package com.marvelousbob.client.entities;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
-import space.earlygrey.shapedrawer.ShapeDrawer;
-
 import java.util.Objects;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class TrianglePlayerBullet extends Bullet {
 
@@ -12,6 +12,7 @@ public class TrianglePlayerBullet extends Bullet {
      * rectangle: bottome left + width and height
      */
     private Rectangle rectangle;
+    private Vector2 direction;
     private UUID id;
 
     public TrianglePlayerBullet(Rectangle rectangle) {
