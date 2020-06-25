@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class SpawnPointDto implements Dto {
-    public float x, y, size, r, g, b, a;
+    public float x, y, size;
+    public int colorBits;
 }

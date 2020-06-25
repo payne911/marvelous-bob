@@ -7,7 +7,6 @@ import com.marvelousbob.common.network.register.dto.LevelInitializationDto;
 public class LocalGameStateMapper {
 
     public LocalGameState fromLevelInitialisation(LevelInitializationDto levelInitializationDto) {
-        levelInitializationDto.
         return null;
     }
 
