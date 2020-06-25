@@ -5,20 +5,20 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.client.LocalGameState;
 import com.marvelousbob.common.network.constants.GameConstant;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class GameWorld implements Drawable {
 
-    private final ShapeDrawer shapeDrawer;
     private LocalGameState localGameState;
     private Level level;
 
     public void generateLevel() {
-        Base base = new Base(
+        PlayersBase base = new PlayersBase(
                 new Rectangle(GameConstant.sizeX / 2f, GameConstant.sizeY / 2f, 50, 50));
 
         List<Wall> walls = new ArrayList<>();

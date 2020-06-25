@@ -6,25 +6,25 @@ import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
-public class Base implements Drawable {
+public class PlayersBase implements Drawable {
 
     private Rectangle rectangle; // todo: hexagon
     private Color color;
 
-    public Base(float blX, float blY, float width, float height, Color color) {
+    public PlayersBase(float blX, float blY, float width, float height, Color color) {
         this(new com.badlogic.gdx.math.Rectangle(blX, blY, width, height), color);
     }
 
-    public Base(float blX, float blY, float width, float height) {
+    public PlayersBase(float blX, float blY, float width, float height) {
         this(new com.badlogic.gdx.math.Rectangle(blX, blY, width, height), Color.FIREBRICK);
     }
 
-    public Base(com.badlogic.gdx.math.Rectangle rectangle, Color color) {
+    public PlayersBase(com.badlogic.gdx.math.Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.color = color;
     }
 
-    public Base(com.badlogic.gdx.math.Rectangle rectangle) {
+    public PlayersBase(com.badlogic.gdx.math.Rectangle rectangle) {
         this(rectangle, Color.FIREBRICK);
     }
 

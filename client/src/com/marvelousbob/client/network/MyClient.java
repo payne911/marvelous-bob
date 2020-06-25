@@ -1,10 +1,11 @@
 package com.marvelousbob.client.network;
 
-import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Client;
+import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.client.network.listeners.DebugListener;
 import com.marvelousbob.client.network.listeners.GameInitializerListener;
 import com.marvelousbob.client.network.listeners.GameStateListener;
+import com.marvelousbob.client.network.listeners.LevelInitializationListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
@@ -21,11 +22,11 @@ public class MyClient {
     private IncrementalAverage latencyReport;
     private final InetAddress addr;
     private final Client client;
-    private final Game marvelousBob;
+    private final MarvelousBob marvelousBob;
     private final Register register;
 
     @SneakyThrows
-    public MyClient(boolean isLocalServer, Game marvelousBob) {
+    public MyClient(boolean isLocalServer, MarvelousBob marvelousBob) {
         this.client = new Client();
         this.marvelousBob = marvelousBob;
         this.register = new Register(client);
@@ -43,6 +44,7 @@ public class MyClient {
         client.addListener(new GameStateListener());
 //        client.addListener(new LagListener(0, 0,
 //                new GameStateListener())); // todo: keep in mind this LagListener
+        client.addListener(new LevelInitializationListener(marvelousBob.getGameScreen().getGameWorld()));
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
     }

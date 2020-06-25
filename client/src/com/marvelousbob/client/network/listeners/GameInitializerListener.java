@@ -1,9 +1,5 @@
 package com.marvelousbob.client.network.listeners;
 
-import static com.marvelousbob.client.MyGame.controller;
-import static com.marvelousbob.client.MyGame.selfColorIndex;
-import static com.marvelousbob.client.MyGame.stage;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -11,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.input.GestureDetector;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
+import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.entities.GameWorld;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
@@ -19,9 +16,12 @@ import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Objects;
 import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
+
+import static com.marvelousbob.client.MyGame.*;
 
 
 /**
@@ -35,14 +35,14 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
     /**
      * Used to call {@link Game#setScreen(Screen)}.
      */
-    private final Game marvelousBob;
+    private final MarvelousBob marvelousBob;
 
     /**
      * Used by the {@link com.marvelousbob.client.controllers.GameStateUpdater} to do deep copies.
      */
     private final Client kryoClient;
 
-    public GameInitializerListener(Game marvelousBob, Client kryoClient) {
+    public GameInitializerListener(MarvelousBob marvelousBob, Client kryoClient) {
         super(GameInitializationDto.class);
         this.marvelousBob = marvelousBob;
         this.kryoClient = kryoClient;
@@ -54,7 +54,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
         log.debug("Received initial GS: " + gameInit);
-        Optional<PlayerDto> selfPlayerDto = gameInit.getGameStateDto()
+        Optional<PlayerDto> selfPlayerDto = gameInit.getFirstGameStateDto()
                 .getPlayer(gameInit.getCurrentPlayerId());
 
         if (selfPlayerDto.isEmpty() || Objects.isNull(selfPlayerDto.get().getUuid())) {
@@ -62,7 +62,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
         selfColorIndex = selfPlayerDto.get().getColorIndex();
-        controller = new Controller(kryoClient, gameInit.getGameStateDto());
+        controller = new Controller(kryoClient, gameInit.getFirstGameStateDto());
 
         // processors
         MyGestureListener inputProcessor1 = new MyGestureListener(stage.getCamera(), controller);

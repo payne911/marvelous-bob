@@ -1,13 +1,14 @@
 package com.marvelousbob.client.entities;
 
-import java.util.List;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import java.util.List;
 
 @Data
 public class Level implements Drawable {
 
-    private final List<Base> base;
+    private final List<PlayersBase> base;
     private final List<EnemySpawnPoint> enemySpawnPoints;
     private final List<Wall> walls;
 

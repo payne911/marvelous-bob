@@ -3,12 +3,12 @@ package com.marvelousbob.client;
 import com.marvelousbob.client.entities.Drawable;
 import com.marvelousbob.client.entities.Enemy;
 import com.marvelousbob.client.entities.Player;
+import space.earlygrey.shapedrawer.ShapeDrawer;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.IdentityHashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class LocalGameState implements Drawable {
 
@@ -17,7 +17,7 @@ public class LocalGameState implements Drawable {
 
     public LocalGameState() {
         this.players = new ArrayList<>();
-        this.enemies = Collections.newSetFromMap(new IdentityHashMap<>());
+        this.enemies = new HashSet<>();
     }
 
     @Override

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class GameInitializationDto implements Dto {
-    private GameStateDto gameStateDto;
     private UUID currentPlayerId;
+    private GameStateDto firstGameStateDto;
+    private LevelInitializationDto firstLevel;
 }
