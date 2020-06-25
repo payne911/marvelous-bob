@@ -18,11 +18,30 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GameStateUpdater {
 
+    private final Queue<IndexedMoveActionDto> dtosSent;
+
+    /**
+     * Initially set as the very first {@link GameStateDto} received from the server through the
+     * {@link com.marvelousbob.common.network.register.dto.GameInitializationDto#firstGameStateDto}.
+     * <p>
+     * The rendering Thread always renders this GS.
+     * <p>
+     * The {@link GameStateRecords} saves snapshots (deep copies) of this GS on every prediction.
+     */
     @Getter
     private final GameStateDto mutableCurrentLocalGameState;
+
+    /**
+     * Contains all the snapshots of local GS. Used for the reconciliation with the server.
+     *
+     * @see #reconcile(IndexedGameStateDto)
+     */
     private final GameStateRecords localGameStateRecords;
-    private final Queue<IndexedMoveActionDto> dtosSent;
-    private final Kryo kryo; // used for deep copies
+
+    /**
+     * Used for deep copies.
+     */
+    private final Kryo kryo;
 
     public GameStateUpdater(GameStateRecords localGameStateRecords, Kryo kryo,
             GameStateDto initialGameState) {
