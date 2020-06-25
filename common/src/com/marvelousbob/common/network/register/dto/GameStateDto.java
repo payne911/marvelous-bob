@@ -15,17 +15,17 @@ import lombok.extern.slf4j.Slf4j;
 public final class GameStateDto implements Dto, Timestamped,
         Comparable<GameStateDto> {
 
-    private ConcurrentHashMap<Integer, PlayerDto> playersDtos; // todo: use UUID/Long instead?
-    private ConcurrentHashMap<Integer, EnemyDto> enemiesDtos;
+    private ConcurrentHashMap<UUID, PlayerDto> playersDtos;
+    private ConcurrentHashMap<UUID, EnemyDto> enemiesDtos;
     private ConcurrentHashMap<UUID, Long> processedActionsByPlayer;
     private long timestamp;
 
 
-    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> playersDtos) {
+    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos) {
         this(playersDtos, System.currentTimeMillis());
     }
 
-    public GameStateDto(ConcurrentHashMap<Integer, PlayerDto> playersDtos, long timestamp) {
+    public GameStateDto(ConcurrentHashMap<UUID, PlayerDto> playersDtos, long timestamp) {
         this.playersDtos = playersDtos;
         this.timestamp = timestamp;
     }
@@ -36,18 +36,18 @@ public final class GameStateDto implements Dto, Timestamped,
     }
 
     public void addPlayer(PlayerDto playerDto) {
-        if (containsColor(playerDto)) {
-            log.warn("Overwriting a player who already had that colorIndex assigned in the GS.");
+        if (containsPlayerUuid(playerDto)) {
+            log.warn("Overwriting a player who already had that UUID assigned in the GS.");
         }
-        playersDtos.put(playerDto.getColorIndex(), playerDto);
+        playersDtos.put(playerDto.getUuid(), playerDto);
     }
 
-    public boolean containsColor(PlayerDto playerDto) {
-        return playersDtos.containsKey(playerDto.getColorIndex());
+    public boolean containsPlayerUuid(PlayerDto playerDto) {
+        return containsPlayerUuid(playerDto.getUuid());
     }
 
-    public boolean containsColor(Integer colorIndex) {
-        return playersDtos.containsKey(colorIndex);
+    public boolean containsPlayerUuid(UUID uuid) {
+        return playersDtos.containsKey(uuid);
     }
 
     /**
@@ -61,7 +61,7 @@ public final class GameStateDto implements Dto, Timestamped,
 
         var inputEntries = inputDto.playersDtos.entrySet();
         for (var entry : inputEntries) { // checking if all color keys are the same
-            boolean foundKey = inputDto.containsColor(entry.getKey());
+            boolean foundKey = inputDto.containsPlayerUuid(entry.getKey());
             if (!foundKey) {
                 return false;
             }
@@ -70,7 +70,7 @@ public final class GameStateDto implements Dto, Timestamped,
 
         for (var entry : inputEntries) { // checking if players match exactly
             PlayerDto inputPlayerDto = inputDto.playersDtos.get(entry.getKey());
-            boolean foundMatch = playersDtos.get(inputPlayerDto.getColorIndex())
+            boolean foundMatch = playersDtos.get(inputPlayerDto.getUuid())
                     .hasAllMatchingFieldsExceptTimeAndColorIndex(inputPlayerDto);
             if (!foundMatch) {
                 return false;
@@ -98,43 +98,48 @@ public final class GameStateDto implements Dto, Timestamped,
     }
 
     public void compareAndRemoveDisconnectedPlayers(GameStateDto inputDto) {
-        playersDtos.keySet().removeIf(colorIndex -> !inputDto.containsColor(colorIndex));
+        playersDtos.keySet().removeIf(uuid -> !inputDto.containsPlayerUuid(uuid));
     }
 
     public void removePlayer(UUID uuid) {
-        var iterator = playersDtos.entrySet().iterator();
-        while (iterator.hasNext()) {
-            UUID entryUuid = iterator.next().getValue().getUuid();
-            if (entryUuid.equals(uuid)) {
-                iterator.remove();
-                break;
-            }
-        }
-    }
-
-    public void removePlayer(int colorIndex) {
-        if (!containsColor(colorIndex)) {
+        if (!containsPlayerUuid(uuid)) {
             throw new MarvelousBobException("Trying to remove a player which isn't in the GS.");
         }
 
         var iterator = playersDtos.keySet().iterator();
         while (iterator.hasNext()) {
-            if (iterator.next() == colorIndex) {
+            if (iterator.next().equals(uuid)) {
                 iterator.remove();
                 break;
             }
         }
     }
 
-    public Optional<PlayerDto> getPlayer(int colorIndex) {
-        return Optional.ofNullable(playersDtos.get(colorIndex));
-    }
-
     public Optional<PlayerDto> getPlayer(UUID uuid) {
-        return playersDtos.values().stream()
-                .filter(p -> p.getUuid().equals(uuid))
-                .findAny();
+        return Optional.ofNullable(playersDtos.get(uuid));
     }
 
+    /**
+     * @deprecated due to creation of a new {@link UUID}.
+     */
+    @Deprecated
+    public void removePlayer(long uuid) {
+        removePlayer(new UUID(uuid));
+    }
 
+    /**
+     * @deprecated due to creation of a new {@link UUID}.
+     */
+    @Deprecated
+    public Optional<PlayerDto> getPlayer(long uuid) {
+        return getPlayer(new UUID(uuid));
+    }
+
+    /**
+     * @deprecated due to creation of a new {@link UUID}.
+     */
+    @Deprecated
+    public boolean containsPlayerUuid(long uuid) {
+        return containsPlayerUuid(new UUID(uuid));
+    }
 }

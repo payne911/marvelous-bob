@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         effect.load(Gdx.files.internal("particles/emitters/BlueFlames"),
                 Gdx.files.internal("particles"));
-        effect.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        effect.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         effect.scaleEffect(PARTICLE_EFFECT_SCALE);
         effect.start();
     }
@@ -49,8 +49,8 @@ public class GameScreen extends ScreenAdapter {
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
         controller.getLocalState().getPlayersDtos()
-                .forEach((colorIndex, p) -> {
-                    shapeDrawer.setColor(GameConstant.playerColors.get(colorIndex));
+                .forEach((uuid, p) -> {
+                    shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
                     shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
                 });
         gameWorld.drawMe(shapeDrawer);

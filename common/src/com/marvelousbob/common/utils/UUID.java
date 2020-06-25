@@ -4,6 +4,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Ultimately, for Hash structures, this class behaves just as if it was a Long.
+ */
 @RequiredArgsConstructor
 public final class UUID {
 
@@ -21,6 +24,7 @@ public final class UUID {
         if (this == o) {
             return true;
         }
+        // todo: what if we wanted to compare with a Long directly? seems possible
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
