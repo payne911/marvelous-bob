@@ -1,7 +1,10 @@
-Marvelous Bob
-
+Marvelous Bob game play (actions, events, etc.)
 (*) nice to have
+(-) todo
+(✓) done
 
+
+======================== CONDITIONS ===========================
 Defeat:
 * All players dead at the same time
 - Base is dead
@@ -12,11 +15,12 @@ Victory
 * Time? End of wave?
 
 
-PLAYER TYPES :
+======================== PLAYER TYPES =========================
 - Circle (Shooter)
   - left click: move
   - right click: shoots at mouse
   * space: lock target (on/off)
+
 
 - Square (Melee)
   - left click: move
@@ -24,16 +28,17 @@ PLAYER TYPES :
   * space: dash + invulnerability (cooldown?)
 
 
+======================== ACTIONS/EVENTS =======================
 Players:
 - Attack (at mouse angle)
 - Move (To target destination)
 - Lose health (Collision with ennemy, Spawn collision)
 - Die (health <= 0)
-- ressurect after cooldown XX seconds
+- resurrect after cooldown XX seconds
 
 
 Enemies:
-- Move (from spawn to base: path finding) (possibilty of hard coded if level is not random)
+- Move (from spawn to base: path finding) (possibility of hard coded if level is not random)
 - Attack and die (collision with Player and Base)
 - Die (collision with player attack)
 
@@ -46,28 +51,26 @@ Spawns:
 
 Base:
 * Pulse (auto, short range, high cooldownm, kill on attack)
-- Lose Health (Ennemy collision)
+- Lose Health (Enemy collision)
 * create power up
   - give power up at player at wave end
   - spawn randomly power up during play
 - Die => creates a new level
 
 
-Network stuff
+======================== NETWORK AUTHORITY =======================
 - Authoritative client:
   - self health / death
-  - killing ennemies
+  - killing enemies
 
 - Authoritative Server
-  - ennemy lifecycle / path (other player kills)
-  - other players health
-  - base health/damage
+  - enemy lifecycle / path
+  - other players health / death
+  - base health / damage / death
 
 
-
-Brainstorm
-
-Power ups
+======================== BRAINSTORM =======================
+Power ups:
 - firerate
 - damage
 - multiple bullets / attack
@@ -76,7 +79,7 @@ Power ups
 - invincibility
 - Instant respawn
 
-Cleric player
+Cleric player:
 - Heal?
 - Boost?
 - respawn?
