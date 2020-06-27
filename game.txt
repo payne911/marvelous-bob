@@ -1,0 +1,15 @@
+Marvelous Bob
+
+Players:
+- Face
+- Attack
+- Move
+
+Enemies:
+- Move
+
+Spawns:
+- Create (includes Move)
+
+Base:
+- Pulse (attack)
