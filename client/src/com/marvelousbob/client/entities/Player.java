@@ -17,8 +17,8 @@ public abstract class Player implements Identifiable, Drawable {
     @Deprecated
     private PlayerDto playerDto;
 
-    protected float health; // todo: health bar
-    protected float pointingAtAngle;
+    protected float hp, maxHp; // todo: health bar
+    protected float pointAtAngle;
     protected int colorIndex;
     protected float speed = 20;
     protected float size = 40;
@@ -35,11 +35,13 @@ public abstract class Player implements Identifiable, Drawable {
     }
 
     public void updateFromDto(PlayerDto input) {
-        this.colorIndex = input.getColorIndex();
-        this.speed = input.getSpeed();
-        this.size = input.getSize();
-        this.currentPos = new Vector2(input.getCurrX(), input.getCurrY());
+        this.colorIndex = input.colorIndex;
+        this.speed = input.speed;
+        this.size = input.size;
+        this.currentPos = new Vector2(input.currX, input.currY);
         this.destination = new Vector2(input.destX, input.destY);
-        this.health = input.getHealth();
+        this.hp = input.hp;
+        this.maxHp = input.maxHp;
+        this.pointAtAngle = input.pointAtAngle;
     }
 }
