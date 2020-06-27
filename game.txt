@@ -53,11 +53,33 @@ Base:
 - Die => creates a new level
 
 
+Network stuff
+- Authoritative client:
+  - self health / death
+  - killing ennemies
+
+- Authoritative Server
+  - ennemy lifecycle / path (other player kills)
+  - other players health
+  - base health/damage
+
+
+
+Brainstorm
+
 Power ups
-* firerate
-* damage
-* multiple bullets / attack
-* move speedboost
-* shield
-* invincibility
-* Instant respawn
+- firerate
+- damage
+- multiple bullets / attack
+- move speedboost
+- shield
+- invincibility
+- Instant respawn
+
+Cleric player
+- Heal?
+- Boost?
+- respawn?
+- Debuff ennemies?
+
+
