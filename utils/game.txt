@@ -62,7 +62,7 @@ Base:
 - Authoritative client:
   - self health / death
   - self pos
-    - where move action ends
+    - where move action ends (straight line until wall encounter)
   - damaging / killing enemies or spawn
   - bullet id
 
