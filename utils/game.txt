@@ -32,7 +32,7 @@ Victory
 Players:
 - Attack (at mouse angle)
 - Move (To target destination)
-- Lose health (Collision with ennemy, Spawn collision)
+- Lose health (Collision with enemy, Spawn collision)
 - Die (health <= 0)
 - resurrect after cooldown XX seconds
 
@@ -116,6 +116,6 @@ Cleric player:
 - Heal?
 - Boost?
 - respawn?
-- Debuff ennemies?
+- Debuff enemies?
 
 
