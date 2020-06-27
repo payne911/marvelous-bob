@@ -1,15 +1,63 @@
 Marvelous Bob
 
+(*) nice to have
+
+Defeat:
+* All players dead at the same time
+- Base is dead
+
+
+Victory
+- All Spawn points are dead
+* Time? End of wave?
+
+
+PLAYER TYPES :
+- Circle (Shooter)
+  - left click: move
+  - right click: shoots at mouse
+  * space: lock target (on/off)
+
+- Square (Melee)
+  - left click: move
+  - right click: attack on
+  * space: dash + invulnerability (cooldown?)
+
+
 Players:
-- Face
-- Attack
-- Move
+- Attack (at mouse angle)
+- Move (To target destination)
+- Lose health (Collision with ennemy, Spawn collision)
+- Die (health <= 0)
+- ressurect after cooldown XX seconds
+
 
 Enemies:
-- Move
+- Move (from spawn to base: path finding) (possibilty of hard coded if level is not random)
+- Attack and die (collision with Player and Base)
+- Die (collision with player attack)
+
 
 Spawns:
 - Create (includes Move)
+- Lose health (Collision with player attack)
+- Die
+
 
 Base:
-- Pulse (attack)
+* Pulse (auto, short range, high cooldownm, kill on attack)
+- Lose Health (Ennemy collision)
+* create power up
+  - give power up at player at wave end
+  - spawn randomly power up during play
+- Die => creates a new level
+
+
+Power ups
+* firerate
+* damage
+* multiple bullets / attack
+* move speedboost
+* shield
+* invincibility
+* Instant respawn
