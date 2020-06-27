@@ -61,10 +61,14 @@ Base:
 ======================== NETWORK AUTHORITY ======================
 - Authoritative client:
   - self health / death
-  - damaging / killing enemies
+  - self pos
+    - where move action ends
+  - damaging / killing enemies or spawn
+  - bullet id
 
 - Authoritative Server
-  - enemy lifecycle / path
+  - Uuid
+  - enemy path
   - other players health / death
   - base health / damage / death
 
@@ -81,12 +85,21 @@ Base:
     - player list
       - health, pointing at
     - base health
-    - Bullets collision points
-      - bullet uuid to remove
-    - enemy list
-  - Other player attacks (melee and range): broadcast to others on event
-    - new bullet
-    - for animation purpose only, locally drawn without stagger
+    - new enemy list
+      - Spawn point
+      - path
+      - health
+      - speed
+  - Broadcast on receive
+    - Player attacks
+      - new bullet
+      - Bullets collision
+        - pos
+        - bullet (id and player uuid) to remove
+        - damage dealt
+        - opt dead enemies/spawn uuid
+    - Player move actions
+      - move to pos
 
 
 ======================== BRAINSTORM =============================
