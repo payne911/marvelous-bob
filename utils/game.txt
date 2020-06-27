@@ -28,6 +28,47 @@ Victory
   * space: dash + invulnerability (cooldown?)
 
 
+======================== ENEMY TYPES ============================
+- Triangle (Base Attacker)
+  - moves toward Base
+  - suicide attack (dies when it deals damage)
+  - Damages when touches Base
+  - Is faster
+
+
+- Spiked Circle (All Attackers)
+  - Like "Base Attacker" but can also damage Player
+  - Slightly slower
+
+
+* Trap Bomb (Targets one position)
+  - Draw target on ground
+  - Launches bomb after X time
+  - Immobilizes (or slows down) things caught within range
+
+
+* Laser (Line damage)
+  - Red line from Spawn to Player
+  - Follows that Player for X time
+  - Settles in position after Y time
+  - Damages everything it touches
+
+
+- Missile (Only attacks one player)
+  - Flies over walls
+  - Follows a single player
+  - Damages and dies on contact
+  - Doesn't damage the Base
+  - Invincible
+  - Self destruct after X
+  * (Draw red line between Missile and Player)
+
+
+* "+" (Ranged Attacker)
+  - Remains on its path
+  - Periodically shoots bullets which can traverse players, but not walls
+
+
 ======================== ACTIONS/EVENTS =========================
 Players:
 - Attack (at mouse angle)
@@ -82,23 +123,25 @@ Base:
 
 - Sent by server
   - GameState: loop 100ms
-    - player list
-      - health, pointing at
-    - base health
-    - new enemy list
+  | - Enemy collision
+  |   - uuid of involved: enemy and player
+  | - player list
+  |   - health, pointing at
+  | - base health
+  | - new enemy list
       - Spawn point
       - path
       - health
       - speed
   - Broadcast on receive
-    - Player attacks
-      - new bullet
-      - Bullets collision
-        - pos
-        - bullet (id and player uuid) to remove
-        - damage dealt
-        - opt dead enemies/spawn uuid
-    - Player move actions
+  | - Player attacks
+  |   - new bullet
+  |   - Bullets collision
+  |     - pos
+  |     - bullet (id and player uuid) to remove
+  |     - damage dealt
+  |     - opt dead enemies/spawn uuid
+  | - Player move actions
       - move to pos
 
 
