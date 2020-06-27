@@ -16,7 +16,9 @@ public abstract class Player implements Identifiable, Drawable {
     @Getter
     @Deprecated
     private PlayerDto playerDto;
-    private float health;
+
+    protected float health; // todo: health bar
+    protected float pointingAtAngle;
     protected int colorIndex;
     protected float speed = 20;
     protected float size = 40;
