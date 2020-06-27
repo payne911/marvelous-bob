@@ -2,7 +2,6 @@ package com.marvelousbob.common.network.register.dto;
 
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.network.register.Timestamped;
 import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
@@ -15,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public final class PlayerDto implements Identifiable, Timestamped, Dto {
+public final class PlayerDto implements Identifiable, Dto {
 
-    private ArrayList<BulletDto> bullets;
-    private int colorIndex;
-    private UUID uuid;
-    private long timestamp; // todo: is that useful?
-    private float speed = 20;
-    private float size = 40;
-    private float currX, destX, currY, destY;
+    public ArrayList<BulletDto> bullets;
+    public int colorIndex;
+    public UUID uuid;
+    public float speed = 20;
+    public float size = 40;
+    public float currX, destX, currY, destY;
+    public float health;
 
     /**
      * Calls the other constructor with an empty list of bullets.
@@ -35,7 +34,6 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
     public PlayerDto(UUID uuid, ArrayList<BulletDto> bullets) {
         this.uuid = uuid;
         this.bullets = bullets;
-        stampNow();
     }
 
     /**
@@ -54,8 +52,6 @@ public final class PlayerDto implements Identifiable, Timestamped, Dto {
         currY = otherPlayerDto.currY;
         destY = otherPlayerDto.destY;
         bullets = otherPlayerDto.bullets; // todo: deep copy?
-
-        stampNow();
     }
 
     /**

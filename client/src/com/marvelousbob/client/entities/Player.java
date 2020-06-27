@@ -16,9 +16,8 @@ public abstract class Player implements Identifiable, Drawable {
     @Getter
     @Deprecated
     private PlayerDto playerDto;
-
+    private float health;
     protected int colorIndex;
-    protected long timestamp; // todo: is that useful?
     protected float speed = 20;
     protected float size = 40;
     protected Vector2 currentPos;
@@ -35,9 +34,10 @@ public abstract class Player implements Identifiable, Drawable {
 
     public void updateFromDto(PlayerDto input) {
         this.colorIndex = input.getColorIndex();
-        this.timestamp = input.getTimestamp();
         this.speed = input.getSpeed();
         this.size = input.getSize();
         this.currentPos = new Vector2(input.getCurrX(), input.getCurrY());
+        this.destination = new Vector2(input.destX, input.destY);
+        this.health = input.getHealth();
     }
 }

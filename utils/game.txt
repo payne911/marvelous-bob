@@ -50,7 +50,7 @@ Spawns:
 
 
 Base:
-* Pulse (auto, short range, high cooldownm, kill on attack)
+* Pulse (auto, short range, high cooldown, kill on attack)
 - Lose Health (Enemy collision)
 * create power up
   - give power up at player at wave end
@@ -61,12 +61,32 @@ Base:
 ======================== NETWORK AUTHORITY ======================
 - Authoritative client:
   - self health / death
-  - killing enemies
+  - damaging / killing enemies
 
 - Authoritative Server
   - enemy lifecycle / path
   - other players health / death
   - base health / damage / death
+
+- Client events - Actions
+  - Move action (pointing at)
+  - Damage received
+  - Damage dealt to enemy
+    - incl opt bullet uuid
+  - update self player attack (pointing at)
+    - on each attack, contains infos of all previous attack
+
+- Sent by server
+  - GameState: loop 100ms
+    - player list
+      - health, pointing at
+    - base health
+    - Bullets collision points
+      - bullet uuid to remove
+    - enemy list
+  - Other player attacks (melee and range): broadcast to others on event
+    - new bullet
+    - for animation purpose only, locally drawn without stagger
 
 
 ======================== BRAINSTORM =============================
