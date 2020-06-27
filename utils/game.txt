@@ -54,9 +54,9 @@ Victory
   - Damages everything it touches
 
 
-- Missile (Only attacks one player)
+- Missile (Only attacks one Player)
   - Flies over walls
-  - Follows a single player
+  - Follows a single Player
   - Damages and dies on contact
   - Doesn't damage the Base
   - Invincible
@@ -104,14 +104,14 @@ Base:
   - self health / death
   - self pos
     - where move action ends (straight line until wall encounter)
-  - damaging / killing enemies or spawn
+  - damaging / killing Enemies or Spawn
   - bullet id
 
 - Authoritative Server
   - Uuid
-  - enemy path
-  - other players health / death
-  - base health / damage / death
+  - Enemy path
+  - other Players health / death
+  - Base health / damage / death
 
 - Client events - Actions
   - Move action (pointing at)
@@ -124,11 +124,11 @@ Base:
 - Sent by server
   - GameState: loop 100ms
   | - Enemy collision
-  |   - uuid of involved: enemy and player
-  | - player list
+  |   - uuid of involved: Enemy and Player
+  | - Player list
   |   - health, pointing at
-  | - base health
-  | - new enemy list
+  | - Base health
+  | - new Enemy list
       - Spawn point
       - path
       - health
