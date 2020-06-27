@@ -4,7 +4,7 @@ Marvelous Bob game play (actions, events, etc.)
 (✓) done
 
 
-======================== CONDITIONS ===========================
+======================== CONDITIONS =============================
 Defeat:
 * All players dead at the same time
 - Base is dead
@@ -15,7 +15,7 @@ Victory
 * Time? End of wave?
 
 
-======================== PLAYER TYPES =========================
+======================== PLAYER TYPES ===========================
 - Circle (Shooter)
   - left click: move
   - right click: shoots at mouse
@@ -28,7 +28,7 @@ Victory
   * space: dash + invulnerability (cooldown?)
 
 
-======================== ACTIONS/EVENTS =======================
+======================== ACTIONS/EVENTS =========================
 Players:
 - Attack (at mouse angle)
 - Move (To target destination)
@@ -58,7 +58,7 @@ Base:
 - Die => creates a new level
 
 
-======================== NETWORK AUTHORITY =======================
+======================== NETWORK AUTHORITY ======================
 - Authoritative client:
   - self health / death
   - killing enemies
@@ -69,7 +69,7 @@ Base:
   - base health / damage / death
 
 
-======================== BRAINSTORM =======================
+======================== BRAINSTORM =============================
 Power ups:
 - firerate
 - damage
