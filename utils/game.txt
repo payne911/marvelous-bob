@@ -137,7 +137,7 @@ Base:
   - Broadcast on receive
   | - Player attacks
   |   - new bullet
-  | - Bullets collision
+  | - Player Bullets collision
   |   - pos
   |   - bullet (id and player uuid) to remove
   |   - damage dealt
