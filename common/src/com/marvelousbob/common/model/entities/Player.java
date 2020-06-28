@@ -5,12 +5,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
+import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Container of the visual representation of a {@link PlayerDto}.
  */
+@Data
 @Slf4j
 public abstract class Player implements Identifiable, Drawable {
 

@@ -36,6 +36,7 @@ public class MyClient {
     @SneakyThrows
     public void connect() {
         register.registerClasses(Dto.class);
+//        client.getKryo().register(GameWorld.class, new JsonSerialization());
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob, client));
 
