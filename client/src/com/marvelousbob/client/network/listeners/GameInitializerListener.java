@@ -63,21 +63,16 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
 
+        GameWorld gameWorld = gameInit.newGameWorld;
+        log.info("before controller");
+        controller = new Controller(kryoClient, gameWorld, gameInit.currentPlayerId);
+        log.info("controller: " + controller);
+
         /* Input processors. */
         MyGestureListener inputProcessor1 = new MyGestureListener(stage.getCamera(), controller);
         MyInputProcessor inputProcessor2 = new MyInputProcessor(stage.getCamera(), controller);
         Gdx.input.setInputProcessor(
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
-
-        logicAfterPriorChecks(gameInit);
-    }
-
-    /**
-     * After all the validation is done, this is called.
-     */
-    private void logicAfterPriorChecks(GameInitializationDto gameInit) {
-        GameWorld gameWorld = gameInit.newGameWorld;
-        controller = new Controller(kryoClient, gameWorld, gameInit.currentPlayerId);
 
         /* Draw the screen to start the game. */
         Gdx.app.postRunnable(() -> {

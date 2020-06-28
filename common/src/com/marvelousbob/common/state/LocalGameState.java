@@ -12,17 +12,21 @@ import com.marvelousbob.common.utils.UUID;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
 @Slf4j
+@NoArgsConstructor
+@AllArgsConstructor
 public class LocalGameState implements Drawable {
 
-    private final HashMap<UUID, Long> lastMoveTimestampPerPlayer;
-    private final ConcurrentHashMap<UUID, Player> players;
-    private final ConcurrentHashMap<UUID, Enemy> enemies;
+    private HashMap<UUID, Long> lastMoveTimestampPerPlayer;
+    private ConcurrentHashMap<UUID, Player> players;
+    private ConcurrentHashMap<UUID, Enemy> enemies;
 
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {

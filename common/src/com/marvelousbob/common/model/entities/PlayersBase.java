@@ -2,31 +2,34 @@ package com.marvelousbob.common.model.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
-public class PlayersBase implements Drawable {
+public class PlayersBase implements Drawable, Identifiable {
 
+    private UUID uuid;
     private Rectangle rectangle; // todo: hexagon
     private Color color;
     private float hp, maxHp;
 
-    public PlayersBase(float blX, float blY, float width, float height, Color color) {
-        this(new com.badlogic.gdx.math.Rectangle(blX, blY, width, height), color);
+    public PlayersBase(UUID uuid, float blX, float blY, float width, float height, Color color) {
+        this(uuid, new Rectangle(blX, blY, width, height), color);
     }
 
-    public PlayersBase(float blX, float blY, float width, float height) {
-        this(new com.badlogic.gdx.math.Rectangle(blX, blY, width, height), Color.FIREBRICK);
+    public PlayersBase(UUID uuid, float blX, float blY, float width, float height) {
+        this(uuid, new Rectangle(blX, blY, width, height), Color.FIREBRICK);
     }
 
-    public PlayersBase(com.badlogic.gdx.math.Rectangle rectangle, Color color) {
+    public PlayersBase(UUID uuid, Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
         this.color = color;
     }
 
-    public PlayersBase(com.badlogic.gdx.math.Rectangle rectangle) {
-        this(rectangle, Color.FIREBRICK);
+    public PlayersBase(UUID uuid, Rectangle rectangle) {
+        this(uuid, rectangle, Color.FIREBRICK);
     }
 
     @Override

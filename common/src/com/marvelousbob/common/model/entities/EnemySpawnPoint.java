@@ -3,23 +3,27 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
-public class EnemySpawnPoint implements Drawable {
+public class EnemySpawnPoint implements Drawable, Identifiable {
 
+    private UUID uuid;
     private Vector2 pos;
     private float hp, maxHp;
     private Polygon shape;
     private Color color;
 
-    public EnemySpawnPoint(Polygon shape, Color color) {
+    public EnemySpawnPoint(UUID uuid, Polygon shape, Color color) {
+        this.uuid = uuid;
         this.shape = shape;
         this.color = color;
     }
 
-    public static EnemySpawnPoint starShaped(Vector2 center, float size, Color color) {
+    public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size, Color color) {
         Vector2 p1 = new Vector2(center.x + size, center.y);
         Vector2 p2 = p1.cpy().rotateAround(center, 120);
         Vector2 p3 = p2.cpy().rotateAround(center, 120);
@@ -34,7 +38,7 @@ public class EnemySpawnPoint implements Drawable {
         for (int i = 0; i < t2Vertices.length; i++) {
             starVertices[i + t1vertices.length] = t2Vertices[i];
         }
-        return new EnemySpawnPoint(new Polygon(starVertices), color);
+        return new EnemySpawnPoint(uuid, new Polygon(starVertices), color);
     }
 
     @Override

@@ -12,9 +12,11 @@ import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 
+@ToString(callSuper = true)
 @Slf4j
 public class Controller {
 

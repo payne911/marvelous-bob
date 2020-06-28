@@ -19,6 +19,8 @@ public class BobServerGame extends Game {
     @SneakyThrows
     public BobServerGame() {
         this.server = new Server();
+        server.getKryo().setRegistrationRequired(false); // todo: verify this works as expected
+        server.getKryo().setWarnUnregisteredClasses(true);
         this.register = new Register(server);
         this.serverScreen = new BobServerScreen(server);
     }

@@ -8,6 +8,7 @@ import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(callSuper = true)
+@NoArgsConstructor
 public abstract class Player implements Identifiable, Drawable {
 
     @Getter
@@ -33,7 +35,7 @@ public abstract class Player implements Identifiable, Drawable {
 
     @EqualsAndHashCode.Include
     @Getter
-    private final UUID uuid;
+    private UUID uuid;
 
     public Player(
             float hp,

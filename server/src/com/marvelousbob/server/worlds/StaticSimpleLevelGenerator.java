@@ -1,5 +1,7 @@
 package com.marvelousbob.server.worlds;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.EnemySpawnPoint;
 import com.marvelousbob.common.model.entities.Level;
 import com.marvelousbob.common.model.entities.PlayersBase;
@@ -12,22 +14,24 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
 
     @Override
     public Level getLevel() {
-//        ArrayList<PlayersBaseDto> bases = new ArrayList<>();
-//        bases.add(new PlayersBaseDto(UUID.getNext(), GameConstant.sizeX / 2f, GameConstant.sizeY / 2f, 50, 50, 100, 100));
-//
-//        ArrayList<WallDto> walls = new ArrayList<>();
-//        walls.add(new WallDto(30, 50, 2, 60));
-//        walls.add(new WallDto(70, 150, 2, 100));
-//        walls.add(new WallDto(170, 360, 30, 2));
-//
-//        ArrayList<SpawnPointDto> enemySpawnPoints = new ArrayList<>();
-//        enemySpawnPoints.add(new SpawnPointDto(100, UUID.getNext()));
-//        enemySpawnPoints.add(new SpawnPointDto(100, UUID.getNext()));
-
         final ConcurrentHashMap<UUID, PlayersBase> bases = new ConcurrentHashMap<>();
+        UUID baseUuid = UUID.getNext();
+        var base = new PlayersBase(baseUuid, 50, 50, 100, 100);
+        bases.put(baseUuid, base);
+
         final ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints = new ConcurrentHashMap<>();
+        UUID spawnUuid1 = UUID.getNext();
+        UUID spawnUuid2 = UUID.getNext();
+        enemySpawnPoints.put(spawnUuid1,
+                EnemySpawnPoint.starShaped(spawnUuid1, new Vector2(60, 60), 70, Color.BLUE));
+        enemySpawnPoints.put(spawnUuid2,
+                EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(60, 60), 70, Color.BLUE));
+
         final ArrayList<Wall> walls = new ArrayList<>();
-        // TODO: 2020-06-28 make a level     --- OLA
+        walls.add(new Wall(30, 50, 2, 60));
+        walls.add(new Wall(70, 150, 2, 100));
+        walls.add(new Wall(170, 360, 30, 2));
+
         return new Level(bases, enemySpawnPoints, walls);
     }
 }
