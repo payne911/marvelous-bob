@@ -124,14 +124,14 @@ Bases:
 
 - Sent by server
   - GameState: loop 100ms
-  | * must be ordered
+  | * requires an index
   | - Enemy collision (listener done server side)
   |   - uuid of involved: Enemy and Player
   | - Player list
-  |   * must be ordered
+  |   * requires an index
   |   - health, pointing at
   | - Bases and SpawnPoints health
-  |   * must be ordered
+  |   * requires an index
   | - new Enemy list
       - Spawn point
       - path

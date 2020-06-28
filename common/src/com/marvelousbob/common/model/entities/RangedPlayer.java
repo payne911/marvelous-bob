@@ -1,7 +1,9 @@
 package com.marvelousbob.common.model.entities;
 
-import com.marvelousbob.common.network.constants.GameConstant;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import com.marvelousbob.common.utils.UUID;
 import java.util.HashSet;
 import java.util.Set;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -23,6 +25,10 @@ public class RangedPlayer extends Player {
         this.bullets = new HashSet<>();
     }
 
+    public RangedPlayer(UUID uuid, Color color, Vector2 initPos) {
+        super();
+    }
+
     @Override
     public void updateFromDto(PlayerDto input) {
         super.updateFromDto(input);
@@ -31,7 +37,7 @@ public class RangedPlayer extends Player {
 
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
-        shapeDrawer.setColor(GameConstant.playerColors.get(colorIndex));
+        shapeDrawer.setColor(this.color);
         shapeDrawer.polygon(VERTICES);
         bullets.forEach(b -> b.drawMe(shapeDrawer));
     }

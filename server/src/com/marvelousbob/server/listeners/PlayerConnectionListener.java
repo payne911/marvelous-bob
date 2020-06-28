@@ -4,12 +4,12 @@ import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
 import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
-import com.marvelousbob.common.model.MarvelousBobException;
+import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 import lombok.extern.slf4j.Slf4j;
@@ -28,29 +28,21 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
 
     @Override
     public void accept(Connection connection, PlayerConnectionDto playerConnection) {
-        UUID uuid = UUID.getNext();
-        PlayerDto playerDto = new PlayerDto(uuid);
-        assignRandomPosition(playerDto);
-        assignRandomColorId(playerDto);
-        serverState.addPlayer(playerDto);
-        server.sendToTCP(connection.getID(), serverState.getInitializationDto(uuid));
-    }
-
-    private void assignRandomColorId(PlayerDto playerDto) {
-        try {
-            playerDto.setColorIndex(serverState.getFreeId());
-        } catch (MarvelousBobException ex) {
-            log.error("Could not find a free Color ID: room must be full.");
-            ex.printStackTrace();
+        if (serverState.isEmptyRoom()) {
+            serverState.initializeOnFirstPlayerConnected();
         }
+        UUID uuid = UUID.getNext();
+        Player player = playerConnection.playerType
+                .getPlayerInstance(uuid, serverState.getFreeColor(), randomPos());
+        serverState.addPlayer(player);
+        // TODO: 2020-06-28 What do we send to player ??     --- OLA
+        server.sendToTCP(connection.getID(), serverState.getGameWorld());
     }
 
-    private void assignRandomPosition(PlayerDto playerDto) {
+
+    private Vector2 randomPos() {
         float x = MathUtils.random(0, sizeX);
         float y = MathUtils.random(0, sizeY);
-        playerDto.setCurrX(x);
-        playerDto.setCurrY(y);
-        playerDto.setDestX(x);
-        playerDto.setDestY(y);
+        return new Vector2(x, y);
     }
 }

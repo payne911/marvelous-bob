@@ -1,6 +1,5 @@
 package com.marvelousbob.common.network.register.dto;
 
-import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.utils.UUID;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class SpawnPointDto implements Dto, Identifiable {
-
-    public float x, y, size;
-    public float hp, maxHp;
+    public float hp;
     public UUID uuid;
-    public Color colorBits;
 }
