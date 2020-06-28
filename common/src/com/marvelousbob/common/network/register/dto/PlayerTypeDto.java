@@ -12,7 +12,9 @@ public enum PlayerTypeDto {
         public Player getPlayerInstance(UUID uuid, Color color, Vector2 initPos) {
             return new RangedPlayer(uuid, color, initPos);
         }
-    }, MELEE {
+    },
+
+    MELEE {
         public Player getPlayerInstance(UUID uuid, Color color, Vector2 initPos) {
             return new MeleePlayer(uuid, color, initPos);
         }
