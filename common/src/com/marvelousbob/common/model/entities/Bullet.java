@@ -1,4 +1,4 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;

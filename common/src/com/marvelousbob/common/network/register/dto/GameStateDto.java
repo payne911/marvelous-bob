@@ -12,7 +12,8 @@ public final class GameStateDto implements Dto {
 
     public ArrayList<EnemyCollisionDto> enemyCollisions;
     public ArrayList<PlayerUpdateDto> playerUpdates;
-    public ArrayList<EnemyDto> newEnemies;
-    public float baseHealth;
+    public ArrayList<NewEnemyDto> newEnemies;
+    public ArrayList<PlayersBaseDto> basesHealth;
+    public ArrayList<SpawnPointDto> spawnPointHealth;
     public long index;
 }

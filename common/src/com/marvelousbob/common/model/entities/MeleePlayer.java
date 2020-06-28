@@ -1,4 +1,4 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDto;

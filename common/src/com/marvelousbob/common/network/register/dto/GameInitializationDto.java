@@ -12,12 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class GameInitializationDto implements Dto {
 
+    /* Level */
+    public NewLevelDto currentLevel;
+
+    /* New Player */
     public UUID currentPlayerId;
-    public NewLevelDto firstLevel;
     public float initPosX, initPosY;
     public int colorIndex;
-    public ArrayList<PlayerDto> otherPlayers;
-    public ArrayList<EnemyDto> enemies;
-    public float baseHealth;
 
+    /* Game State */
+    public ArrayList<PlayerDto> otherPlayers;
+    public ArrayList<NewEnemyDto> enemies;
 }

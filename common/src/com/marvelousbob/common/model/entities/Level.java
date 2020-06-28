@@ -1,9 +1,10 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
+import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
+import com.marvelousbob.common.network.register.dto.SpawnPointDto;
+import java.util.List;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import java.util.List;
 
 @Data
 public class Level implements Drawable {
@@ -18,6 +19,14 @@ public class Level implements Drawable {
         base.forEach(b -> b.drawMe(shapeDrawer));
         walls.forEach(w -> w.drawMe(shapeDrawer));
         enemySpawnPoints.forEach(es -> es.drawMe(shapeDrawer));
+    }
+
+    public void updateUsingPlayerBase(PlayersBaseDto playersBaseDto) {
+        // TODO
+    }
+
+    public void updateUsingSpawnPoints(SpawnPointDto spawnPointDto) {
+        // TODO
     }
 
 }

@@ -90,7 +90,7 @@ Spawns:
 - Die
 
 
-Base:
+Bases:
 * Pulse (auto, short range, high cooldown, kill on attack)
 - Lose Health (Enemy collision)
 * create power up
@@ -112,7 +112,7 @@ Base:
   - Uuid
   - Enemy path
   - other Players health / death
-  - Base health / damage / death
+  - Bases health / damage / death
 
 - Client events - Actions
   - Move action (pointing at)
@@ -128,13 +128,14 @@ Base:
   |   - uuid of involved: Enemy and Player
   | - Player list
   |   - health, pointing at
-  | - Base health
+  | - Bases and SpawnPoints health
   | - new Enemy list
       - Spawn point
       - path
       - health
       - speed
   - Broadcast on receive
+  * Broadcasts to a player that hasn't initialized stuff yet would crash
   | - Player attacks
   |   - new bullet
   | - Player Bullets collision
@@ -144,7 +145,6 @@ Base:
   |   - opt dead enemies/spawn uuid
   | - Player move actions
       - move to pos
-  * Broadcasts to a player that hasn't initialized stuff yet would crash
 
 
 ======================== BRAINSTORM =============================

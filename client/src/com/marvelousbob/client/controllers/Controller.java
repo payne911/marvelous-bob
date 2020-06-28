@@ -4,14 +4,15 @@ import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.controller;
 
 import com.esotericsoftware.kryonet.Client;
-import com.marvelousbob.client.entities.MeleePlayer;
-import com.marvelousbob.client.entities.Player;
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.model.entities.GameWorld;
+import com.marvelousbob.common.model.entities.MeleePlayer;
+import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.state.GameStateRecords;
+import com.marvelousbob.common.state.GameStateUpdater;
+import com.marvelousbob.common.state.LocalGameState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,15 +45,16 @@ public class Controller {
     private long moveIndex;
 
 
-    public Controller(Client kryoClient, GameStateDto initialGameState, PlayerDto initPlayerDto) {
+    public Controller(Client kryoClient, GameWorld initGameWorld, PlayerDto initPlayerDto) {
         this.kryoClient = kryoClient;
-        this.gameStateUpdater =
-                new GameStateUpdater(new GameStateRecords(), kryoClient.getKryo(),
-                        initialGameState);
+        this.gameStateUpdater = new GameStateUpdater(kryoClient.getKryo(), initGameWorld);
         this.selfPlayer = new MeleePlayer(initPlayerDto);
         this.moveIndex = 0;
     }
 
+    public void updateGameState(float delta) {
+        gameStateUpdater.updateGameState(delta);
+    }
 
     public void playerClicked(float x, float y) {
         log.debug("Tapped on (%f,%f)".formatted(x, y));
@@ -76,34 +78,27 @@ public class Controller {
         moveActionDto.setDestY(destY);
         moveActionDto.setPlayerId(self.getUuid());
         moveActionDto.stampNow();
-        log.debug("sending MoveActionDto: " + moveActionDto);
         IndexedMoveActionDto moveDTO = new IndexedMoveActionDto(moveActionDto, moveIndex++);
-        gameStateUpdater.addLocalProcessedInput(moveDTO);
+        log.debug("sending IndexedMoveActionDto: " + moveDTO);
         client.getClient().sendTCP(moveDTO);
         log.debug("After changes, game state is: " + controller.getLocalState());
-
-        /* Make sure to record this local state for future reconciliation. */
-        registerCurrentLocalState();
-    }
-
-    /**
-     * Adds a snapshot of the current state of the game into the {@link GameStateRecords}.
-     */
-    public void registerCurrentLocalState() {
-        gameStateUpdater.registerCurrentLocalState();
     }
 
     /**
      * @return the {@code mutableCurrentLocalGameState} of the {@link GameStateUpdater}.
      */
-    public GameStateDto getLocalState() {
-        return gameStateUpdater.getMutableCurrentLocalGameState();
+    public LocalGameState getLocalState() {
+        return gameStateUpdater.getMutableLocalGameState();
     }
 
     public PlayerDto getSelfPlayerDto() {
-        return gameStateUpdater.getMutableCurrentLocalGameState()
+        return gameStateUpdater.getMutableLocalGameState()
                 .getPlayer(selfPlayer.getUuid())
                 .orElseThrow(() -> new MarvelousBobException(
                         "Illegal State: could not find the PlayerDto associated with yourself (your client)."));
+    }
+
+    public GameWorld getGameWorld() {
+        return gameStateUpdater.getMutableGameWorld();
     }
 }

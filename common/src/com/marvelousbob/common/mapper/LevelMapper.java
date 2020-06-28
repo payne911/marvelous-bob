@@ -1,11 +1,11 @@
-package com.marvelousbob.client.mapper;
+package com.marvelousbob.common.mapper;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.marvelousbob.client.entities.EnemySpawnPoint;
-import com.marvelousbob.client.entities.Level;
-import com.marvelousbob.client.entities.PlayersBase;
-import com.marvelousbob.client.entities.Wall;
+import com.marvelousbob.common.model.entities.EnemySpawnPoint;
+import com.marvelousbob.common.model.entities.Level;
+import com.marvelousbob.common.model.entities.PlayersBase;
+import com.marvelousbob.common.model.entities.Wall;
 import com.marvelousbob.common.network.register.dto.NewLevelDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;

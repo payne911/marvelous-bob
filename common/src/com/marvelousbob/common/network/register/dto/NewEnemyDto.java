@@ -5,7 +5,7 @@ import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
 
 @Data
-public final class EnemyDto implements Dto, Identifiable {
+public final class NewEnemyDto implements Dto, Identifiable {
 
     public UUID uuid;
     public UUID SpawnPoint;

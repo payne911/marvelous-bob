@@ -2,8 +2,8 @@ package com.marvelousbob.client.network.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.client.MarvelousBob;
-import com.marvelousbob.client.entities.Level;
-import com.marvelousbob.client.mapper.LevelMapper;
+import com.marvelousbob.common.mapper.LevelMapper;
+import com.marvelousbob.common.model.entities.Level;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.NewLevelDto;
 
@@ -21,7 +21,7 @@ public class NewLevelListener extends AbstractListener<NewLevelDto> {
     @Override
     public void accept(Connection connection, NewLevelDto levelDto) {
         Level level = mapper.toLevel(levelDto);
-        marvelousBob.getGameScreen().getGameWorld().setLevel(level);
+        marvelousBob.getGameScreen().getController().getGameWorld().setLevel(level);
         // todo: create a new GameStateUpdater?
     }
 }

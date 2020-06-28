@@ -1,4 +1,4 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.utils.UUID;

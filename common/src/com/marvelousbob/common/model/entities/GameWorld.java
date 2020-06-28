@@ -1,6 +1,6 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
-import com.marvelousbob.client.LocalGameState;
+import com.marvelousbob.common.state.LocalGameState;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 

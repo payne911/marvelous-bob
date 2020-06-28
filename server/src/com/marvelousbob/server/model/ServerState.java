@@ -3,11 +3,11 @@ package com.marvelousbob.server.model;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
-import com.marvelousbob.common.network.register.dto.EnemyDto;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.IndexedDto;
 import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
+import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.common.utils.UUID;
@@ -53,7 +53,7 @@ public class ServerState {
     /**
      * All enemies currently alive in the game
      */
-    private ConcurrentHashMap<UUID, EnemyDto> enemies;
+    private ConcurrentHashMap<UUID, NewEnemyDto> enemies;
 
 
     /**
@@ -133,7 +133,7 @@ public class ServerState {
         GameStateDto gameState = new GameStateDto(players, enemies);
         gameInit.setFirstGameStateDto(gameState);
         gameInit.setCurrentPlayerId(playerUuid);
-        gameInit.setFirstLevel(worldGenerator.getWorld());
+        gameInit.setCurrentLevel(worldGenerator.getWorld());
         return gameInit;
     }
 

@@ -1,4 +1,4 @@
-package com.marvelousbob.client.entities;
+package com.marvelousbob.common.model.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;

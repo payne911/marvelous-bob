@@ -2,17 +2,14 @@ package com.marvelousbob.client.screens;
 
 import static com.marvelousbob.client.MyGame.batch;
 import static com.marvelousbob.client.MyGame.client;
-import static com.marvelousbob.client.MyGame.controller;
 import static com.marvelousbob.client.MyGame.shapeDrawer;
 import static com.marvelousbob.client.MyGame.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.marvelousbob.client.entities.GameWorld;
-import com.marvelousbob.common.network.constants.GameConstant;
+import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
-import com.marvelousbob.common.utils.MovementUtils;
 import lombok.Getter;
 
 /**
@@ -25,12 +22,12 @@ import lombok.Getter;
 public class GameScreen extends ScreenAdapter {
 
     @Getter
-    private final GameWorld gameWorld;
+    private final Controller controller;
     private final ParticleEffect effect = new ParticleEffect();
     private static final float PARTICLE_EFFECT_SCALE = .5f;
 
-    public GameScreen(GameWorld gameWorld) {
-        this.gameWorld = gameWorld;
+    public GameScreen(Controller controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -50,12 +47,7 @@ public class GameScreen extends ScreenAdapter {
 
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
-        controller.getLocalState().getPlayersDtos()
-                .forEach((uuid, p) -> {
-                    shapeDrawer.setColor(GameConstant.playerColors.get(p.getColorIndex()));
-                    shapeDrawer.rectangle(p.getCurrX(), p.getCurrY(), p.getSize(), p.getSize());
-                });
-        gameWorld.drawMe(shapeDrawer);
+        controller.getGameWorld().drawMe(shapeDrawer);
         effect.draw(shapeDrawer.getBatch(), delta);
         batch.end();
 
@@ -66,10 +58,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void updateGameState(float delta) {
         updateParticles(delta);
-        boolean hasMoved = MovementUtils.interpolatePlayers(controller.getLocalState(), delta);
-        if (hasMoved) {
-            controller.registerCurrentLocalState();
-        }
+        controller.updateGameState(delta);
     }
 
     private void updateParticles(float delta) {
@@ -83,7 +72,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        // anything to dispose?
         client.getClient()
                 .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayer().getUuid()));
         effect.dispose();
