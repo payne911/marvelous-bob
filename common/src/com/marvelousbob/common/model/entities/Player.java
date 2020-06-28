@@ -6,14 +6,15 @@ import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * Container of the visual representation of a {@link PlayerDto}.
- */
 @Data
 @Slf4j
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(callSuper = true)
 public abstract class Player implements Identifiable, Drawable {
 
     @Getter
@@ -30,6 +31,7 @@ public abstract class Player implements Identifiable, Drawable {
     protected Vector2 currentPos;
     protected Vector2 destination;
 
+    @EqualsAndHashCode.Include
     @Getter
     private final UUID uuid;
 
@@ -53,6 +55,7 @@ public abstract class Player implements Identifiable, Drawable {
         this.uuid = uuid;
     }
 
+    @Deprecated
     public Player(PlayerDto playerDto) {
         this.uuid = playerDto.getUuid();
         this.playerDto = playerDto;
@@ -70,5 +73,83 @@ public abstract class Player implements Identifiable, Drawable {
         this.hp = input.hp;
         this.maxHp = input.maxHp;
         this.pointAtAngle = input.pointAtAngle;
+    }
+
+    // ===================================
+    // Utility methods
+
+    public float getCurrX() {
+        return currentPos.x;
+    }
+
+    public float getCurrY() {
+        return currentPos.y;
+    }
+
+    public void setCurrX(float x) {
+        currentPos.x = x;
+    }
+
+    public void setCurrY(float y) {
+        currentPos.y = y;
+    }
+
+    public float getDestX() {
+        return destination.x;
+    }
+
+    public float getDestY() {
+        return destination.y;
+    }
+
+    public void setDestX(float x) {
+        destination.x = x;
+    }
+
+    public void setDestY(float y) {
+        destination.y = y;
+    }
+
+    /**
+     * @param otherPlayer input compared to
+     * @return if all the values are the same, <b>excluding timestamp</b>.
+     */
+    public boolean hasAllMatchingFieldsExceptTimestamp(Player otherPlayer) {
+        return isSamePosition(otherPlayer)
+                && isSameUuid(otherPlayer)
+                && isSameDestination(otherPlayer)
+                && isSameSpeed(otherPlayer)
+                && isSameSize(otherPlayer)
+                && isSameColor(otherPlayer);
+    }
+
+    private boolean isSameUuid(Player otherPlayer) {
+        return uuid.equals(otherPlayer.getUuid());
+    }
+
+    public boolean isSameColorAndUuid(Player other) {
+        return isSameColor(other) && isSameUuid(other);
+    }
+
+    public boolean isSamePosition(Player otherPlayer) {
+        return getCurrX() == otherPlayer.getCurrX()
+                && getCurrY() == otherPlayer.getCurrY();
+    }
+
+    public boolean isSameDestination(Player otherPlayer) {
+        return getDestX() == otherPlayer.getDestX()
+                && getDestY() == otherPlayer.getDestY();
+    }
+
+    public boolean isSameSize(Player otherPlayer) {
+        return size == otherPlayer.size;
+    }
+
+    public boolean isSameSpeed(Player otherPlayer) {
+        return speed == otherPlayer.speed;
+    }
+
+    public boolean isSameColor(Player otherPlayer) {
+        return colorIndex == otherPlayer.colorIndex;
     }
 }

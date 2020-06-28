@@ -19,7 +19,6 @@ import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.state.GameWorldManager;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,10 +55,10 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
         log.debug("Received initial GS: " + gameInit);
-        Optional<Player> selfPlayerDto = gameInit.getFirstGameStateDto()
-                .getPlayer(gameInit.getCurrentPlayerId());
+        Optional<Player> selfPlayer = gameInit.getNewGameWorldDto().newGameWorld
+                .getLocalGameState().getPlayer(gameInit.getCurrentPlayerId());
 
-        if (selfPlayerDto.isEmpty() || Objects.isNull(selfPlayerDto.get().getUuid())) {
+        if (selfPlayer.isEmpty() || Objects.isNull(selfPlayer.get().getUuid())) {
             throw new IllegalStateException(
                     "Server did not send a valid GameState (it does not contain the new Player or he is labeled with the wrong ID).");
         }
@@ -70,16 +69,15 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         Gdx.input.setInputProcessor(
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
-        logicAfterPriorChecks(gameInit, selfPlayerDto.get());
+        logicAfterPriorChecks(gameInit);
     }
 
     /**
      * After all the validation is done, this is called.
      */
-    private void logicAfterPriorChecks(GameInitializationDto gameInit, PlayerDto selfPlayerDto) {
-        GameWorld gameWorld = new GameWorld();
-
-        controller = new Controller(kryoClient, gameWorld, selfPlayerDto);
+    private void logicAfterPriorChecks(GameInitializationDto gameInit) {
+        GameWorld gameWorld = gameInit.newGameWorldDto.newGameWorld;
+        controller = new Controller(kryoClient, gameWorld, gameInit.currentPlayerId);
 
         /* Draw the screen to start the game. */
         Gdx.app.postRunnable(() -> {

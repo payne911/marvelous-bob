@@ -19,7 +19,7 @@ public class MoveAction implements Action {
     private float deltaX, deltaY;
 
     public MoveAction(IndexedMoveActionDto dto) {
-        this.timestamp = dto.getDto().getTimestamp(); // We trust player timestamp ???
+        this.timestamp = dto.getDto().getTimestamp();
         this.playerId = dto.getDto().getSourcePlayerUuid();
         this.deltaX = dto.getDto().getDestX();
         this.deltaY = dto.getDto().getDestY();

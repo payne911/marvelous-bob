@@ -6,13 +6,11 @@ import static com.marvelousbob.client.MyGame.controller;
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.MeleePlayer;
 import com.marvelousbob.common.model.entities.Player;
-import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;
+import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,14 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Controller {
 
-
-    /**
-     * The {@link PlayerDto} wrapper which contains the necessary information for scene2d to draw.
-     * <p>
-     * To update the Dto, use {@link Player#updateFromDto(PlayerDto)}.
-     */
-    @Getter
-    private final Player selfPlayer;
+    private final UUID selfPlayerUuid;
 
     /**
      * Takes care of everything that relates to the Game State logic.
@@ -42,14 +33,10 @@ public class Controller {
     private final Client kryoClient;
 
 
-    private long moveIndex;
-
-
-    public Controller(Client kryoClient, GameWorld initGameWorld, PlayerDto initPlayerDto) {
+    public Controller(Client kryoClient, GameWorld initGameWorld, UUID selfPlayerUuid) {
         this.kryoClient = kryoClient;
         this.gameWorldManager = new GameWorldManager(initGameWorld);
-        this.selfPlayer = new MeleePlayer(initPlayerDto);
-        this.moveIndex = 0;
+        this.selfPlayerUuid = selfPlayerUuid;
     }
 
     public void updateGameState(float delta) {
@@ -60,7 +47,7 @@ public class Controller {
         log.debug("Tapped on (%f,%f)".formatted(x, y));
         log.debug("Before changes, game state is: " + controller.getLocalState());
 
-        PlayerDto self = getSelfPlayerDto();
+        Player self = getSelfPlayer();
 
         /* Adjust input coordinate to center of player. */
         float destX = x - self.getSize() / 2;
@@ -69,8 +56,8 @@ public class Controller {
                 .formatted(x, y, destX, destY));
 
         /* Assume local input will be accepted by server. */
-        self.setDestX(destX);
-        self.setDestY(destY);
+        self.getDestination().x = destX;
+        self.getDestination().y = destY;
 
         /* Send movement request to server. */
         var moveActionDto = new MoveActionDto();
@@ -78,26 +65,23 @@ public class Controller {
         moveActionDto.setDestY(destY);
         moveActionDto.setSourcePlayerUuid(self.getUuid());
         moveActionDto.stampNow();
-        IndexedMoveActionDto moveDTO = new IndexedMoveActionDto(moveActionDto, moveIndex++);
-        log.debug("sending IndexedMoveActionDto: " + moveDTO);
-        client.getClient().sendTCP(moveDTO);
+        log.debug("sending MoveActionDto: " + moveActionDto);
+        client.getClient().sendTCP(moveActionDto);
         log.debug("After changes, game state is: " + controller.getLocalState());
     }
 
-    /**
-     * @return the {@code mutableCurrentLocalGameState} of the {@link GameWorldManager}.
-     */
+
+    public GameWorld getGameWorld() {
+        return gameWorldManager.getMutableGameWorld();
+    }
+
     public LocalGameState getLocalState() {
         return getGameWorld().getLocalGameState();
     }
 
-    public PlayerDto getSelfPlayerDto() {
-        return getLocalState().getPlayer(selfPlayer.getUuid())
+    public Player getSelfPlayer() {
+        return getLocalState().getPlayer(selfPlayerUuid)
                 .orElseThrow(() -> new MarvelousBobException(
                         "Illegal State: could not find the PlayerDto associated with yourself (your client)."));
-    }
-
-    public GameWorld getGameWorld() {
-        return gameWorldManager.getMutableGameWorld();
     }
 }
