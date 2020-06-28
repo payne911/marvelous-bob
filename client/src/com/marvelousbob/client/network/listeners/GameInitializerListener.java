@@ -15,15 +15,13 @@ import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.screens.GameScreen;
-import com.marvelousbob.common.mapper.GameStateMapper;
 import com.marvelousbob.common.mapper.LevelMapper;
 import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.Level;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.state.GameStateUpdater;
-import com.marvelousbob.common.state.LocalGameState;
+import com.marvelousbob.common.state.GameWorldManager;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +40,9 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
      */
     private final MarvelousBob marvelousBob;
     private final LevelMapper levelMapper;
-    private final GameStateMapper gameStateMapper;
 
     /**
-     * Used by the {@link GameStateUpdater} to do deep copies.
+     * Used by the {@link GameWorldManager} to do deep copies.
      */
     private final Client kryoClient;
 
@@ -54,7 +51,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         this.marvelousBob = marvelousBob;
         this.kryoClient = kryoClient;
         this.levelMapper = new LevelMapper();
-        this.gameStateMapper = new GameStateMapper();
     }
 
     @Override
@@ -86,7 +82,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
     private void logicAfterPriorChecks(GameInitializationDto gameInit, PlayerDto selfPlayerDto) {
         GameWorld gameWorld = new GameWorld();
         gameWorld.setLevel(extractInitialLevel(gameInit));
-        gameWorld.setLocalGameState(extractInitialLocalGameState(gameInit));
 
         controller = new Controller(kryoClient, gameWorld, selfPlayerDto);
 
@@ -94,9 +89,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(controller)));
     }
 
-    private LocalGameState extractInitialLocalGameState(GameInitializationDto gameInitDto) {
-        return gameStateMapper.fromGameStateDto(gameInitDto);
-    }
 
     private Level extractInitialLevel(GameInitializationDto gameInitDto) {
         return levelMapper.toLevel(gameInitDto.getCurrentLevel());

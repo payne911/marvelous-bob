@@ -11,7 +11,7 @@ import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
-import com.marvelousbob.common.state.GameStateUpdater;
+import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class Controller {
      * Takes care of everything that relates to the Game State logic.
      */
     @Getter
-    private final GameStateUpdater gameStateUpdater;
+    private final GameWorldManager gameWorldManager;
 
     /**
      * Used for the TCP network communications with the server.
@@ -47,13 +47,13 @@ public class Controller {
 
     public Controller(Client kryoClient, GameWorld initGameWorld, PlayerDto initPlayerDto) {
         this.kryoClient = kryoClient;
-        this.gameStateUpdater = new GameStateUpdater(kryoClient.getKryo(), initGameWorld);
+        this.gameWorldManager = new GameWorldManager(kryoClient.getKryo(), initGameWorld);
         this.selfPlayer = new MeleePlayer(initPlayerDto);
         this.moveIndex = 0;
     }
 
     public void updateGameState(float delta) {
-        gameStateUpdater.updateGameState(delta);
+        gameWorldManager.updateGameState(delta);
     }
 
     public void playerClicked(float x, float y) {
@@ -85,20 +85,20 @@ public class Controller {
     }
 
     /**
-     * @return the {@code mutableCurrentLocalGameState} of the {@link GameStateUpdater}.
+     * @return the {@code mutableCurrentLocalGameState} of the {@link GameWorldManager}.
      */
     public LocalGameState getLocalState() {
-        return gameStateUpdater.getMutableLocalGameState();
+        return gameWorldManager.getMutableLocalGameState();
     }
 
     public PlayerDto getSelfPlayerDto() {
-        return gameStateUpdater.getMutableLocalGameState()
+        return gameWorldManager.getMutableLocalGameState()
                 .getPlayer(selfPlayer.getUuid())
                 .orElseThrow(() -> new MarvelousBobException(
                         "Illegal State: could not find the PlayerDto associated with yourself (your client)."));
     }
 
     public GameWorld getGameWorld() {
-        return gameStateUpdater.getMutableGameWorld();
+        return gameWorldManager.getMutableGameWorld();
     }
 }

@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * Logic that relates to updating the world based on current and past data.
  */
 @Slf4j
-public class GameStateUpdater {
+public class GameWorldManager {
 
     private long newestGameStateIndexProcessed;
 
@@ -34,7 +34,7 @@ public class GameStateUpdater {
     private final Kryo kryo;
 
 
-    public GameStateUpdater(Kryo kryo, GameWorld initialGameWorld) {
+    public GameWorldManager(Kryo kryo, GameWorld initialGameWorld) {
         this.kryo = kryo;
         this.mutableGameWorld = initialGameWorld;
         this.mutableLocalGameState = initialGameWorld.getLocalGameState();

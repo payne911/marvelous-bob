@@ -9,6 +9,7 @@ import com.marvelousbob.common.network.register.dto.IndexedDto;
 import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
+import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
@@ -29,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Data
 public class ServerState {
+
+    private GameWorldManager gameWorldManager;
 
     /**
      * Index for the incremental game states
@@ -130,8 +133,7 @@ public class ServerState {
 
     public GameInitializationDto getInitializationDto(UUID playerUuid) {
         GameInitializationDto gameInit = new GameInitializationDto();
-        GameStateDto gameState = new GameStateDto(players, enemies);
-        gameInit.setFirstGameStateDto(gameState);
+        GameStateDto gameState = new GameStateDto();
         gameInit.setCurrentPlayerId(playerUuid);
         gameInit.setCurrentLevel(worldGenerator.getWorld());
         return gameInit;

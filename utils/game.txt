@@ -125,7 +125,7 @@ Bases:
 - Sent by server
   - GameState: loop 100ms
   | * must be ordered
-  | - Enemy collision
+  | - Enemy collision (listener done server side)
   |   - uuid of involved: Enemy and Player
   | - Player list
   |   - health, pointing at
