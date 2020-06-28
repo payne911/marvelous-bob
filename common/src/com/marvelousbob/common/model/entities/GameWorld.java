@@ -1,6 +1,12 @@
 package com.marvelousbob.common.model.entities;
 
+import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
+import com.marvelousbob.common.network.register.dto.NewEnemyDto;
+import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
+import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
+import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.state.LocalGameState;
+import com.marvelousbob.common.utils.MovementUtils;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -15,5 +21,29 @@ public class GameWorld implements Drawable {
     public void drawMe(ShapeDrawer shapeDrawer) {
         level.drawMe(shapeDrawer);
         localGameState.drawMe(shapeDrawer);
+    }
+
+    public void updatePlayer(PlayerUpdateDto playerUpdateDto) {
+        localGameState.updateUsingPlayerList(playerUpdateDto);
+    }
+
+    public void updatePlayerBase(PlayersBaseDto playersBaseDto) {
+        level.updateUsingPlayerBase(playersBaseDto);
+    }
+
+    public void updateSpawnPoints(SpawnPointDto spawnPointDto) {
+        level.updateUsingSpawnPoints(spawnPointDto);
+    }
+
+    public void updateEnemyCollision(EnemyCollisionDto enemyCollisionDto) {
+        localGameState.updateUsingEnemyCollision(enemyCollisionDto);
+    }
+
+    public void updateNewEnemy(NewEnemyDto newEnemyDto) {
+        localGameState.updateNewEnemy(newEnemyDto);
+    }
+
+    public void interpolatePlayerPositions(float delta) {
+        MovementUtils.interpolatePlayers(localGameState.getPlayers().values(), delta);
     }
 }

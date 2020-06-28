@@ -40,7 +40,7 @@ public class LocalGameState implements Drawable {
         // TODO
     }
 
-    public void updateUsingNewEnemyList(NewEnemyDto newEnemyDto) {
+    public void updateNewEnemy(NewEnemyDto newEnemyDto) {
         // TODO
     }
 

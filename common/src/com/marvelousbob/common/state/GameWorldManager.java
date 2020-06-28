@@ -1,10 +1,7 @@
 package com.marvelousbob.common.state;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.Level;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
-import com.marvelousbob.common.utils.MovementUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,11 +13,6 @@ public class GameWorldManager {
 
     private long newestGameStateIndexProcessed;
 
-    @Getter
-    private final LocalGameState mutableLocalGameState;
-
-    @Getter
-    private final Level mutableCurrentLevel;
 
     /**
      * The Rendering thread always renders this (through concurrent access).
@@ -28,17 +20,9 @@ public class GameWorldManager {
     @Getter
     private final GameWorld mutableGameWorld;
 
-    /**
-     * Used for deep copies.
-     */
-    private final Kryo kryo;
 
-
-    public GameWorldManager(Kryo kryo, GameWorld initialGameWorld) {
-        this.kryo = kryo;
+    public GameWorldManager(GameWorld initialGameWorld) {
         this.mutableGameWorld = initialGameWorld;
-        this.mutableLocalGameState = initialGameWorld.getLocalGameState();
-        this.mutableCurrentLevel = initialGameWorld.getLevel();
     }
 
     /**
@@ -51,14 +35,14 @@ public class GameWorldManager {
 
         if (serverGameState.getIndex() > newestGameStateIndexProcessed) {
             newestGameStateIndexProcessed = serverGameState.getIndex();
-            serverGameState.playerUpdates.forEach(mutableLocalGameState::updateUsingPlayerList);
-            serverGameState.basesHealth.forEach(mutableCurrentLevel::updateUsingPlayerBase);
-            serverGameState.spawnPointHealth.forEach(mutableCurrentLevel::updateUsingSpawnPoints);
+            serverGameState.playerUpdates.forEach(mutableGameWorld::updatePlayer);
+            serverGameState.basesHealth.forEach(mutableGameWorld::updatePlayerBase);
+            serverGameState.spawnPointHealth.forEach(mutableGameWorld::updateSpawnPoints);
         } else {
             log.warn("Received an older GS than the last one processed.");
         }
-        serverGameState.enemyCollisions.forEach(mutableLocalGameState::updateUsingEnemyCollision);
-        serverGameState.newEnemies.forEach(mutableLocalGameState::updateUsingNewEnemyList);
+        serverGameState.enemyCollisions.forEach(mutableGameWorld::updateEnemyCollision);
+        serverGameState.newEnemies.forEach(mutableGameWorld::updateNewEnemy);
     }
 
     /**
@@ -67,6 +51,6 @@ public class GameWorldManager {
      * @param delta amount of time which has passed since last render.
      */
     public void updateGameState(float delta) {
-        MovementUtils.interpolatePlayers(mutableLocalGameState.getPlayers().values(), delta);
+        mutableGameWorld.interpolatePlayerPositions(delta);
     }
 }
