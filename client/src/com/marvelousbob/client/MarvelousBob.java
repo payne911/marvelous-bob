@@ -113,6 +113,7 @@ public class MarvelousBob extends Game {
     }
 
     private void instantiatePlayer() {
+        // todo: add screen for Player Type choice
         client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
     }
 
