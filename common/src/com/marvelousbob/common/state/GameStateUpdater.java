@@ -58,7 +58,7 @@ public class GameStateUpdater {
             log.warn("Received an older GS than the last one processed.");
         }
         serverGameState.enemyCollisions.forEach(mutableLocalGameState::updateUsingEnemyCollision);
-        serverGameState.newEnemies.forEach(mutableLocalGameState::updateUsingnewEnemyList);
+        serverGameState.newEnemies.forEach(mutableLocalGameState::updateUsingNewEnemyList);
     }
 
     /**

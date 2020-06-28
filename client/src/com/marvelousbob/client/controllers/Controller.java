@@ -76,7 +76,7 @@ public class Controller {
         var moveActionDto = new MoveActionDto();
         moveActionDto.setDestX(destX);
         moveActionDto.setDestY(destY);
-        moveActionDto.setPlayerId(self.getUuid());
+        moveActionDto.setSourcePlayerUuid(self.getUuid());
         moveActionDto.stampNow();
         IndexedMoveActionDto moveDTO = new IndexedMoveActionDto(moveActionDto, moveIndex++);
         log.debug("sending IndexedMoveActionDto: " + moveDTO);

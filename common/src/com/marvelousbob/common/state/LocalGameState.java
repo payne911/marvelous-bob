@@ -20,11 +20,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class LocalGameState implements Drawable {
 
-    private ConcurrentHashMap<UUID, Player> players;
-    private ConcurrentHashMap<UUID, Enemy> enemies;
-
-    public LocalGameState() {
-    }
+    private final ConcurrentHashMap<UUID, Player> players;
+    private final ConcurrentHashMap<UUID, Enemy> enemies;
 
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
@@ -43,7 +40,7 @@ public class LocalGameState implements Drawable {
         // TODO
     }
 
-    public void updateUsingnewEnemyList(NewEnemyDto newEnemyDto) {
+    public void updateUsingNewEnemyList(NewEnemyDto newEnemyDto) {
         // TODO
     }
 

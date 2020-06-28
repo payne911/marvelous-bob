@@ -10,7 +10,9 @@ import com.marvelousbob.common.network.register.dto.NewLevelDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.network.register.dto.WallDto;
+import com.marvelousbob.common.utils.UUID;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class LevelMapper {
@@ -18,9 +20,10 @@ public class LevelMapper {
     public Level toLevel(NewLevelDto newLevelDto) {
         List<Wall> walls = newLevelDto.walls.stream()
                 .map(this::toWall).collect(Collectors.toList());
-        List<EnemySpawnPoint> spawnPoints = newLevelDto.spawnPointDtos.stream()
+        ConcurrentHashMap<UUID, EnemySpawnPoint> spawnPoints = newLevelDto.spawnPointDtos.values()
+                .stream()
                 .map(this::toSpawnPoint).collect(Collectors.toList());
-        List<PlayersBase> bases = newLevelDto.bases.stream()
+        ConcurrentHashMap<UUID, PlayersBase> bases = newLevelDto.bases.values().stream()
                 .map(this::toBase).collect(Collectors.toList());
         return new Level(bases, spawnPoints, walls);
     }

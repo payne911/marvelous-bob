@@ -16,8 +16,18 @@ public class MoveActionListener extends AbstractListener<MoveActionDto> {
 
     @Override
     public void accept(Connection connection, MoveActionDto moveDto) {
+        if (moveDto.shouldBeIgnored(
+                marvelousBob.getGameScreen().getController().getSelfPlayer().getUuid())) {
+            return;
+        }
+
+        if (lastTimestampObserved > moveDto.timestamp) {
+            return;
+        }
+
+        lastTimestampObserved = moveDto.timestamp;
         marvelousBob.getGameScreen().getController().getGameWorld().getLocalGameState()
-                .getPlayer(moveDto.getPlayerId()).ifPresent(p -> {
+                .getPlayer(moveDto.getSourcePlayerUuid()).ifPresent(p -> {
             p.setDestX(moveDto.getDestX());
             p.setDestY(moveDto.getDestY());
         });

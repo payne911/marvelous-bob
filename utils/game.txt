@@ -124,6 +124,7 @@ Bases:
 
 - Sent by server
   - GameState: loop 100ms
+  | * must be ordered
   | - Enemy collision
   |   - uuid of involved: Enemy and Player
   | - Player list
@@ -135,6 +136,7 @@ Bases:
       - health
       - speed
   - Broadcast on receive
+  * Players must ignore their own action
   * Broadcasts to a player that hasn't initialized stuff yet would crash
   | - Player attacks
   |   - new bullet
@@ -144,6 +146,7 @@ Bases:
   |   - damage dealt
   |   - opt dead enemies/spawn uuid
   | - Player move actions
+      * must be ordered
       - move to pos
 
 

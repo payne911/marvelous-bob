@@ -10,6 +10,7 @@ public class PlayersBase implements Drawable {
 
     private Rectangle rectangle; // todo: hexagon
     private Color color;
+    private float hp, maxHp;
 
     public PlayersBase(float blX, float blY, float width, float height, Color color) {
         this(new com.badlogic.gdx.math.Rectangle(blX, blY, width, height), color);

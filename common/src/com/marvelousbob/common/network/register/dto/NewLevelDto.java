@@ -1,6 +1,8 @@
 package com.marvelousbob.common.network.register.dto;
 
+import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,6 @@ import lombok.NoArgsConstructor;
 public final class NewLevelDto implements Dto {
 
     public ArrayList<WallDto> walls;
-    public ArrayList<PlayersBaseDto> bases;
-    public ArrayList<SpawnPointDto> spawnPointDtos;
+    public ConcurrentHashMap<UUID, PlayersBaseDto> bases;
+    public ConcurrentHashMap<UUID, SpawnPointDto> spawnPointDtos;
 }

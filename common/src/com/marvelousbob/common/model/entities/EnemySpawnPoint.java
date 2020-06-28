@@ -3,12 +3,16 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@Data
 public class EnemySpawnPoint implements Drawable {
 
-    public Polygon shape;
-    public Color color;
+    private Vector2 pos;
+    private float hp, maxHp;
+    private Polygon shape;
+    private Color color;
 
     public EnemySpawnPoint(Polygon shape, Color color) {
         this.shape = shape;
