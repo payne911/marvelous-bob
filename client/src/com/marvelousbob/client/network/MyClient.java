@@ -26,6 +26,7 @@ public class MyClient {
     public MyClient(boolean isLocalServer, MarvelousBob marvelousBob) {
         this.client = new Client();
         client.getKryo().setRegistrationRequired(false); // todo: verify this works as expected
+        client.getKryo().setWarnUnregisteredClasses(true);
         this.marvelousBob = marvelousBob;
         this.register = new Register(client);
         this.addr = isLocalServer
