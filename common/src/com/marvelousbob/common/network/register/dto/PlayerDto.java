@@ -6,19 +6,25 @@ import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Slf4j
 public final class PlayerDto implements Identifiable, Dto {
 
+    @EqualsAndHashCode.Include
+    public UUID uuid;
+
     public ArrayList<BulletDto> bullets;
     public int colorIndex;
-    public UUID uuid;
     public float speed = 20;
     public float size = 40;
     public float currX, destX, currY, destY;
@@ -97,22 +103,5 @@ public final class PlayerDto implements Identifiable, Dto {
 
     public boolean isSameDestination(PlayerDto otherPlayerDto) {
         return destX == otherPlayerDto.destX && destY == otherPlayerDto.destY;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PlayerDto playerDto = (PlayerDto) o;
-        return uuid.equals(playerDto.uuid);
-    }
-
-    @Override
-    public int hashCode() {
-        return uuid.hashCode();
     }
 }
