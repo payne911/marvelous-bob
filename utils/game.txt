@@ -108,6 +108,7 @@ Base:
   - bullet id
 
 - Authoritative Server
+  - Random generation
   - Uuid
   - Enemy path
   - other Players health / death
