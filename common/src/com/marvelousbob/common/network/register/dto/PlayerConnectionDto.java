@@ -1,7 +1,14 @@
 package com.marvelousbob.common.network.register.dto;
 
 
-public final class PlayerConnectionDto implements Dto {
-   public PlayerTypeDto playerType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public final class PlayerConnectionDto implements Dto {
+
+   public PlayerTypeDto playerType;
 }

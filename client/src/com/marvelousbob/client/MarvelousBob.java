@@ -22,6 +22,7 @@ import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
+import com.marvelousbob.common.network.register.dto.PlayerTypeDto;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -112,7 +113,7 @@ public class MarvelousBob extends Game {
     }
 
     private void instantiatePlayer() {
-        client.getClient().sendTCP(new PlayerConnectionDto());
+        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
     }
 
     private void initializeDisplayElements() {
