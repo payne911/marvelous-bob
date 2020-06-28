@@ -38,13 +38,13 @@ public class MoveAction implements Action {
 
     @Override
     public void execute(final ServerState serverState, final float delta) {
-        serverState.getPlayer(playerId)
-                .ifPresent(p -> {
-                    log.info("Move action for player %d detected"
-                            .formatted(p.getUuid().getId()));
-                    p.setDestX(deltaX);
-                    p.setDestY(deltaY);
-                });
+//        serverState.getPlayer(playerId)
+//                .ifPresent(p -> {
+//                    log.info("Move action for player %d detected"
+//                            .formatted(p.getUuid().getId()));
+//                    p.setDestX(deltaX);
+//                    p.setDestY(deltaY);
+//                });
     }
 
 }

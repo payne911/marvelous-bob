@@ -6,17 +6,17 @@ import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.state.GameWorldManager;
+import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.StaticSimpleLevelGenerator;
 import java.util.ArrayList;
-import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +40,7 @@ public class ServerState {
 
     private GameWorldManager gameWorldManager;
 
-    private Queue<Action> actions;
+//    private Queue<Action> actions;
 
     private ArrayList<EnemyCollisionDto> enemyCollisions;
     private ArrayList<PlayerUpdateDto> playerUpdates;
@@ -54,7 +54,7 @@ public class ServerState {
         this.colorIndex = 0;
         this.gameStateIndex = 0;
 
-        this.actions = new SynchronousQueue<>();
+//        this.actions = new SynchronousQueue<>();
         this.gameWorldManager = new GameWorldManager(new GameWorld());
         this.levelGenerator = new StaticSimpleLevelGenerator();
         reset();
@@ -62,9 +62,9 @@ public class ServerState {
 
     public void runGameLogic(float delta) {
         Action action;
-        while ((action = actions.poll()) != null) {
-            action.execute(this, delta);
-        }
+//        while ((action = actions.poll()) != null) {
+//            action.execute(this, delta);
+//        }
         gameWorldManager.updateGameState(delta);
     }
 
@@ -79,7 +79,7 @@ public class ServerState {
                 gameStateIndex++);
     }
 
-    private void reset() {
+    public void reset() {
         gameStateIndex = 0L;
         enemyCollisions = new ArrayList<>();
         playerUpdates = new ArrayList<>();
@@ -112,4 +112,13 @@ public class ServerState {
         return gameWorldManager.getMutableGameWorld();
     }
 
+    public void updatePlayerPos(MoveActionDto moveAction) {
+        gameWorldManager.getMutableGameWorld().getLocalGameState()
+                .updateUsingMoveAction(moveAction);
+    }
+
+
+    public void removePlayer(UUID playerId) {
+        gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().remove(playerId);
+    }
 }

@@ -1,26 +1,28 @@
 package com.marvelousbob.server.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.IndexedMoveActionDto;
+import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.server.model.ServerState;
-import com.marvelousbob.server.model.actions.MoveAction;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MoveActionListener extends AbstractListener<IndexedMoveActionDto> {
+public class MoveActionListener extends AbstractListener<MoveActionDto> {
 
     private final ServerState serverState;
+    private final Server server;
 
-    public MoveActionListener(ServerState serverState) {
-        super(IndexedMoveActionDto.class);
+    public MoveActionListener(ServerState serverState, Server server) {
+        super(MoveActionDto.class);
         this.serverState = serverState;
+        this.server = server;
     }
 
-
     @Override
-    public void accept(Connection connection, IndexedMoveActionDto moveActionDto) {
+    public void accept(Connection connection, MoveActionDto moveActionDto) {
         log.debug("Received MoveAction: " + moveActionDto);
-        serverState.addAction(new MoveAction(moveActionDto));
+        serverState.updatePlayerPos(moveActionDto);
+        server.sendToAllTCP(moveActionDto);
     }
 }

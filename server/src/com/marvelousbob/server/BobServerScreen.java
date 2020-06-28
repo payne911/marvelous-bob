@@ -31,7 +31,7 @@ public class BobServerScreen extends ScreenAdapter {
     public void show() {
         server.addListener(new DebugListener(server));
         server.addListener(new PlayerConnectionListener(server, serverState));
-        server.addListener(new MoveActionListener(serverState));
+        server.addListener(new MoveActionListener(serverState, server));
         server.addListener(new PlayerDisconnectionListener(serverState));
         server.addListener(new EnemyCollisionListener(serverState));
     }
@@ -42,17 +42,12 @@ public class BobServerScreen extends ScreenAdapter {
 
         if (deltaAcc >= LOOP_SPEED) {
             deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
-//            serverState.executeAll(deltaAcc);
-//            Optional<IndexedGameStateDto> optionalIndexedGameStateDto = serverState.update(deltaAcc);
-//            optionalIndexedGameStateDto.ifPresent(server::sendToAllTCP);
-//            serverState.reset();
-            serverState.runGameLogic(delta);
             GameStateDto gameStateDto = serverState.getCurrentGameStateAsDto();
             server.sendToAllTCP(gameStateDto);
+            serverState.reset();
         } else {
             deltaAcc += delta;
         }
-
     }
 
     @Override

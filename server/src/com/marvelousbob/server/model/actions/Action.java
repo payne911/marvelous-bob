@@ -4,6 +4,9 @@ import com.marvelousbob.common.network.register.Timestamped;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 
+/**
+ * For upating the server state with info that requires the delta
+ */
 public interface Action extends Timestamped, Comparable<Action> {
 
     void execute(final ServerState serverState, final float delta);
