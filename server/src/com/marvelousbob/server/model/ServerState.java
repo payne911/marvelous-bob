@@ -5,6 +5,7 @@ import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
+import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
@@ -93,7 +94,7 @@ public class ServerState {
     }
 
     public void initializeOnFirstPlayerConnected() {
-        // TODO: 2020-06-28 set level   ---OLA
+        gameWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
     }
 
     public void addPlayer(Player player) {
@@ -108,8 +109,8 @@ public class ServerState {
         return playerColors[colorIndex++];
     }
 
-    public GameWorld getGameWorld() {
-        return gameWorldManager.getMutableGameWorld();
+    public GameInitializationDto getGameInitDto(UUID currentPlayerUuid) {
+        return new GameInitializationDto(gameWorldManager.getMutableGameWorld(), currentPlayerUuid);
     }
 
     public void updatePlayerPos(MoveActionDto moveAction) {

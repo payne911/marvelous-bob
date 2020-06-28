@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class NewGameWorldDto implements Dto {
-
     public GameWorld newGameWorld;
 }

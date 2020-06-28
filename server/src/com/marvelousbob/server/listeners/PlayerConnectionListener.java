@@ -35,8 +35,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
         Player player = playerConnection.playerType
                 .getPlayerInstance(uuid, serverState.getFreeColor(), randomPos());
         serverState.addPlayer(player);
-        // TODO: 2020-06-28 What do we send to player ??     --- OLA
-        server.sendToTCP(connection.getID(), serverState.getGameWorld());
+        server.sendToTCP(connection.getID(), serverState.getGameInitDto(uuid));
     }
 
 

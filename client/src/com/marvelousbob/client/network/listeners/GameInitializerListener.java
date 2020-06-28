@@ -55,7 +55,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
         log.debug("Received initial GS: " + gameInit);
-        Optional<Player> selfPlayer = gameInit.getNewGameWorldDto().newGameWorld
+        Optional<Player> selfPlayer = gameInit.newGameWorld
                 .getLocalGameState().getPlayer(gameInit.getCurrentPlayerId());
 
         if (selfPlayer.isEmpty() || Objects.isNull(selfPlayer.get().getUuid())) {
@@ -76,7 +76,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
      * After all the validation is done, this is called.
      */
     private void logicAfterPriorChecks(GameInitializationDto gameInit) {
-        GameWorld gameWorld = gameInit.newGameWorldDto.newGameWorld;
+        GameWorld gameWorld = gameInit.newGameWorld;
         controller = new Controller(kryoClient, gameWorld, gameInit.currentPlayerId);
 
         /* Draw the screen to start the game. */
