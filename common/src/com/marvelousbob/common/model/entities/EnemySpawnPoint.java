@@ -22,9 +22,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Polygon shape2;
     private Color color;
 
-    public EnemySpawnPoint(UUID uuid, Polygon shape, Color color) {
+    public EnemySpawnPoint(UUID uuid, Polygon shape, Polygon shape2, Color color) {
         this.uuid = uuid;
         this.shape = shape;
+        this.shape2 = shape2;
         this.color = color;
     }
 
@@ -39,11 +40,14 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                 p1.x, p1.y,
                 p2.x, p2.y,
                 p3.x, p3.y,
+        };
+
+        float[] t2Vertices = new float[]{
                 p4.x, p4.y,
                 p5.x, p5.y,
-                p6.x, p6.y
+                p6.x, p6.y,
         };
-        return new EnemySpawnPoint(uuid, new Polygon(tVertices), color);
+        return new EnemySpawnPoint(uuid, new Polygon(tVertices), new Polygon(t2Vertices), color);
     }
 
     @Override
