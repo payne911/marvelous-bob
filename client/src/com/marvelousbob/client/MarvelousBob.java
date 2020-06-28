@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
-import com.marvelousbob.common.network.register.dto.PlayerConnection;
+import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -112,7 +112,7 @@ public class MarvelousBob extends Game {
     }
 
     private void instantiatePlayer() {
-        client.getClient().sendTCP(new PlayerConnection());
+        client.getClient().sendTCP(new PlayerConnectionDto());
     }
 
     private void initializeDisplayElements() {

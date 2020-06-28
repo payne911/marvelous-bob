@@ -4,6 +4,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.register.dto.IndexedGameStateDto;
 import com.marvelousbob.server.listeners.DebugListener;
+import com.marvelousbob.server.listeners.EnemyCollisionListener;
 import com.marvelousbob.server.listeners.MoveActionListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
 import com.marvelousbob.server.listeners.PlayerDisconnectionListener;
@@ -33,6 +34,7 @@ public class BobServerScreen extends ScreenAdapter {
         server.addListener(new PlayerConnectionListener(server, serverState));
         server.addListener(new MoveActionListener(serverState));
         server.addListener(new PlayerDisconnectionListener(serverState));
+        server.addListener(new EnemyCollisionListener(serverState));
     }
 
     @Override
@@ -41,14 +43,15 @@ public class BobServerScreen extends ScreenAdapter {
 
         if (deltaAcc >= LOOP_SPEED) {
             deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
-            // todo: execute loop
+            serverState.executeAll(deltaAcc);
+            Optional<IndexedGameStateDto> optionalIndexedGameStateDto = serverState
+                    .update(deltaAcc);
+            optionalIndexedGameStateDto.ifPresent(server::sendToAllTCP);
+            serverState.reset();
         } else {
             deltaAcc += delta;
         }
 
-        serverState.executeAll(delta);
-        Optional<IndexedGameStateDto> optionalIndexedGameStateDto = serverState.update(delta);
-        optionalIndexedGameStateDto.ifPresent(server::sendToAllTCP);
     }
 
     @Override

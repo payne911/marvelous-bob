@@ -2,6 +2,7 @@ package com.marvelousbob.server.model;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.constants.GameConstant;
+import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.EnemyDto;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
@@ -13,6 +14,8 @@ import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
 import com.marvelousbob.server.worlds.StaticSimpleWorldGenerator;
 import com.marvelousbob.server.worlds.WorldGenerator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -37,6 +40,9 @@ public class ServerState {
      * Accumulates actions to be performed between server ticks.
      */
     private Queue<Action> actions;
+
+
+    private List<EnemyCollisionDto> enemyCollisions;
 
 
     /**
@@ -64,6 +70,7 @@ public class ServerState {
 
     public ServerState() {
         this.actions = new PriorityBlockingQueue<>();
+        this.enemyCollisions = new ArrayList<>();
         this.players = new ConcurrentHashMap<>();
         this.freePlayerColorIds = IntStream.range(0, GameConstant.MAX_PLAYER_AMOUNT).boxed()
                 .collect(Collectors.toSet());
@@ -149,5 +156,13 @@ public class ServerState {
 
     public void updateProcessedAction(UUID playerId, IndexedDto<?> dto) {
         processedActionsByPlayer.put(playerId, dto.getIndex());
+    }
+
+    public void resetCollisions() {
+        this.enemyCollisions = new ArrayList<>();
+    }
+
+    public void reset() {
+        resetCollisions();
     }
 }

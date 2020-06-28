@@ -8,26 +8,26 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.network.listeners.AbstractListener;
-import com.marvelousbob.common.network.register.dto.PlayerConnection;
+import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.ServerState;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PlayerConnectionListener extends AbstractListener<PlayerConnection> {
+public class PlayerConnectionListener extends AbstractListener<PlayerConnectionDto> {
 
     private final Server server;
     private final ServerState serverState;
 
     public PlayerConnectionListener(Server server, ServerState serverState) {
-        super(PlayerConnection.class);
+        super(PlayerConnectionDto.class);
         this.server = server;
         this.serverState = serverState;
     }
 
     @Override
-    public void accept(Connection connection, PlayerConnection playerConnection) {
+    public void accept(Connection connection, PlayerConnectionDto playerConnection) {
         UUID uuid = UUID.getNext();
         PlayerDto playerDto = new PlayerDto(uuid);
         assignRandomPosition(playerDto);
