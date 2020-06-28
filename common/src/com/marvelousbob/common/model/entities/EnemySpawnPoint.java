@@ -5,10 +5,14 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.utils.UUID;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnemySpawnPoint implements Drawable, Identifiable {
 
     private UUID uuid;

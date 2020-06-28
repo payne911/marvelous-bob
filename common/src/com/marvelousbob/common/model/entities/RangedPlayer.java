@@ -6,8 +6,10 @@ import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@NoArgsConstructor
 public class RangedPlayer extends Player {
 
     private static final float[] VERTICES = new float[]{

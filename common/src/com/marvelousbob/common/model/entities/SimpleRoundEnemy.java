@@ -3,8 +3,10 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@NoArgsConstructor
 public class SimpleRoundEnemy extends Enemy {
 
     private Circle circle;

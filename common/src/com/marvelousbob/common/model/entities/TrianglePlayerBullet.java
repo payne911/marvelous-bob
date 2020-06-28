@@ -3,8 +3,10 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.marvelousbob.common.utils.UUID;
 import java.util.Objects;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@NoArgsConstructor
 public class TrianglePlayerBullet extends Bullet {
 
     /**

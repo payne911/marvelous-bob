@@ -5,9 +5,11 @@ import com.badlogic.gdx.math.Rectangle;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
+@NoArgsConstructor
 public class PlayersBase implements Drawable, Identifiable {
 
     private UUID uuid;

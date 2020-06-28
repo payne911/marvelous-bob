@@ -3,13 +3,15 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
+@NoArgsConstructor
 public class Wall implements Drawable {
 
-    private final Rectangle rectangle;
-    private final Color color;
+    private Rectangle rectangle;
+    private Color color;
 
     public Wall(float blX, float blY, float width, float height, Color color) {
         this(new Rectangle(blX, blY, width, height), color);
