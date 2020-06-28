@@ -137,13 +137,14 @@ Base:
   - Broadcast on receive
   | - Player attacks
   |   - new bullet
-  |   - Bullets collision
-  |     - pos
-  |     - bullet (id and player uuid) to remove
-  |     - damage dealt
-  |     - opt dead enemies/spawn uuid
+  | - Bullets collision
+  |   - pos
+  |   - bullet (id and player uuid) to remove
+  |   - damage dealt
+  |   - opt dead enemies/spawn uuid
   | - Player move actions
       - move to pos
+  * Broadcasts to a player that hasn't initialized stuff yet would crash
 
 
 ======================== BRAINSTORM =============================
