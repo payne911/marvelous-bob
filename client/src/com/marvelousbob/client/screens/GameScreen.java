@@ -73,7 +73,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         client.getClient()
-                .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayer().getUuid()));
+                .sendTCP(new PlayerDisconnectionDto(controller.getSelfPlayerUuid()));
         effect.dispose();
     }
 }

@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class PlayerDisconnectionDto implements Dto {
-    private UUID playerId;
+    private UUID playerUuid;
 }

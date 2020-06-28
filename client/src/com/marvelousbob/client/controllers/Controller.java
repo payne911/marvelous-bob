@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Controller {
 
+    @Getter
     private final UUID selfPlayerUuid;
 
     /**
@@ -67,6 +68,7 @@ public class Controller {
         moveActionDto.setDestY(destY);
         moveActionDto.setSourcePlayerUuid(self.getUuid());
         moveActionDto.stampNow();
+        moveActionDto.setSourcePlayerUuid(selfPlayerUuid);
         log.debug("sending MoveActionDto: " + moveActionDto);
         client.getClient().sendTCP(moveActionDto);
         log.debug("After changes, game state is: " + controller.getLocalState());

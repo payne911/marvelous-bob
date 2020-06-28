@@ -42,6 +42,7 @@ public class LocalGameState implements Drawable {
 
         long timestamp = moveAction.getTimestamp();
         if (isOlderMove(moveAction, timestamp)) {
+            log.warn("MoveAction is older!");
             return;
         } else {
             updateLatestMoveTimestamp(moveAction);
@@ -58,11 +59,12 @@ public class LocalGameState implements Drawable {
     }
 
     private boolean isOlderMove(MoveActionDto moveAction, long timestamp) {
-        return lastMoveTimestampPerPlayer.get(moveAction.getSourcePlayerUuid()) <= timestamp;
+        return lastMoveTimestampPerPlayer.get(moveAction.getSourcePlayerUuid()) > timestamp;
     }
 
     private void verifyFirstMoveAction(MoveActionDto moveAction) {
         if (!lastMoveTimestampPerPlayer.containsKey(moveAction.getSourcePlayerUuid())) {
+            log.warn("Very first MoveTimestamp from this player");
             updateLatestMoveTimestamp(moveAction);
         }
     }
