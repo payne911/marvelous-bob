@@ -47,7 +47,7 @@ public class Controller {
 
     public Controller(Client kryoClient, GameWorld initGameWorld, PlayerDto initPlayerDto) {
         this.kryoClient = kryoClient;
-        this.gameWorldManager = new GameWorldManager(kryoClient.getKryo(), initGameWorld);
+        this.gameWorldManager = new GameWorldManager(initGameWorld);
         this.selfPlayer = new MeleePlayer(initPlayerDto);
         this.moveIndex = 0;
     }
@@ -88,12 +88,11 @@ public class Controller {
      * @return the {@code mutableCurrentLocalGameState} of the {@link GameWorldManager}.
      */
     public LocalGameState getLocalState() {
-        return gameWorldManager.getMutableLocalGameState();
+        return getGameWorld().getLocalGameState();
     }
 
     public PlayerDto getSelfPlayerDto() {
-        return gameWorldManager.getMutableLocalGameState()
-                .getPlayer(selfPlayer.getUuid())
+        return getLocalState().getPlayer(selfPlayer.getUuid())
                 .orElseThrow(() -> new MarvelousBobException(
                         "Illegal State: could not find the PlayerDto associated with yourself (your client)."));
     }

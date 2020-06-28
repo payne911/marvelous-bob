@@ -15,9 +15,8 @@ import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.screens.GameScreen;
-import com.marvelousbob.common.mapper.LevelMapper;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.Level;
+import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
@@ -39,7 +38,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
      * Used to call {@link Game#setScreen(Screen)}.
      */
     private final MarvelousBob marvelousBob;
-    private final LevelMapper levelMapper;
 
     /**
      * Used by the {@link GameWorldManager} to do deep copies.
@@ -50,7 +48,6 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         super(GameInitializationDto.class);
         this.marvelousBob = marvelousBob;
         this.kryoClient = kryoClient;
-        this.levelMapper = new LevelMapper();
     }
 
     @Override
@@ -59,7 +56,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             throw new IllegalStateException("Server did not send a valid GameState.");
         }
         log.debug("Received initial GS: " + gameInit);
-        Optional<PlayerDto> selfPlayerDto = gameInit.getFirstGameStateDto()
+        Optional<Player> selfPlayerDto = gameInit.getFirstGameStateDto()
                 .getPlayer(gameInit.getCurrentPlayerId());
 
         if (selfPlayerDto.isEmpty() || Objects.isNull(selfPlayerDto.get().getUuid())) {
@@ -81,16 +78,20 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
      */
     private void logicAfterPriorChecks(GameInitializationDto gameInit, PlayerDto selfPlayerDto) {
         GameWorld gameWorld = new GameWorld();
-        gameWorld.setLevel(extractInitialLevel(gameInit));
 
         controller = new Controller(kryoClient, gameWorld, selfPlayerDto);
 
         /* Draw the screen to start the game. */
-        Gdx.app.postRunnable(() -> marvelousBob.setScreen(new GameScreen(controller)));
-    }
+        Gdx.app.postRunnable(() -> {
+            marvelousBob.setScreen(new GameScreen(controller));
 
-
-    private Level extractInitialLevel(GameInitializationDto gameInitDto) {
-        return levelMapper.toLevel(gameInitDto.getCurrentLevel());
+            /* Listeners required the GameScreen to have been initialized. */
+            kryoClient.addListener(new GameStateListener());
+//            kryoClient.addListener(new LagListener(0, 0, new GameStateListener()));
+            kryoClient.addListener(
+                    new MoveActionListener(controller.getGameWorld().getLocalGameState(),
+                            gameInit.currentPlayerId));
+            kryoClient.addListener(new NewGameWorldListener(controller.getGameWorldManager()));
+        });
     }
 }

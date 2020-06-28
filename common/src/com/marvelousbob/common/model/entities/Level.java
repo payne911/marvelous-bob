@@ -3,7 +3,7 @@ package com.marvelousbob.common.model.entities;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.utils.UUID;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -13,7 +13,7 @@ public class Level implements Drawable {
 
     private final ConcurrentHashMap<UUID, PlayersBase> bases;
     private final ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints;
-    private final List<Wall> walls;
+    private final ArrayList<Wall> walls;
 
 
     @Override

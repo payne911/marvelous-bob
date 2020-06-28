@@ -3,6 +3,7 @@ package com.marvelousbob.common.state;
 import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,7 +19,8 @@ public class GameWorldManager {
      * The Rendering thread always renders this (through concurrent access).
      */
     @Getter
-    private final GameWorld mutableGameWorld;
+    @Setter
+    private GameWorld mutableGameWorld;
 
 
     public GameWorldManager(GameWorld initialGameWorld) {

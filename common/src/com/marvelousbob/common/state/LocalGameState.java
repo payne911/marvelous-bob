@@ -6,10 +6,12 @@ import com.marvelousbob.common.model.entities.Enemy;
 import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.utils.UUID;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
@@ -20,6 +22,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class LocalGameState implements Drawable {
 
+    private final HashMap<UUID, Long> lastMoveTimestampPerPlayer;
     private final ConcurrentHashMap<UUID, Player> players;
     private final ConcurrentHashMap<UUID, Enemy> enemies;
 
@@ -27,6 +30,39 @@ public class LocalGameState implements Drawable {
     public void drawMe(ShapeDrawer shapeDrawer) {
         players.values().forEach(p -> p.drawMe(shapeDrawer));
         enemies.values().forEach(e -> e.drawMe(shapeDrawer));
+    }
+
+    // ===============================================
+    // Updates coming from Broadcasts
+
+    public void updateUsingMoveAction(MoveActionDto moveAction) {
+        verifyFirstMoveAction(moveAction);
+
+        long timestamp = moveAction.getTimestamp();
+        if (isOlderMove(moveAction, timestamp)) {
+            return;
+        } else {
+            updateLatestMoveTimestamp(moveAction);
+        }
+
+        getPlayer(moveAction.getSourcePlayerUuid()).ifPresent(p -> {
+            p.setDestX(moveAction.getDestX());
+            p.setDestY(moveAction.getDestY());
+        });
+    }
+
+    private void updateLatestMoveTimestamp(MoveActionDto moveAction) {
+        lastMoveTimestampPerPlayer.put(moveAction.getSourcePlayerUuid(), moveAction.getTimestamp());
+    }
+
+    private boolean isOlderMove(MoveActionDto moveAction, long timestamp) {
+        return lastMoveTimestampPerPlayer.get(moveAction.getSourcePlayerUuid()) <= timestamp;
+    }
+
+    private void verifyFirstMoveAction(MoveActionDto moveAction) {
+        if (!lastMoveTimestampPerPlayer.containsKey(moveAction.getSourcePlayerUuid())) {
+            updateLatestMoveTimestamp(moveAction);
+        }
     }
 
     // ===============================================

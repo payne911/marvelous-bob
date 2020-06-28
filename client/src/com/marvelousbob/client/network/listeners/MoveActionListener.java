@@ -1,35 +1,28 @@
 package com.marvelousbob.client.network.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
+import com.marvelousbob.common.state.LocalGameState;
+import com.marvelousbob.common.utils.UUID;
 
 public class MoveActionListener extends AbstractListener<MoveActionDto> {
 
-    private final MarvelousBob marvelousBob;
+    private final LocalGameState localGameState;
+    private final UUID selfPlayerUuid;
 
-    public MoveActionListener(MarvelousBob marvelousBob) {
+    public MoveActionListener(LocalGameState localGameState, UUID selfPlayerUuid) {
         super(MoveActionDto.class);
-        this.marvelousBob = marvelousBob;
+        this.localGameState = localGameState;
+        this.selfPlayerUuid = selfPlayerUuid;
     }
 
     @Override
     public void accept(Connection connection, MoveActionDto moveDto) {
-        if (moveDto.shouldBeIgnored(
-                marvelousBob.getGameScreen().getController().getSelfPlayer().getUuid())) {
+        if (moveDto.shouldBeIgnored(selfPlayerUuid)) {
             return;
         }
 
-        if (lastTimestampObserved > moveDto.timestamp) {
-            return;
-        }
-
-        lastTimestampObserved = moveDto.timestamp;
-        marvelousBob.getGameScreen().getController().getGameWorld().getLocalGameState()
-                .getPlayer(moveDto.getSourcePlayerUuid()).ifPresent(p -> {
-            p.setDestX(moveDto.getDestX());
-            p.setDestY(moveDto.getDestY());
-        });
+        localGameState.updateUsingMoveAction(moveDto);
     }
 }

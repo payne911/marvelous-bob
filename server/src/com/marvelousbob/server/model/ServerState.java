@@ -135,7 +135,7 @@ public class ServerState {
         GameInitializationDto gameInit = new GameInitializationDto();
         GameStateDto gameState = new GameStateDto();
         gameInit.setCurrentPlayerId(playerUuid);
-        gameInit.setCurrentLevel(worldGenerator.getWorld());
+        gameInit.setNewGameWorldDto(worldGenerator.getWorld());
         return gameInit;
     }
 

@@ -4,9 +4,6 @@ import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.client.network.listeners.DebugListener;
 import com.marvelousbob.client.network.listeners.GameInitializerListener;
-import com.marvelousbob.client.network.listeners.GameStateListener;
-import com.marvelousbob.client.network.listeners.MoveActionListener;
-import com.marvelousbob.client.network.listeners.NewLevelListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.Register;
@@ -41,11 +38,6 @@ public class MyClient {
         register.registerClasses(Dto.class);
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob, client));
-        client.addListener(new NewLevelListener(marvelousBob));
-        client.addListener(new GameStateListener());
-        client.addListener(new MoveActionListener(marvelousBob));
-//        client.addListener(new LagListener(0, 0,
-//                new GameStateListener())); // todo: keep in mind this LagListener
 
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);

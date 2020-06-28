@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 public final class GameInitializationDto implements Dto {
 
     /* Level */
-    public NewLevelDto currentLevel;
+    public NewGameWorldDto newGameWorldDto;
 
     /* New Player */
     public UUID currentPlayerId;
-    public float initPosX, initPosY;
-    public int colorIndex;
+    public float initPosX, initPosY; // todo probably remove if we send GameWorld
+    public int colorIndex; // todo probably remove if we send GameWorld
 
     /* Game State */
-    public ArrayList<PlayerDto> otherPlayers;
-    public ArrayList<NewEnemyDto> enemies;
+    public ArrayList<PlayerDto> otherPlayers; // todo probably remove if we send GameWorld
+    public ArrayList<NewEnemyDto> enemies; // todo probably remove if we send GameWorld
 }
