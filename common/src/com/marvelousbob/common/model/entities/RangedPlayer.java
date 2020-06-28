@@ -26,7 +26,7 @@ public class RangedPlayer extends Player {
     }
 
     public RangedPlayer(UUID uuid, Color color, Vector2 initPos) {
-        super();
+        super(100, 100, 0, color, 40, 20, initPos, uuid);
     }
 
     @Override
