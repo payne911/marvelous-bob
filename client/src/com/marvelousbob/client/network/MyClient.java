@@ -15,12 +15,15 @@ import lombok.SneakyThrows;
 
 @Getter
 public class MyClient {
+
     @Setter
     private IncrementalAverage latencyReport;
     private final InetAddress addr;
     private final Client client;
     private final MarvelousBob marvelousBob;
-    private final Register register;
+    //    private final Register entityRegister;
+    private final Register dtoRegister;
+
 
     @SneakyThrows
     public MyClient(boolean isLocalServer, MarvelousBob marvelousBob) {
@@ -28,16 +31,18 @@ public class MyClient {
         client.getKryo().setRegistrationRequired(false); // todo: verify this works as expected
         client.getKryo().setWarnUnregisteredClasses(true);
         this.marvelousBob = marvelousBob;
-        this.register = new Register(client);
+        this.dtoRegister = new Register(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
                 : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
         this.latencyReport = new IncrementalAverage();
+//        this.entityRegister = new Register(client, "com.marvelousbob.common.model.entities");
     }
 
     @SneakyThrows
     public void connect() {
-        register.registerClasses(Dto.class);
+        dtoRegister.registerClasses(Dto.class);
+//        entityRegister.registerClasses();
 //        client.getKryo().register(GameWorld.class, new JsonSerialization());
         client.addListener(new DebugListener());
         client.addListener(new GameInitializerListener(marvelousBob, client));

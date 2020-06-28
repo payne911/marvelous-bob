@@ -3,19 +3,18 @@ package com.marvelousbob.common.network.register;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.utils.MarvelousBobProperties;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.reflections.Reflections;
-import org.reflections.ReflectionsException;
-import org.reflections.scanners.MemberUsageScanner;
-import org.reflections.scanners.SubTypesScanner;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
+import org.reflections.ReflectionsException;
+import org.reflections.scanners.MemberUsageScanner;
+import org.reflections.scanners.SubTypesScanner;
 
 
 /**
@@ -79,7 +78,8 @@ public final class Register {
         if (dtoPackage == null) {
             throw new MarvelousBobException("Cannot find property %s".formatted(KRYO_PACKAGE_KEY));
         }
-        var reflex = new Reflections(dtoPackage, new SubTypesScanner(), new MemberUsageScanner());
+        var reflex = new Reflections(dtoPackage, new SubTypesScanner(false),
+                new MemberUsageScanner());
         try {
             registeredDtos.addAll(reflex.getSubTypesOf(filter == null ? Object.class : (Class<Object>) filter));
             registeredDtos.forEach(this::register);

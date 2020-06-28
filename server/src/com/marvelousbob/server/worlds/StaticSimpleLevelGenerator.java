@@ -16,7 +16,8 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
     public Level getLevel() {
         final ConcurrentHashMap<UUID, PlayersBase> bases = new ConcurrentHashMap<>();
         UUID baseUuid = UUID.getNext();
-        var base = new PlayersBase(baseUuid, 50, 50, 100, 100);
+        var base = PlayersBase
+                .hexagonalPlayerBase(baseUuid, new Vector2(100, 100), 50, Color.FIREBRICK);
         bases.put(baseUuid, base);
 
         final ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints = new ConcurrentHashMap<>();

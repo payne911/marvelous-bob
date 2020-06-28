@@ -19,6 +19,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Vector2 pos;
     private float hp, maxHp;
     private Polygon shape;
+    private Polygon shape2;
     private Color color;
 
     public EnemySpawnPoint(UUID uuid, Polygon shape, Color color) {
@@ -36,10 +37,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         Vector2 p6 = p3.cpy().rotateAround(center, 60);
         float[] tVertices = new float[]{
                 p1.x, p1.y,
-                p4.x, p4.y,
                 p2.x, p2.y,
-                p5.x, p5.y,
                 p3.x, p3.y,
+                p4.x, p4.y,
+                p5.x, p5.y,
                 p6.x, p6.y
         };
         return new EnemySpawnPoint(uuid, new Polygon(tVertices), color);
@@ -47,7 +48,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
+        float[] t1 = shape.getVertices();
+        float[] t2 = shape2.getVertices();
         shapeDrawer.setColor(color);
-        shapeDrawer.filledPolygon(shape);
+        shapeDrawer.filledTriangle(t1[0], t1[1], t1[2], t1[3], t1[4], t1[5]);
+        shapeDrawer.filledTriangle(t2[0], t2[1], t2[2], t2[3], t2[4], t2[5]);
     }
 }
