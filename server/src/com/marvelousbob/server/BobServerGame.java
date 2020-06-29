@@ -3,8 +3,6 @@ package com.marvelousbob.server;
 import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.constants.NetworkConstants;
-import com.marvelousbob.common.network.register.Register;
-import com.marvelousbob.common.network.register.dto.Dto;
 import java.util.Objects;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +12,7 @@ public class BobServerGame extends Game {
 
     private final Server server;
     private final BobServerScreen serverScreen;
-    private final Register register; // todo: remove if we don't want it anymore
+//    private final Register register; // todo: remove if we don't want it anymore
 //    private final Register entityRegister;
 
 
@@ -23,7 +21,7 @@ public class BobServerGame extends Game {
         this.server = new Server();
         server.getKryo().setRegistrationRequired(false);
         server.getKryo().setWarnUnregisteredClasses(true);
-        this.register = new Register(server);
+//        this.register = new Register(server);
         this.serverScreen = new BobServerScreen(server);
 //        this.entityRegister = new Register(server, "com.marvelousbob.common.model.entities");
     }
@@ -31,7 +29,7 @@ public class BobServerGame extends Game {
     @Override
     @SneakyThrows
     public void create() {
-        register.registerClasses(Dto.class);
+//        register.registerClasses(Dto.class);
 //        entityRegister.registerClasses();
         log.info("SERVER STARTING!!!");
         server.bind(NetworkConstants.PORT);

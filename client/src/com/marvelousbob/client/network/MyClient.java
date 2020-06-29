@@ -6,8 +6,6 @@ import com.marvelousbob.client.network.listeners.DebugListener;
 import com.marvelousbob.client.network.listeners.GameInitializerListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.NetworkConstants;
-import com.marvelousbob.common.network.register.Register;
-import com.marvelousbob.common.network.register.dto.Dto;
 import java.net.InetAddress;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +20,7 @@ public class MyClient {
     private final Client client;
     private final MarvelousBob marvelousBob;
     //    private final Register entityRegister;
-    private final Register register; // todo: remove if we don't want it anymore
+//    private final Register register; // todo: remove if we don't want it anymore
 
 
     @SneakyThrows
@@ -31,7 +29,7 @@ public class MyClient {
         client.getKryo().setRegistrationRequired(false);
         client.getKryo().setWarnUnregisteredClasses(true);
         this.marvelousBob = marvelousBob;
-        this.register = new Register(client);
+//        this.register = new Register(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
                 : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
@@ -41,7 +39,7 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
-        register.registerClasses(Dto.class);
+//        register.registerClasses(Dto.class);
 //        entityRegister.registerClasses();
 //        client.getKryo().register(GameWorld.class, new JsonSerialization());
         client.addListener(new DebugListener());
