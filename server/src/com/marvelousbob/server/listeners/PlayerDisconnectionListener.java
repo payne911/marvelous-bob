@@ -26,6 +26,7 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
     @Override
     public void accept(Connection connection, PlayerDisconnectionDto elem) {
         log.warn("Disconnection of player UUID: " + elem.getPlayerUuid());
+        serverState.freePlayerColorId(elem.getPlayerUuid());
         serverState.removePlayer(elem.getPlayerUuid());
         connection.close();
 

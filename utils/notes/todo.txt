@@ -6,12 +6,17 @@ Marvelous Bob : to do
 
 ============================ LIST ===============================
 ✓ Older GS bug
+✓ Free Color Ids (update when player leaves)
 * Procedural generation
-- Free Color Ids (update when player leaves)
 - Angle Point At Mouse
-- New Movement
+- New Movement algo
 - Wall collision
 - Enemy spawn
 - Enemy attack
-- Health and Damage
+- Health for entities
 * Health bar
+- Victory/Defeat conditions
+* Drop players when inactive for too long
+* Don't flood TCP with broadcasts if GameStateDto hasn't changed
+* CI/CD: 2nd cluster in AWS ECS for a 'test' remote env
+* Connection Refused dto

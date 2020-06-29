@@ -1,6 +1,7 @@
 package com.marvelousbob.server.model;
 
 import com.badlogic.gdx.graphics.Color;
+import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.Player;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
@@ -17,6 +18,10 @@ import com.marvelousbob.server.model.actions.Action;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.StaticSimpleLevelGenerator;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +42,8 @@ public class ServerState {
 
     public static final short MAX_PLAYER_AMOUNT = 8;
 
+    private Map<UUID, Integer> playersColorId;
+
     private long gameStateIndex;
     private int colorIndex;
 
@@ -53,13 +60,11 @@ public class ServerState {
     private LevelGenerator levelGenerator;
 
     public ServerState() {
-        this.colorIndex = 0;
-        this.gameStateIndex = 0;
-
+        this.playersColorId = new ConcurrentHashMap(MAX_PLAYER_AMOUNT);
 //        this.actions = new SynchronousQueue<>();
         this.gameWorldManager = new GameWorldManager(new GameWorld());
         this.levelGenerator = new StaticSimpleLevelGenerator();
-        completeReset();
+        reset();
     }
 
     public void runGameLogic(float delta) {
@@ -81,9 +86,14 @@ public class ServerState {
                 gameStateIndex++);
     }
 
-    public void completeReset() {
-        gameStateIndex = 0L;
+    public void reset() {
+        gameStateIndex = 0;
         resetLists();
+    }
+
+    public void completeReset() {
+        colorIndex = 0;
+        reset();
     }
 
     public void resetLists() {
@@ -102,16 +112,32 @@ public class ServerState {
         gameWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
     }
 
-    public void addPlayer(Player player) {
+    public synchronized void addPlayer(Player player) {
         gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
                 .put(player.getUuid(), player);
     }
 
-    public Color getFreeColor() {
-        if (colorIndex >= MAX_PLAYER_AMOUNT) {
-            throw new RuntimeException("Max number of player reached");
-        }
-        return playerColors[colorIndex++];
+    public synchronized void removePlayer(UUID playerUuid) {
+        gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
+                .remove(playerUuid);
+    }
+
+    public Color getFreeColor(UUID uuid) throws MarvelousBobException {
+        return playerColors[extractFreeColorId(uuid)];
+    }
+
+    public int extractFreeColorId(UUID uuid) throws MarvelousBobException {
+        var ints = IntStream.range(0, MAX_PLAYER_AMOUNT).boxed().collect(Collectors.toSet());
+        int colorId = ints.stream().filter(i -> !playersColorId.containsValue(i)).findAny()
+                .orElseThrow(() ->
+                        new MarvelousBobException(
+                                "Could not find an available Color Index: the room must be full."));
+        playersColorId.put(uuid, colorId);
+        return colorId;
+    }
+
+    public void freePlayerColorId(UUID uuid) {
+        playersColorId.remove(uuid);
     }
 
     public GameInitializationDto getGameInitDto(UUID currentPlayerUuid) {
@@ -121,10 +147,5 @@ public class ServerState {
     public void updatePlayerPos(MoveActionDto moveAction) {
         gameWorldManager.getMutableGameWorld().getLocalGameState()
                 .updateUsingMoveAction(moveAction);
-    }
-
-
-    public void removePlayer(UUID playerId) {
-        gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().remove(playerId);
     }
 }

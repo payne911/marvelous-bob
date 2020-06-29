@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
+import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.dynamic.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
@@ -32,11 +33,18 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
             serverState.initializeOnFirstPlayerConnected();
         }
         UUID uuid = UUID.getNext();
-        Player player = playerConnection.playerType
-                .getPlayerInstance(uuid, serverState.getFreeColor(), randomPos());
-        serverState.addPlayer(player);
-        server.sendToTCP(connection.getID(), serverState.getGameInitDto(uuid));
-        server.sendToAllExceptTCP(connection.getID(), player);
+        Player player = null;
+        try {
+            player = playerConnection.playerType
+                    .getPlayerInstance(uuid, serverState.getFreeColor(uuid), randomPos());
+            serverState.addPlayer(player);
+            server.sendToTCP(connection.getID(), serverState.getGameInitDto(uuid));
+            server.sendToAllExceptTCP(connection.getID(), player);
+        } catch (MarvelousBobException e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            // todo: send Connection Refused
+        }
     }
 
 
