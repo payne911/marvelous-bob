@@ -13,7 +13,7 @@ import lombok.SneakyThrows;
 
 public class BobServerScreen extends ScreenAdapter {
 
-    private static final float LOOP_SPEED = 100;
+    private static final float LOOP_SPEED = 0.100F;
 
     private final Server server;
     private final ServerState serverState;
