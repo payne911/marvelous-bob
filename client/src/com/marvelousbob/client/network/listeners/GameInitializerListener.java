@@ -81,7 +81,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
 
             LocalGameState localGameState = controller.getGameWorld().getLocalGameState();
 
-            /* Listeners required the GameScreen to have been initialized. */
+            /* Listeners which require the GameScreen to have been initialized. */
             kClient.addListener(new GameStateListener());
 //            kClient.addListener(new LagListener(0, 0, new GameStateListener()));
             kClient.addListener(new MoveActionListener(localGameState, gameInit.currentPlayerId));
