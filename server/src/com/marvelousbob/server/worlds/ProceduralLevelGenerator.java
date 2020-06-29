@@ -72,6 +72,6 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         for (char[] chars : grid) {
             System.out.println(Arrays.toString(chars));
         }
-        // do stuff with grid, it contains box drawing chars like ─│┌┐└┘├┤┬┴┼
+        // do stuff with grid, it contains box drawing chars like ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
     }
 }

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyGestureListener extends GestureDetector.GestureAdapter {
 
     /**
-     * Order is important! Do not change.
+     * Order is important! Do not change. todo: find if Enum exists in libGDX
      */
     private enum MOUSE_CLICK {
         LEFT, RIGHT, MIDDLE

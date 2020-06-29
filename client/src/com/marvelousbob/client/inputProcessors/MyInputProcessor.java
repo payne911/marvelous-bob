@@ -2,6 +2,7 @@ package com.marvelousbob.client.inputProcessors;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector3;
 import com.marvelousbob.client.controllers.Controller;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +23,12 @@ public class MyInputProcessor extends InputAdapter {
         this.controller = controller;
     }
 
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        Vector3 vec = camera.unproject(new Vector3(screenX, screenY, 1));
+        log.debug("(%d,%d) => (%f,%f)".formatted(screenX, screenY, vec.x, vec.y));
+        return false; // because we want other things to treat the mouseMoved event
+    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -38,14 +45,6 @@ public class MyInputProcessor extends InputAdapter {
 //                gs.setP1x(234);
 //                MyGame.client.getClient().sendTCP(gs);
 //                System.out.println("ESCAPE");
-//                break;
-//            case Input.Keys.S:
-//                TestClass cc = new TestClass();
-//                HashMap<Integer,Integer> hm = new HashMap<>();
-//                hm.put(1,5);
-//                cc.setHashMap(hm);
-//                MyGame.client.getClient().sendTCP(cc);
-//                System.out.println("S");
 //                break;
             default:
                 log.info("keyDown_keyCode: " + keycode);
