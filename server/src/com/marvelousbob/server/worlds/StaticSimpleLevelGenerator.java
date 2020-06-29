@@ -18,9 +18,9 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
     private final WallFactory wallFactory;
 
     public StaticSimpleLevelGenerator() {
-        System.out.println("TEST 1");
-        ProceduralLevelGenerator.test();
-        System.out.println("TEST 2");
+//        System.out.println("TEST 1");
+//        ProceduralLevelGenerator.test();
+//        System.out.println("TEST 2");
         this.wallFactory = new WallFactory();
     }
 
