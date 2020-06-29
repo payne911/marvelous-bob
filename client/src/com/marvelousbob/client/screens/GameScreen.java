@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         effect.load(Gdx.files.internal("particles/emitters/BlueFlames"),
                 Gdx.files.internal("particles"));
-        effect.setPosition(GameConstant.sizeX / 2f, GameConstant.sizeY / 2f);
+        effect.setPosition(GameConstant.SIZE_X / 2f, GameConstant.SIZE_Y / 2f);
         effect.scaleEffect(PARTICLE_EFFECT_SCALE);
         effect.start();
     }

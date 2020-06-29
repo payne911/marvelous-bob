@@ -17,13 +17,13 @@ Victory
 
 ======================== PLAYER TYPES ===========================
 - Circle (Shooter)
-  - left click: move
+  ✓ left click: move
   - right click: shoots at mouse
   * space: lock target (on/off)
 
 
 - Square (Melee)
-  - left click: move
+  ✓ left click: move
   - right click: attack on
   * space: dash + invulnerability (cooldown?)
 
@@ -72,7 +72,7 @@ Victory
 ======================== ACTIONS/EVENTS =========================
 Players:
 - Attack (at mouse angle)
-- Move (To target destination)
+✓ Move (To target destination)
 - Lose health (Collision with enemy, Spawn collision)
 - Die (health <= 0)
 - resurrect after cooldown XX seconds
@@ -102,20 +102,20 @@ Bases:
 ======================== NETWORK AUTHORITY ======================
 - Authoritative client:
   - self health / death
-  - self pos
-    - where move action ends (straight line until wall encounter)
+  ✓ self pos (where move action ends)
   - damaging / killing Enemies or Spawn
   - bullet id
 
 - Authoritative Server
   - Random generation
-  - Uuid
+  ✓ Uuid
   - Enemy path
   - other Players health / death
   - Bases health / damage / death
 
 - Client events - Actions
-  - Move action (pointing at)
+  ✓ Move action
+  - Pointing at
   - Damage received
   - Damage dealt to enemy
     - incl opt bullet uuid
@@ -147,9 +147,9 @@ Bases:
   |   - bullet (id and player uuid) to remove
   |   - damage dealt
   |   - opt dead enemies/spawn uuid
-  | - Player move actions
-      * must be ordered
-      - move to pos
+  | ✓ Player move actions
+      ✓ must be ordered
+      ✓ move to pos
 
 
 ======================== BRAINSTORM =============================

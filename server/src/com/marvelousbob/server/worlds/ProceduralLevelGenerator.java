@@ -11,16 +11,18 @@ import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.factories.WallFactory;
 import com.marvelousbob.server.factories.WallFactory.ORIENTATION;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
+import squidpony.squidgrid.mapping.DungeonUtility;
+import squidpony.squidgrid.mapping.GrowingTreeMazeGenerator;
+import squidpony.squidmath.GreasedRegion;
+import squidpony.squidmath.StatefulRNG;
 
-public class StaticSimpleLevelGenerator implements LevelGenerator {
+public class ProceduralLevelGenerator implements LevelGenerator {
 
     private final WallFactory wallFactory;
 
-    public StaticSimpleLevelGenerator() {
-        System.out.println("TEST 1");
-        ProceduralLevelGenerator.test();
-        System.out.println("TEST 2");
+    public ProceduralLevelGenerator() {
         this.wallFactory = new WallFactory();
     }
 
@@ -53,5 +55,23 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
 
     private Wall buildWall(ORIENTATION orientation, Vector2 pos, float length) {
         return wallFactory.buildWall(orientation, pos, length);
+    }
+
+    public static void test() {
+        StatefulRNG rng = new StatefulRNG(123L); // change seed to change level
+        GrowingTreeMazeGenerator mazeGenerator =
+                new GrowingTreeMazeGenerator(GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, rng);
+        char[][] map = mazeGenerator.generate();
+        GreasedRegion walls = new GreasedRegion(map, '#');
+        GreasedRegion temp = walls.copy();
+        walls.deteriorate(rng, 0.85);
+        walls.or(temp.refill(mazeGenerator.generate(), '#').deteriorate(rng, 0.85));
+        walls.andNot(walls.copy().neighborDownRight()).removeIsolated().not().removeEdges()
+                .intoChars(map, '.', '#');
+        char[][] grid = DungeonUtility.hashesToLines(map);
+        for (char[] chars : grid) {
+            System.out.println(Arrays.toString(chars));
+        }
+        // do stuff with grid, it contains box drawing chars like ─│┌┐└┘├┤┬┴┼
     }
 }

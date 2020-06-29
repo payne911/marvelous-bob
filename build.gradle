@@ -87,6 +87,8 @@ project(":server") {
         api project(":common")
         api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+        api "com.github.SquidPony.SquidLib:squidlib-util:a6158b22b1"
     }
 }
 

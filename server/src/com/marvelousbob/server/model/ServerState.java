@@ -3,7 +3,6 @@ package com.marvelousbob.server.model;
 import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.Player;
-import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
@@ -35,6 +34,8 @@ public class ServerState {
             Color.ORANGE,
             Color.TEAL
     };
+
+    public static final short MAX_PLAYER_AMOUNT = 8;
 
     private long gameStateIndex;
     private int colorIndex;
@@ -103,7 +104,7 @@ public class ServerState {
     }
 
     public Color getFreeColor() {
-        if (colorIndex >= GameConstant.MAX_PLAYER_AMOUNT) {
+        if (colorIndex >= MAX_PLAYER_AMOUNT) {
             throw new RuntimeException("Max number of player reached");
         }
         return playerColors[colorIndex++];

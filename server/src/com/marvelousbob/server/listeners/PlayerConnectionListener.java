@@ -1,7 +1,7 @@
 package com.marvelousbob.server.listeners;
 
-import static com.marvelousbob.common.network.constants.GameConstant.sizeX;
-import static com.marvelousbob.common.network.constants.GameConstant.sizeY;
+import static com.marvelousbob.common.network.constants.GameConstant.SIZE_X;
+import static com.marvelousbob.common.network.constants.GameConstant.SIZE_Y;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -41,8 +41,8 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
 
 
     private Vector2 randomPos() {
-        float x = MathUtils.random(0, sizeX);
-        float y = MathUtils.random(0, sizeY);
+        float x = MathUtils.random(0, SIZE_X);
+        float y = MathUtils.random(0, SIZE_Y);
         return new Vector2(x, y);
     }
 }
