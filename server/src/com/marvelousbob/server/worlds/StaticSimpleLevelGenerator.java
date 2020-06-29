@@ -6,6 +6,7 @@ import com.marvelousbob.common.model.entities.EnemySpawnPoint;
 import com.marvelousbob.common.model.entities.Level;
 import com.marvelousbob.common.model.entities.PlayersBase;
 import com.marvelousbob.common.model.entities.Wall;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,8 +17,9 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
     public Level getLevel() {
         final ConcurrentHashMap<UUID, PlayersBase> bases = new ConcurrentHashMap<>();
         UUID baseUuid = UUID.getNext();
-        var base = PlayersBase
-                .hexagonalPlayerBase(baseUuid, new Vector2(100, 100), 50, Color.FIREBRICK);
+        var base = PlayersBase.hexagonalPlayerBase(baseUuid,
+                new Vector2(GameConstant.sizeX / 2f, GameConstant.sizeY / 2f),
+                35, Color.FIREBRICK);
         bases.put(baseUuid, base);
 
         final ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints = new ConcurrentHashMap<>();
@@ -26,7 +28,7 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
         enemySpawnPoints.put(spawnUuid1,
                 EnemySpawnPoint.starShaped(spawnUuid1, new Vector2(60, 60), 70, Color.BLUE));
         enemySpawnPoints.put(spawnUuid2,
-                EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(60, 60), 70, Color.BLUE));
+                EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(460, 460), 70, Color.BLUE));
 
         final ArrayList<Wall> walls = new ArrayList<>();
         walls.add(new Wall(30, 50, 2, 60));

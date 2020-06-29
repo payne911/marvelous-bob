@@ -46,17 +46,11 @@ public class Controller {
         gameWorldManager.updateGameState(delta);
     }
 
-    public void playerClicked(float x, float y) {
-        log.debug("Tapped on (%f,%f)".formatted(x, y));
+    public void playerClicked(float destX, float destY) {
+        log.debug("Tapped on (%f,%f)".formatted(destX, destY));
         log.debug("Before changes, game state is: " + controller.getLocalState());
 
         Player self = getSelfPlayer();
-
-        /* Adjust input coordinate to center of player. */
-        float destX = x - self.getSize() / 2;
-        float destY = y - self.getSize() / 2;
-        log.debug("Adjusted for center of player from (%f,%f) to (%f,%f)"
-                .formatted(x, y, destX, destY));
 
         /* Assume local input will be accepted by server. */
         self.getDestination().x = destX;

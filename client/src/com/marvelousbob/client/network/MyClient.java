@@ -22,16 +22,16 @@ public class MyClient {
     private final Client client;
     private final MarvelousBob marvelousBob;
     //    private final Register entityRegister;
-    private final Register dtoRegister;
+    private final Register register; // todo: remove if we don't want it anymore
 
 
     @SneakyThrows
     public MyClient(boolean isLocalServer, MarvelousBob marvelousBob) {
         this.client = new Client();
-        client.getKryo().setRegistrationRequired(false); // todo: verify this works as expected
+        client.getKryo().setRegistrationRequired(false);
         client.getKryo().setWarnUnregisteredClasses(true);
         this.marvelousBob = marvelousBob;
-        this.dtoRegister = new Register(client);
+        this.register = new Register(client);
         this.addr = isLocalServer
                 ? InetAddress.getLocalHost()
                 : InetAddress.getByName(NetworkConstants.REMOTE_SERVER_IP);
@@ -41,7 +41,7 @@ public class MyClient {
 
     @SneakyThrows
     public void connect() {
-        dtoRegister.registerClasses(Dto.class);
+        register.registerClasses(Dto.class);
 //        entityRegister.registerClasses();
 //        client.getKryo().register(GameWorld.class, new JsonSerialization());
         client.addListener(new DebugListener());

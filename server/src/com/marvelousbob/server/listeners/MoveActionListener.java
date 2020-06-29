@@ -13,7 +13,7 @@ public class MoveActionListener extends AbstractListener<MoveActionDto> {
     private final ServerState serverState;
     private final Server server;
 
-    public MoveActionListener(ServerState serverState, Server server) {
+    public MoveActionListener(Server server, ServerState serverState) {
         super(MoveActionDto.class);
         this.serverState = serverState;
         this.server = server;

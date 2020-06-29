@@ -31,8 +31,8 @@ public class BobServerScreen extends ScreenAdapter {
     public void show() {
         server.addListener(new DebugListener(server));
         server.addListener(new PlayerConnectionListener(server, serverState));
-        server.addListener(new MoveActionListener(serverState, server));
-        server.addListener(new PlayerDisconnectionListener(serverState));
+        server.addListener(new MoveActionListener(server, serverState));
+        server.addListener(new PlayerDisconnectionListener(server, serverState));
         server.addListener(new EnemyCollisionListener(serverState));
     }
 

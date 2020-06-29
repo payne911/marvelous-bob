@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.marvelousbob.client.controllers.Controller;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerDisconnectionDto;
 import lombok.Getter;
 
@@ -34,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         effect.load(Gdx.files.internal("particles/emitters/BlueFlames"),
                 Gdx.files.internal("particles"));
-        effect.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+        effect.setPosition(GameConstant.sizeX / 2f, GameConstant.sizeY / 2f);
         effect.scaleEffect(PARTICLE_EFFECT_SCALE);
         effect.start();
     }

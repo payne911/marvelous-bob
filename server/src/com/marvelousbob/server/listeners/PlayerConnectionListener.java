@@ -36,7 +36,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
                 .getPlayerInstance(uuid, serverState.getFreeColor(), randomPos());
         serverState.addPlayer(player);
         server.sendToTCP(connection.getID(), serverState.getGameInitDto(uuid));
-        server.sendToAllTCP(player);
+        server.sendToAllExceptTCP(connection.getID(), player);
     }
 
 

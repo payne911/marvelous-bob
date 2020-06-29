@@ -14,7 +14,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class PlayersBase implements Drawable, Identifiable {
 
     private UUID uuid;
-    private Polygon shape; // todo: hexagon
+    private Polygon shape;
     private Color color;
     private float hp, maxHp;
 

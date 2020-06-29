@@ -3,6 +3,7 @@ package com.marvelousbob.common.model.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
-public abstract class Player implements Identifiable, Drawable {
+public abstract class Player implements Identifiable, Drawable, Dto {
 
     @Getter
     @Deprecated

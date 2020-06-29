@@ -14,14 +14,14 @@ public class BobServerGame extends Game {
 
     private final Server server;
     private final BobServerScreen serverScreen;
-    private final Register register;
+    private final Register register; // todo: remove if we don't want it anymore
 //    private final Register entityRegister;
 
 
     @SneakyThrows
     public BobServerGame() {
         this.server = new Server();
-        server.getKryo().setRegistrationRequired(false); // todo: verify this works as expected
+        server.getKryo().setRegistrationRequired(false);
         server.getKryo().setWarnUnregisteredClasses(true);
         this.register = new Register(server);
         this.serverScreen = new BobServerScreen(server);

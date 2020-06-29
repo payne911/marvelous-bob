@@ -20,6 +20,7 @@ import com.marvelousbob.common.model.entities.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.state.GameWorldManager;
+import com.marvelousbob.common.state.LocalGameState;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
@@ -41,12 +42,12 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
     /**
      * Used by the {@link GameWorldManager} to do deep copies.
      */
-    private final Client kryoClient;
+    private final Client kClient;
 
     public GameInitializerListener(MarvelousBob marvelousBob, Client kryoClient) {
         super(GameInitializationDto.class);
         this.marvelousBob = marvelousBob;
-        this.kryoClient = kryoClient;
+        this.kClient = kryoClient;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
 
         GameWorld gameWorld = gameInit.newGameWorld;
         log.info("before controller");
-        controller = new Controller(kryoClient, gameWorld, gameInit.currentPlayerId);
+        controller = new Controller(kClient, gameWorld, gameInit.currentPlayerId);
         log.info("controller: " + controller);
 
         /* Input processors. */
@@ -78,13 +79,15 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         Gdx.app.postRunnable(() -> {
             marvelousBob.setScreen(new GameScreen(controller));
 
+            LocalGameState localGameState = controller.getGameWorld().getLocalGameState();
+
             /* Listeners required the GameScreen to have been initialized. */
-            kryoClient.addListener(new GameStateListener());
-//            kryoClient.addListener(new LagListener(0, 0, new GameStateListener()));
-            kryoClient.addListener(
-                    new MoveActionListener(controller.getGameWorld().getLocalGameState(),
-                            gameInit.currentPlayerId));
-            kryoClient.addListener(new NewGameWorldListener(controller.getGameWorldManager()));
+            kClient.addListener(new GameStateListener());
+//            kClient.addListener(new LagListener(0, 0, new GameStateListener()));
+            kClient.addListener(new MoveActionListener(localGameState, gameInit.currentPlayerId));
+            kClient.addListener(new NewGameWorldListener(controller.getGameWorldManager()));
+            kClient.addListener(new NewPlayerListener(localGameState, gameInit.currentPlayerId));
+            kClient.addListener(new PlayerDisconnectListener(localGameState));
         });
     }
 }
