@@ -6,7 +6,7 @@ import static com.marvelousbob.client.MyGame.controller;
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.Player;
+import com.marvelousbob.common.model.entities.dynamic.Player;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;

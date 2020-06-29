@@ -1,7 +1,7 @@
 package com.marvelousbob.client.network.listeners;
 
 import com.esotericsoftware.kryonet.Connection;
-import com.marvelousbob.common.model.entities.Player;
+import com.marvelousbob.common.model.entities.dynamic.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;

@@ -1,7 +1,8 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.level;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.marvelousbob.common.model.entities.Drawable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -34,6 +35,6 @@ public class Wall implements Drawable {
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(color);
-        shapeDrawer.rectangle(rectangle);
+        shapeDrawer.filledRectangle(rectangle);
     }
 }

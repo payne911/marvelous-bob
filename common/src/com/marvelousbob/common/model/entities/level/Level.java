@@ -1,5 +1,6 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.level;
 
+import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.utils.UUID;

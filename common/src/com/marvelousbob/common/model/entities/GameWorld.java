@@ -1,5 +1,6 @@
 package com.marvelousbob.common.model.entities;
 
+import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;

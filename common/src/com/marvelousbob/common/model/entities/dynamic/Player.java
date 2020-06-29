@@ -1,8 +1,9 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.dynamic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;

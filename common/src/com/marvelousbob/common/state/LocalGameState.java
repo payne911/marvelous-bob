@@ -2,8 +2,8 @@ package com.marvelousbob.common.state;
 
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.Drawable;
-import com.marvelousbob.common.model.entities.Enemy;
-import com.marvelousbob.common.model.entities.Player;
+import com.marvelousbob.common.model.entities.dynamic.Enemy;
+import com.marvelousbob.common.model.entities.dynamic.Player;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;

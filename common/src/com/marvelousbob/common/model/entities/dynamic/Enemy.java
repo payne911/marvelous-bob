@@ -1,6 +1,7 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.dynamic;
 
 import com.marvelousbob.common.model.Identifiable;
+import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.utils.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

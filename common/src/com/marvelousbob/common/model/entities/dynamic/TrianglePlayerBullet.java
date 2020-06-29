@@ -1,4 +1,4 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.dynamic;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.marvelousbob.common.utils.UUID;

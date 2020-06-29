@@ -1,4 +1,4 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.model.entities.dynamic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;

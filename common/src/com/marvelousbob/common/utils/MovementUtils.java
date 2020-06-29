@@ -1,7 +1,7 @@
 package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
-import com.marvelousbob.common.model.entities.Player;
+import com.marvelousbob.common.model.entities.dynamic.Player;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 
