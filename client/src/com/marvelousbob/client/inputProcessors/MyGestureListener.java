@@ -9,15 +9,21 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * The `float x` are the same as MyInputProcessor's `screenX` and others.
  * <p>
- * Left-click:           Button = 0
- * Right-click:          Button = 1
- * Middle-scroll-click:  Button = 2
+ * Left-click:           Button = 0 Right-click:          Button = 1 Middle-scroll-click:  Button =
+ * 2
  * <p>
- * Keep in mind this class extends the Adapter which itself implements the
- * interface. There are other utility methods to be overridden.
+ * Keep in mind this class extends the Adapter which itself implements the interface. There are
+ * other utility methods to be overridden.
  */
 @Slf4j
 public class MyGestureListener extends GestureDetector.GestureAdapter {
+
+    /**
+     * Order is important! Do not change.
+     */
+    private enum MOUSE_CLICK {
+        LEFT, RIGHT, MIDDLE
+    }
 
     private final Camera camera;
     private final Controller controller;
@@ -36,10 +42,14 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
      */
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        Vector3 vec = camera.unproject(new Vector3(x, y, 1));
-        log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
-        log.info("Controller: " + controller);
-        controller.playerClicked(vec.x, vec.y);
-        return true;
+        if (button == MOUSE_CLICK.LEFT.ordinal()) {
+            Vector3 vec = camera.unproject(new Vector3(x, y, 1));
+            log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
+            log.info("Controller: " + controller);
+            controller.playerClicked(vec.x, vec.y);
+            return true;
+        }
+
+        return false;
     }
 }

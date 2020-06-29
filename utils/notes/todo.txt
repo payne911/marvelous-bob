@@ -6,6 +6,7 @@ Marvelous Bob : to do
 
 ============================ LIST ===============================
 ✓ Older GS bug
+✓ Move only on left-click
 ✓ Free Color Ids (update when player leaves)
 * Procedural generation
 - Angle Point At Mouse
