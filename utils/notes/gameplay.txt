@@ -1,4 +1,4 @@
-Marvelous Bob game play (actions, events, etc.)
+Marvelous Bob : game play (actions, events, etc.)
 (*) nice to have
 (-) todo
 (✓) done

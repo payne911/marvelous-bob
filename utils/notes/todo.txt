@@ -1,0 +1,17 @@
+Marvelous Bob : to do
+(*) nice to have
+(-) todo
+(✓) done
+
+
+============================ LIST ===============================
+✓ Older GS bug
+* Procedural generation
+- Free Color Ids (update when player leaves)
+- Angle Point At Mouse
+- New Movement
+- Wall collision
+- Enemy spawn
+- Enemy attack
+- Health and Damage
+* Health bar

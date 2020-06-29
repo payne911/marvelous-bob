@@ -44,7 +44,7 @@ public class BobServerScreen extends ScreenAdapter {
             deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
             GameStateDto gameStateDto = serverState.getCurrentGameStateAsDto();
             server.sendToAllTCP(gameStateDto);
-            serverState.reset();
+            serverState.resetLists();
         } else {
             deltaAcc += delta;
         }

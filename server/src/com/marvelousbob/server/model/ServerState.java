@@ -59,7 +59,7 @@ public class ServerState {
 //        this.actions = new SynchronousQueue<>();
         this.gameWorldManager = new GameWorldManager(new GameWorld());
         this.levelGenerator = new StaticSimpleLevelGenerator();
-        reset();
+        completeReset();
     }
 
     public void runGameLogic(float delta) {
@@ -81,8 +81,12 @@ public class ServerState {
                 gameStateIndex++);
     }
 
-    public void reset() {
+    public void completeReset() {
         gameStateIndex = 0L;
+        resetLists();
+    }
+
+    public void resetLists() {
         enemyCollisions = new ArrayList<>();
         playerUpdates = new ArrayList<>();
         newEnemies = new ArrayList<>();
