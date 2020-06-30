@@ -1,7 +1,7 @@
 package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
-import com.marvelousbob.common.model.entities.dynamic.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,15 +42,17 @@ public class MovementUtils {
         if (wantsToMove(p)) {
             log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
                     .formatted(p.getUuid().getId(), delta,
-                            p.getCurrentPos().x, p.getCurrentPos().y,
-                            p.getDestination().x, p.getDestination().y));
+                            p.getCurrCenterX(), p.getCurrCenterY(),
+                            p.getDestX(), p.getDestY()));
 
-            p.getCurrentPos().x = isBigEnoughDelta(p.getCurrentPos().x, p.getDestination().x)
-                    ? Interpolation.exp10Out.apply(p.getCurrentPos().x, p.getDestination().x, delta)
-                    : p.getDestination().x;
-            p.getCurrentPos().y = isBigEnoughDelta(p.getCurrentPos().y, p.getDestination().y)
-                    ? Interpolation.exp10Out.apply(p.getCurrentPos().y, p.getDestination().y, delta)
-                    : p.getDestination().y;
+            p.setCurrCenterX(
+                    isBigEnoughDelta(p.getCurrCenterX(), p.getDestX())
+                            ? Interpolation.exp10Out.apply(p.getCurrCenterX(), p.getDestX(), delta)
+                            : p.getDestX());
+            p.setCurrCenterY(
+                    isBigEnoughDelta(p.getCurrCenterY(), p.getDestY())
+                            ? Interpolation.exp10Out.apply(p.getCurrCenterY(), p.getDestY(), delta)
+                            : p.getDestY());
 
             return true;
         }
@@ -62,7 +64,7 @@ public class MovementUtils {
     }
 
     private static boolean wantsToMove(Player p) {
-        return p.getCurrentPos().x != p.getDestination().x
-                || p.getCurrentPos().y != p.getDestination().y;
+        return p.getCurrCenterX() != p.getDestX()
+                || p.getCurrCenterY() != p.getDestY();
     }
 }

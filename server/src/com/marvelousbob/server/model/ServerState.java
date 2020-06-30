@@ -3,7 +3,7 @@ package com.marvelousbob.server.model;
 import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.dynamic.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.network.register.dto.GameStateDto;

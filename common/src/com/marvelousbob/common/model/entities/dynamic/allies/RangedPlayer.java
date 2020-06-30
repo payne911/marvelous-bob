@@ -1,25 +1,21 @@
-package com.marvelousbob.common.model.entities.dynamic;
+package com.marvelousbob.common.model.entities.dynamic.allies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedPlayerBullet;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class RangedPlayer extends Player {
 
-    private static final float[] VERTICES = new float[]{
-            0, 0,
-            16, 32,
-            32, 0,
-            16, 10
-    };
-
-    private Set<TrianglePlayerBullet> bullets;
+    private Set<RangedPlayerBullet> bullets;
 
 
     public RangedPlayer(PlayerDto playerDto) {
@@ -27,8 +23,9 @@ public class RangedPlayer extends Player {
         this.bullets = new HashSet<>();
     }
 
-    public RangedPlayer(UUID uuid, Color color, Vector2 initPos) {
-        super(100, 100, 0, color, 40, 20, initPos, uuid);
+    public RangedPlayer(UUID uuid, Color color, Vector2 initCenterPos) {
+        super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
+        this.bullets = new HashSet<>();
     }
 
     @Override
@@ -40,7 +37,7 @@ public class RangedPlayer extends Player {
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(this.color);
-        shapeDrawer.polygon(VERTICES);
+        shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
         bullets.forEach(b -> b.drawMe(shapeDrawer));
     }
 }

@@ -16,7 +16,7 @@ import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.common.model.entities.GameWorld;
-import com.marvelousbob.common.model.entities.dynamic.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
 import com.marvelousbob.common.state.GameWorldManager;

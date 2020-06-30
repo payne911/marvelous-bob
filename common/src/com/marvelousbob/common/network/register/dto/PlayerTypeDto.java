@@ -2,9 +2,9 @@ package com.marvelousbob.common.network.register.dto;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.marvelousbob.common.model.entities.dynamic.MeleePlayer;
-import com.marvelousbob.common.model.entities.dynamic.Player;
-import com.marvelousbob.common.model.entities.dynamic.RangedPlayer;
+import com.marvelousbob.common.model.entities.dynamic.allies.MeleePlayer;
+import com.marvelousbob.common.model.entities.dynamic.allies.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.RangedPlayer;
 import com.marvelousbob.common.utils.UUID;
 
 public enum PlayerTypeDto {

@@ -1,15 +1,15 @@
-package com.marvelousbob.common.model.entities.dynamic;
+package com.marvelousbob.common.model.entities.dynamic.allies;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
+import com.marvelousbob.common.model.entities.Movable;
 import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
-public abstract class Player implements Identifiable, Drawable, Dto {
+public abstract class Player implements Identifiable, Drawable, Movable, Dto {
 
-    @Getter
     @Deprecated
     private PlayerDto playerDto;
     @Deprecated
@@ -32,11 +31,10 @@ public abstract class Player implements Identifiable, Drawable, Dto {
     protected float speed;
     protected float size;
     protected Color color;
-    protected Vector2 currentPos;
+    protected Vector2 currCenterPos;
     protected Vector2 destination;
 
     @EqualsAndHashCode.Include
-    @Getter
     private UUID uuid;
 
     public Player(
@@ -46,7 +44,7 @@ public abstract class Player implements Identifiable, Drawable, Dto {
             Color color,
             float speed,
             float size,
-            Vector2 currentPos,
+            Vector2 currCenterPos,
             UUID uuid) {
         this.hp = hp;
         this.maxHp = maxHp;
@@ -54,8 +52,8 @@ public abstract class Player implements Identifiable, Drawable, Dto {
         this.color = color;
         this.speed = speed;
         this.size = size;
-        this.currentPos = currentPos;
-        this.destination = currentPos;
+        this.currCenterPos = currCenterPos;
+        this.destination = currCenterPos;
         this.uuid = uuid;
     }
 
@@ -72,7 +70,7 @@ public abstract class Player implements Identifiable, Drawable, Dto {
         this.colorIndex = input.colorIndex;
         this.speed = input.speed;
         this.size = input.size;
-        this.currentPos = new Vector2(input.currX, input.currY);
+        this.currCenterPos = new Vector2(input.currX, input.currY);
         this.destination = new Vector2(input.destX, input.destY);
         this.hp = input.hp;
         this.maxHp = input.maxHp;
@@ -82,20 +80,24 @@ public abstract class Player implements Identifiable, Drawable, Dto {
     // ===================================
     // Utility methods
 
-    public float getCurrX() {
-        return currentPos.x;
+    @Override
+    public float getCurrCenterX() {
+        return currCenterPos.x;
     }
 
-    public float getCurrY() {
-        return currentPos.y;
+    @Override
+    public float getCurrCenterY() {
+        return currCenterPos.y;
     }
 
-    public void setCurrX(float x) {
-        currentPos.x = x;
+    @Override
+    public void setCurrCenterX(float x) {
+        currCenterPos.x = x;
     }
 
-    public void setCurrY(float y) {
-        currentPos.y = y;
+    @Override
+    public void setCurrCenterY(float y) {
+        currCenterPos.y = y;
     }
 
     public float getDestX() {
@@ -136,8 +138,8 @@ public abstract class Player implements Identifiable, Drawable, Dto {
     }
 
     public boolean isSamePosition(Player otherPlayer) {
-        return getCurrX() == otherPlayer.getCurrX()
-                && getCurrY() == otherPlayer.getCurrY();
+        return getCurrCenterX() == otherPlayer.getCurrCenterX()
+                && getCurrCenterY() == otherPlayer.getCurrCenterY();
     }
 
     public boolean isSameDestination(Player otherPlayer) {

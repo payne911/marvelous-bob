@@ -41,7 +41,8 @@ allprojects {
         reflectionsVersion = '0.9.12'
 
         pieMenuVersion = '4.2.0'
-        shapeDrawer = '2.3.0'
+//        shapeDrawer = '2.3.0'
+        shapeDrawer = '912a367dac'
     }
 
     repositories {

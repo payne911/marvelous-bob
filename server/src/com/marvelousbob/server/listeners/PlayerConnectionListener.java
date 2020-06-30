@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.model.entities.dynamic.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.listeners.AbstractListener;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
 import com.marvelousbob.common.utils.UUID;

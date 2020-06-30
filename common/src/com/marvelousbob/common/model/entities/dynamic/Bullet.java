@@ -3,22 +3,27 @@ package com.marvelousbob.common.model.entities.dynamic;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
+import com.marvelousbob.common.model.entities.Movable;
 import com.marvelousbob.common.utils.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Bullet implements Drawable, Identifiable {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public abstract class Bullet implements Drawable, Identifiable, Movable {
 
    public Bullet(UUID uuid) {
       this.uuid = uuid;
    }
 
-   protected Vector2 position;
+   protected Vector2 currentPos;
    protected float angle, speed, size;
+
+   @EqualsAndHashCode.Include
    protected UUID uuid;
 }
