@@ -1,4 +1,4 @@
-package com.marvelousbob.common.model.entities.dynamic;
+package com.marvelousbob.common.model.entities.dynamic.projectiles;
 
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;

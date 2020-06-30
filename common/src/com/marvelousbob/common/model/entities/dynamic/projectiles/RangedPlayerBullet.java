@@ -1,7 +1,6 @@
 package com.marvelousbob.common.model.entities.dynamic.projectiles;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.marvelousbob.common.model.entities.dynamic.Bullet;
 import com.marvelousbob.common.utils.UUID;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
