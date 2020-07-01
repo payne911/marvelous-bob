@@ -10,7 +10,7 @@ Marvelous Bob : to do
 ✓ Free Color Ids (update when player leaves)
 ✓ Angle Point At Mouse
 - PlayerType choosing Screen
-- Send GunPositionDto (from Controller)
+- Send WeaponFacingDto (from Controller#playerMouseMoved)
 - Bullets on right-click
 - New Movement algo
 - Wall collision

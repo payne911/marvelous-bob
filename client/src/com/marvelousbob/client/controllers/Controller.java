@@ -94,7 +94,7 @@ public class Controller {
         player.setMouseAngleRelativeToCenter(
                 atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
 
-        // todo: send GunPositionDto
+        // todo: send WeaponFacingDto
     }
 
     // ==========================================
