@@ -26,7 +26,7 @@ public class MyInputProcessor extends InputAdapter {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 vec = camera.unproject(new Vector3(screenX, screenY, 1));
-        log.debug("(%d,%d) => (%f,%f)".formatted(screenX, screenY, vec.x, vec.y));
+        controller.playerMouseMoved(vec.x, vec.y);
         return false; // because we want other things to treat the mouseMoved event
     }
 

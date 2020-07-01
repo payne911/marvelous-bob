@@ -27,12 +27,16 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     protected int colorIndex;
 
     protected float hp, maxHp; // todo: health bar
-    protected float pointAtAngle;
     protected float speed;
     protected float size;
     protected Color color;
     protected Vector2 currCenterPos;
     protected Vector2 destination;
+
+    /**
+     * {@code zero} degrees point to the right. todo: confirm this is right
+     */
+    protected float pointAtAngle;
 
     @EqualsAndHashCode.Include
     private UUID uuid;
@@ -114,6 +118,10 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
 
     public void setDestY(float y) {
         destination.y = y;
+    }
+
+    public float getHalfSize() {
+        return this.size / 2;
     }
 
     /**

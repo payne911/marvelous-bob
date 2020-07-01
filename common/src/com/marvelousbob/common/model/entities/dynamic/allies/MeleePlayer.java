@@ -16,8 +16,8 @@ public class MeleePlayer extends Player {
         super(playerDto);
     }
 
-    public MeleePlayer(UUID uuid, Color color, Vector2 initPos) {
-        super(100, 100, 0, color, 40, 20, initPos, uuid);
+    public MeleePlayer(UUID uuid, Color color, Vector2 initCenterPos) {
+        super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
     }
 
     @Override

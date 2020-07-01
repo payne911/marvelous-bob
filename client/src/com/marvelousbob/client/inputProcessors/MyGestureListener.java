@@ -42,14 +42,18 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
      */
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        if (button == MOUSE_CLICK.LEFT.ordinal()) {
-            Vector3 vec = camera.unproject(new Vector3(x, y, 1));
-            log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
-            log.info("Controller: " + controller);
-            controller.playerClicked(vec.x, vec.y);
-            return true;
+        if (button == MOUSE_CLICK.MIDDLE.ordinal()) {
+            return false;
         }
 
-        return false;
+        Vector3 vec = camera.unproject(new Vector3(x, y, 1));
+        log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
+        if (button == MOUSE_CLICK.LEFT.ordinal()) {
+            controller.playerLeftClicked(vec.x, vec.y);
+        } else if (button == MOUSE_CLICK.RIGHT.ordinal()) {
+            controller.playerRightClicked(vec.x, vec.y);
+        }
+
+        return true;
     }
 }

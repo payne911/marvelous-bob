@@ -1,6 +1,7 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedPlayerBullet;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
@@ -16,6 +17,15 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class RangedPlayer extends Player {
 
     private Set<RangedPlayerBullet> bullets;
+    private final Polygon gun = new Polygon(GUN_VERTICES);
+    private static final float GUN_LENGTH = 8;
+    private static final float GUN_THICKNESS = 3;
+    private static final float[] GUN_VERTICES = new float[]{
+            -GUN_LENGTH / 2, -GUN_THICKNESS / 2,
+            -GUN_LENGTH / 2, GUN_THICKNESS / 2,
+            GUN_LENGTH / 2, GUN_THICKNESS / 2,
+            GUN_LENGTH / 2, -GUN_THICKNESS / 2
+    };
 
 
     public RangedPlayer(PlayerDto playerDto) {
@@ -34,9 +44,18 @@ public class RangedPlayer extends Player {
 //        this.bullets = input.getBullets().stream().map(b -> new TrianglePlayerBullet()) todo
     }
 
+    public void repositionGun() {
+        gun.rotate(90);
+        gun.setPosition(getCurrCenterX() + getHalfSize(), getCurrCenterY());
+        gun.setOrigin(-getHalfSize(), 0);
+        gun.setRotation(pointAtAngle);
+    }
+
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(this.color);
+        repositionGun();
+        shapeDrawer.filledPolygon(gun);
         shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
         bullets.forEach(b -> b.drawMe(shapeDrawer));
     }
