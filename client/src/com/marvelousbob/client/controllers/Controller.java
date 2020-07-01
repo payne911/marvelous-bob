@@ -47,6 +47,9 @@ public class Controller {
         gameWorldManager.updateGameState(delta);
     }
 
+    // ==========================================
+    //  INPUT controls
+
     /**
      * Origin of screen is assumed at bottom-left.
      */
@@ -75,7 +78,7 @@ public class Controller {
     /**
      * Origin of screen is assumed at bottom-left.
      */
-    public void playerRightClicked(float destX, float destY) {
+    public void playerRightClicked(float screenX, float screenY) {
         // todo
     }
 
@@ -93,6 +96,9 @@ public class Controller {
 
         // todo: send GunPositionDto
     }
+
+    // ==========================================
+    //  UTILITY methods
 
     /**
      * libGDX's {@link MathUtils#atan2(float, float)} is >50% slower.<p> JDK's {@link
@@ -121,7 +127,7 @@ public class Controller {
     }
 
     // ==========================================
-    // GETTERS (and shortcuts)
+    //  GETTERS (and shortcuts)
 
     public GameWorld getGameWorld() {
         return gameWorldManager.getMutableGameWorld();
