@@ -9,7 +9,8 @@ Marvelous Bob : to do
 ✓ Move only on left-click
 ✓ Free Color Ids (update when player leaves)
 * Procedural generation
-- Angle Point At Mouse
+✓ Angle Point At Mouse
+- Send GunPositionDto (from Controller)
 - New Movement algo
 - Wall collision
 - Enemy spawn

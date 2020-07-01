@@ -88,7 +88,10 @@ public class Controller {
         float mouseRelativeToPlayerX = screenX - player.getCurrCenterX();
         log.info("Input screen (%f , %f) corresponds to relative coords (%f , %f)"
                 .formatted(screenX, screenY, mouseRelativeToPlayerX, mouseRelativeToPlayerY));
-        player.setPointAtAngle(atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
+        player.setMouseAngleRelativeToCenter(
+                atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
+
+        // todo: send GunPositionDto
     }
 
     /**

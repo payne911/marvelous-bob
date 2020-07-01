@@ -44,11 +44,11 @@ public class RangedPlayer extends Player {
 //        this.bullets = input.getBullets().stream().map(b -> new TrianglePlayerBullet()) todo
     }
 
-    public void repositionGun() {
+    private void repositionGun() {
         gun.rotate(90);
         gun.setPosition(getCurrCenterX() + getHalfSize(), getCurrCenterY());
         gun.setOrigin(-getHalfSize(), 0);
-        gun.setRotation(pointAtAngle);
+        gun.setRotation(mouseAngleRelativeToCenter);
     }
 
     @Override

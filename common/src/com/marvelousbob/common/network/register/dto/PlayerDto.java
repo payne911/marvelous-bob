@@ -29,7 +29,7 @@ public final class PlayerDto implements Identifiable, Dto {
     public float size = 40;
     public float currX, destX, currY, destY;
     public float hp, maxHp;
-    public float pointAtAngle;
+    public float mouseAngleRelativeToCenter;
 
     /**
      * Calls the other constructor with an empty list of bullets.
@@ -60,7 +60,7 @@ public final class PlayerDto implements Identifiable, Dto {
         destY = otherPlayerDto.destY;
         hp = otherPlayerDto.hp;
         maxHp = otherPlayerDto.maxHp;
-        pointAtAngle = otherPlayerDto.pointAtAngle;
+        mouseAngleRelativeToCenter = otherPlayerDto.mouseAngleRelativeToCenter;
         bullets = otherPlayerDto.bullets; // todo: deep copy?
     }
 

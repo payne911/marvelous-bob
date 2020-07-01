@@ -119,8 +119,8 @@ public class MarvelousBob extends Game {
                 ? PlayerTypeDto.RANGED
                 : PlayerTypeDto.MELEE;
 //        client.getClient().sendTCP(new PlayerConnectionDto(playerType));
-//        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
-        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.RANGED));
+        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
+//        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.RANGED));
     }
 
     private void initializeDisplayElements() {

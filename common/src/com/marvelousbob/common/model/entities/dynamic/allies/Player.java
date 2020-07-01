@@ -34,9 +34,10 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     protected Vector2 destination;
 
     /**
-     * {@code zero} degrees point to the right. todo: confirm this is right
+     * {@code zero} degrees means pointing to the right.<p> Increases counter-clockwise.<p> Should
+     * always be [0,360] ?
      */
-    protected float pointAtAngle;
+    protected float mouseAngleRelativeToCenter;
 
     @EqualsAndHashCode.Include
     private UUID uuid;
@@ -44,7 +45,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     public Player(
             float hp,
             float maxHp,
-            float pointAtAngle,
+            float mouseAngleRelativeToCenter,
             Color color,
             float speed,
             float size,
@@ -52,7 +53,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
             UUID uuid) {
         this.hp = hp;
         this.maxHp = maxHp;
-        this.pointAtAngle = pointAtAngle;
+        this.mouseAngleRelativeToCenter = mouseAngleRelativeToCenter;
         this.color = color;
         this.speed = speed;
         this.size = size;
@@ -78,7 +79,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
         this.destination = new Vector2(input.destX, input.destY);
         this.hp = input.hp;
         this.maxHp = input.maxHp;
-        this.pointAtAngle = input.pointAtAngle;
+        this.mouseAngleRelativeToCenter = input.mouseAngleRelativeToCenter;
     }
 
     // ===================================
