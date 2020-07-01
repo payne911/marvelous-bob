@@ -8,16 +8,18 @@ Marvelous Bob : to do
 ✓ Older GS bug
 ✓ Move only on left-click
 ✓ Free Color Ids (update when player leaves)
-* Procedural generation
 ✓ Angle Point At Mouse
+- PlayerType choosing Screen
 - Send GunPositionDto (from Controller)
+- Bullets on right-click
 - New Movement algo
 - Wall collision
 - Enemy spawn
 - Enemy attack
+- Victory/Defeat conditions
 - Health for entities
 * Health bar
-- Victory/Defeat conditions
+* Procedural generation
 * Drop players when inactive for too long
 * Don't flood TCP with broadcasts if GameStateDto hasn't changed
 * CI/CD: 2nd cluster in AWS ECS for a 'test' remote env
