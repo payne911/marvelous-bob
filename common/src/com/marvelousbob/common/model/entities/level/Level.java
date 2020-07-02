@@ -37,5 +37,4 @@ public class Level implements Drawable {
         var spawn = enemySpawnPoints.get(spawnPointDto.uuid);
         spawn.setHp(spawnPointDto.getHp());
     }
-
 }

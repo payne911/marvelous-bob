@@ -16,7 +16,7 @@ import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.model.actions.Action;
 import com.marvelousbob.server.worlds.LevelGenerator;
-import com.marvelousbob.server.worlds.StaticSimpleLevelGenerator;
+import com.marvelousbob.server.worlds.ProceduralLevelGenerator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,7 +63,8 @@ public class ServerState {
         this.playersColorId = new ConcurrentHashMap(MAX_PLAYER_AMOUNT);
 //        this.actions = new SynchronousQueue<>();
         this.gameWorldManager = new GameWorldManager(new GameWorld());
-        this.levelGenerator = new StaticSimpleLevelGenerator();
+//        this.levelGenerator = new StaticSimpleLevelGenerator();
+        this.levelGenerator = new ProceduralLevelGenerator();
         reset();
     }
 

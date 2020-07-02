@@ -4,11 +4,13 @@ Marvelous Bob : to do
 (✓) done
 
 
-============================ LIST ===============================
+==================================== LIST ==================================
 ✓ Older GS bug
 ✓ Move only on left-click
 ✓ Free Color Ids (update when player leaves)
 ✓ Angle Point At Mouse
+✓ Procedural generation
+* Fix coords bug of ProceduralLevelGenerator to use "buildBlendedWalls"
 - PlayerType choosing Screen
 - Send WeaponFacingDto (from Controller#playerMouseMoved)
 - Bullets on right-click
@@ -19,7 +21,6 @@ Marvelous Bob : to do
 - Victory/Defeat conditions
 - Health for entities
 * Health bar
-* Procedural generation
 * Drop players when inactive for too long
 * Don't flood TCP with broadcasts if GameStateDto hasn't changed
 * CI/CD: 2nd cluster in AWS ECS for a 'test' remote env
