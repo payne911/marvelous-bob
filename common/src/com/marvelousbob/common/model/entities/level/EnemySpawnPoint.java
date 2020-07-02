@@ -51,6 +51,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         return new EnemySpawnPoint(uuid, new Polygon(tVertices), new Polygon(t2Vertices), color);
     }
 
+    public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
+        return starShaped(uuid, center, size, Color.BLUE);
+    }
+
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         float[] t1 = shape.getVertices();

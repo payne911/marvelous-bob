@@ -45,6 +45,10 @@ public class PlayersBase implements Drawable, Identifiable {
         return new PlayersBase(uuid, new Polygon(tVertices), color);
     }
 
+    public static PlayersBase hexagonalPlayerBase(UUID uuid, Vector2 center, float size) {
+        return hexagonalPlayerBase(uuid, center, size, Color.FIREBRICK);
+    }
+
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(color);
