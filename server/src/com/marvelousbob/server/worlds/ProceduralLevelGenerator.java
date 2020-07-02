@@ -1,6 +1,6 @@
 package com.marvelousbob.server.worlds;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
 import com.marvelousbob.common.model.entities.level.Level;
@@ -78,20 +78,24 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
         final ConcurrentHashMap<UUID, PlayersBase> bases = new ConcurrentHashMap<>();
         UUID baseUuid = UUID.getNext();
-        var base = PlayersBase.hexagonalPlayerBase(baseUuid,
-                new Vector2(GameConstant.SIZE_X / 2f, GameConstant.SIZE_Y / 2f),
-                35, Color.FIREBRICK);
+        var base = PlayersBase.hexagonalPlayerBase(baseUuid, randomFreePos(emptyCells), 15);
         bases.put(baseUuid, base);
 
         final ConcurrentHashMap<UUID, EnemySpawnPoint> spawns = new ConcurrentHashMap<>();
         UUID spawnUuid1 = UUID.getNext();
         UUID spawnUuid2 = UUID.getNext();
         spawns.put(spawnUuid1,
-                EnemySpawnPoint.starShaped(spawnUuid1, new Vector2(60, 60), 30, Color.BLUE));
+                EnemySpawnPoint.starShaped(spawnUuid1, randomFreePos(emptyCells), 10));
         spawns.put(spawnUuid2,
-                EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(460, 460), 30, Color.BLUE));
+                EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells), 10));
 
         return new Level(bases, spawns, walls);
+    }
+
+    private Vector2 randomFreePos(ArrayList<Vector2> emptyCells) {
+        var vec2 = emptyCells.get(MathUtils.random(emptyCells.size() - 1));
+        return new Vector2(vec2.x * GameConstant.PIXELS_PER_GRID_CELL,
+                vec2.y * GameConstant.PIXELS_PER_GRID_CELL);
     }
 
     private ArrayList<Wall> getWalls(char[][] grid) {
