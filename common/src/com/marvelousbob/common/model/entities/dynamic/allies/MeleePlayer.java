@@ -1,6 +1,7 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
@@ -59,4 +60,22 @@ public class MeleePlayer extends Player {
         shapeDrawer.rectangle(getCurrCenterX() - size / 2, getCurrCenterY() - size / 2, size, size);
         drawRod(shapeDrawer);
     }
+
+    @Override
+    public Polygon getShape() {
+        float sizeOverTwo = size / 2;
+        return new Polygon(new float[]{
+                // top left
+                currCenterPos.x + sizeOverTwo, currCenterPos.y + sizeOverTwo,
+                // top right
+                currCenterPos.x - sizeOverTwo, currCenterPos.y + sizeOverTwo,
+                // bottom right
+                currCenterPos.x - sizeOverTwo, currCenterPos.y - sizeOverTwo,
+                // bottom left
+                currCenterPos.x + sizeOverTwo, currCenterPos.y - sizeOverTwo
+
+        });
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
@@ -32,6 +33,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     protected Color color;
     protected Vector2 currCenterPos;
     protected Vector2 destination;
+    protected Vector2 previousPosition;
 
     /**
      * {@code zero} degrees means pointing to the right.<p> Increases counter-clockwise.<p> Should
@@ -59,8 +61,11 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
         this.size = size;
         this.currCenterPos = currCenterPos;
         this.destination = currCenterPos;
+        this.previousPosition = currCenterPos;
         this.uuid = uuid;
     }
+
+    public abstract Polygon getShape();
 
     @Deprecated
     public Player(PlayerDto playerDto) {

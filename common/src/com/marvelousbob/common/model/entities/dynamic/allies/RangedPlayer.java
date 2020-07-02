@@ -28,11 +28,6 @@ public class RangedPlayer extends Player {
     };
 
 
-    public RangedPlayer(PlayerDto playerDto) {
-        super(playerDto);
-        this.bullets = new HashSet<>();
-    }
-
     public RangedPlayer(UUID uuid, Color color, Vector2 initCenterPos) {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
         this.bullets = new HashSet<>();
@@ -58,5 +53,21 @@ public class RangedPlayer extends Player {
         shapeDrawer.filledPolygon(gun);
         shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
         bullets.forEach(b -> b.drawMe(shapeDrawer));
+    }
+
+    @Override
+    public Polygon getShape() {
+        // for now we'll do the square bounding box
+        float radius = size / 2;
+        return new Polygon(new float[]{
+                // top left
+                currCenterPos.x + radius, currCenterPos.y + radius,
+                // top right
+                currCenterPos.x - radius, currCenterPos.y + radius,
+                // bottom right
+                currCenterPos.x - radius, currCenterPos.y - radius,
+                // bottom left
+                currCenterPos.x + radius, currCenterPos.y - radius
+        });
     }
 }
