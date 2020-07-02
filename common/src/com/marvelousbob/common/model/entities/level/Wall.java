@@ -5,12 +5,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.marvelousbob.common.model.entities.Drawable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
 @NoArgsConstructor
-@ToString(callSuper = true)
 public class Wall implements Drawable {
 
     private Rectangle rectangle;

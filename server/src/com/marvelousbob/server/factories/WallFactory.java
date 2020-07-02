@@ -18,14 +18,6 @@ public class WallFactory {
     }
 
     /**
-     * Calls {@link #buildWall(Orientation, BeginFrom, Vector2, float, Color)} with a default color
-     * of {@code BLACK}.
-     */
-    public Wall buildWall(Orientation orientation, BeginFrom beginFrom, Vector2 pos, float length) {
-        return buildWall(orientation, beginFrom, pos, length, Color.BLACK);
-    }
-
-    /**
      * @param orientation the Horizontal or Vertical orientation of the wall
      * @param beginFrom   where in the orientation does the 'pos' parameter value start
      * @param pos         pair of coordinates for the selected 'begin' position
@@ -34,7 +26,7 @@ public class WallFactory {
      */
     public Wall buildWall(Orientation orientation, BeginFrom beginFrom, Vector2 pos, float length,
             Color color) {
-        enforceValidOrientation(orientation, beginFrom);
+        validate(orientation, beginFrom, length);
 
         /* Size: default + adjustment. */
         float width = THICKNESS;
@@ -64,7 +56,7 @@ public class WallFactory {
      */
     public Wall buildCenteredWall(Orientation orientation, BeginFrom beginFrom, Vector2 pos,
             float length, Color color) {
-        enforceValidOrientation(orientation, beginFrom);
+        validate(orientation, beginFrom, length);
 
         float width = THICKNESS;
         float height = THICKNESS;
@@ -111,7 +103,7 @@ public class WallFactory {
      */
     public Wall buildBlendedWall(Orientation orientation, BeginFrom beginFrom, Vector2 pos,
             float length, Color color) {
-        enforceValidOrientation(orientation, beginFrom);
+        validate(orientation, beginFrom, length);
 
         length += THICKNESS; // enlarge
         float width = THICKNESS;
@@ -183,6 +175,14 @@ public class WallFactory {
         return buildWall(orientation, beginFrom, pos, length, color);
     }
 
+    /**
+     * Calls {@link #buildWall(Orientation, BeginFrom, Vector2, float, Color)} with a default color
+     * of {@code BLACK}.
+     */
+    public Wall buildWall(Orientation orientation, BeginFrom beginFrom, Vector2 pos, float length) {
+        return buildWall(orientation, beginFrom, pos, length, Color.BLACK);
+    }
+
     private boolean isValidOrientation(Orientation orientation, BeginFrom beginFrom) {
         return (orientation == Orientation.HORIZONTAL
                 && (beginFrom == BeginFrom.LEFT || beginFrom == BeginFrom.RIGHT))
@@ -190,10 +190,14 @@ public class WallFactory {
                 && (beginFrom == BeginFrom.TOP || beginFrom == BeginFrom.BOTTOM));
     }
 
-    private void enforceValidOrientation(Orientation orientation, BeginFrom beginFrom) {
+    private void validate(Orientation orientation, BeginFrom beginFrom, float length) {
         if (!isValidOrientation(orientation, beginFrom)) {
             throw new IllegalArgumentException(
                     "This `BEGIN` value only matches the other `ORIENTATION`.");
+        }
+
+        if (length < 0) {
+            throw new IllegalArgumentException("Cannot have a negative length.");
         }
     }
 }

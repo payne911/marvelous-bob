@@ -1,5 +1,8 @@
 package com.marvelousbob.common.network.constants;
 
+/**
+ * NOTE: nothing random in here can be expected to be identical between the Client and the Server.
+ */
 public class GameConstant {
 
     public static final int WRITE_BUFFER_SIZE = 65536;

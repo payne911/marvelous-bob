@@ -69,7 +69,8 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
     @Override
     public Level getLevel() {
-        char[][] grid = generateGrid(123L);
+//        char[][] grid = generateGrid(123L);
+        char[][] grid = generateGrid(MathUtils.random(Long.MAX_VALUE));
 
         var walls = getWalls(grid);
         var emptyCells = findEmptyCells(grid);
@@ -135,9 +136,9 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             while (tmpSize != 0) {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
-                int length = secondCoord - firstCoord;
+                int length = firstCoord - secondCoord;
                 horizWalls.add(buildGridWall(Orientation.HORIZONTAL, BeginFrom.LEFT,
-                        firstCoord / 2f, GameConstant.BLOCKS_Y - (float) y - HALF_GRID_CELL,
+                        secondCoord / 2f, GameConstant.BLOCKS_Y - (float) y - HALF_GRID_CELL,
                         length / 2f));
             }
         }
@@ -174,9 +175,9 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             while (tmpSize != 0) {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
-                int length = secondCoord - firstCoord;
+                int length = firstCoord - secondCoord;
                 vertWalls.add(buildGridWall(Orientation.VERTICAL, BeginFrom.TOP,
-                        x + HALF_GRID_CELL, GameConstant.BLOCKS_Y - firstCoord / 2f,
+                        x + HALF_GRID_CELL, GameConstant.BLOCKS_Y - secondCoord / 2f,
                         length / 2f));
             }
         }

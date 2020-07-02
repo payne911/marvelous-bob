@@ -26,3 +26,4 @@ Marvelous Bob : to do
 * Don't flood TCP with broadcasts if GameStateDto hasn't changed
 * CI/CD: 2nd cluster in AWS ECS for a 'test' remote env
 * Connection Refused dto
+* Send the 'seed' instead of sending the whole Level to the Players
