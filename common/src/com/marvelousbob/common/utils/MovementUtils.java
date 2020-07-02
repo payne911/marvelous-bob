@@ -1,6 +1,7 @@
 package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class MovementUtils {
      * Page</a>
      */
     public static boolean interpolatePlayer(Player p, float delta) {
+        Vector2 oldPos = p.getCurrCenterPos().cpy();
         if (wantsToMove(p)) {
             log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
                     .formatted(p.getUuid().getId(), delta,
@@ -54,6 +56,7 @@ public class MovementUtils {
                             ? Interpolation.exp10Out.apply(p.getCurrCenterY(), p.getDestY(), delta)
                             : p.getDestY());
 
+            p.setPreviousPosition(oldPos);
             return true;
         }
         return false;

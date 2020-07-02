@@ -60,8 +60,7 @@ public class Controller {
         Player self = getSelfPlayer();
 
         /* Assume local input will be accepted by server. */
-        self.getDestination().x = destX;
-        self.getDestination().y = destY;
+        gameWorldManager.updatePlayerDestination(self, destX, destY);
 
         /* Send movement request to server. */
         var moveActionDto = new MoveActionDto();
@@ -89,8 +88,8 @@ public class Controller {
         var player = getSelfPlayer();
         float mouseRelativeToPlayerY = screenY - player.getCurrCenterY();
         float mouseRelativeToPlayerX = screenX - player.getCurrCenterX();
-        log.info("Input screen (%f , %f) corresponds to relative coords (%f , %f)"
-                .formatted(screenX, screenY, mouseRelativeToPlayerX, mouseRelativeToPlayerY));
+//        log.info("Input screen (%f , %f) corresponds to relative coords (%f , %f)"
+//                .formatted(screenX, screenY, mouseRelativeToPlayerX, mouseRelativeToPlayerY));
         player.setMouseAngleRelativeToCenter(
                 atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
 
