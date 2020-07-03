@@ -41,6 +41,7 @@ allprojects {
         reflectionsVersion = '0.9.12'
 
         pieMenuVersion = '4.2.0'
+        jbump = '91eed3edc0'
 //        shapeDrawer = '2.3.0'
         shapeDrawer = '912a367dac'
     }
@@ -104,6 +105,7 @@ project(":common") {
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
         api "space.earlygrey:shapedrawer:$shapeDrawer"
+        api "com.github.tommyettinger:jbump:$jbump"
 
         // todo: do we need both logging libraries? p.s. kryonet uses Minlog
         api "org.slf4j:slf4j-api:$slf4j"
