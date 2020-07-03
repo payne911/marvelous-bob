@@ -25,7 +25,11 @@ public class RangedPlayerBullet extends Bullet {
     @Getter
     private Vector2 startPos;
 
-    public RangedPlayerBullet(Vector2 initPos, Vector2 dest, float speed, float radius) {
+    @Getter
+    private Color color;
+
+    public RangedPlayerBullet(Vector2 initPos, Vector2 dest, Color color, float speed,
+            float radius) {
         super(UUID.getNext());
         this.startPos = initPos;
         this.currentPos = initPos;
@@ -33,6 +37,7 @@ public class RangedPlayerBullet extends Bullet {
         this.angle = MathUtils.atan2(dest.y - initPos.y, dest.x - initPos.x);
         this.size = radius;
         this.circle = new Circle(initPos.x, initPos.y, radius);
+        this.color = color;
     }
 
     @Override
@@ -65,8 +70,7 @@ public class RangedPlayerBullet extends Bullet {
 
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
-        // no set colors, because drawMe is called by the player instance that shot that bullet.
-        // The bullet will be the players color.
-        shapeDrawer.filledCircle(circle.x, circle.y, circle.radius, /*debug*/ Color.ROYAL);
+        shapeDrawer.setColor(color);
+        shapeDrawer.filledCircle(circle.x, circle.y, circle.radius);
     }
 }

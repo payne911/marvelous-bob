@@ -117,11 +117,11 @@ public class GameWorld implements Drawable {
      */
     public Optional<Vector2> checkForLineIntersectionWithAllWalls(Vector2 p1, Vector2 p2) {
         return level.getWalls().stream()
-                .flatMap(w -> isLineIntersectiongWithWall(w, p1, p2))
+                .flatMap(w -> isLineIntersectingWithWall(w, p1, p2))
                 .reduce((v1, v2) -> p1.dst2(v2) < p1.dst(v1) ? v2 : v1);
     }
 
-    private Stream<Vector2> isLineIntersectiongWithWall(Wall wall, Vector2 p1, Vector2 p2) {
+    private Stream<Vector2> isLineIntersectingWithWall(Wall wall, Vector2 p1, Vector2 p2) {
         return getLinesFromWalls(wall)
                 .map(line -> getIntersectionPointIfIntersection(line, p1, p2))
                 .filter(Optional::isPresent)
