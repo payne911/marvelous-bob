@@ -1,5 +1,7 @@
-# marvelous-bob
-libGDX June game-jam submission.
+# Marvelous Bob
+Top-down multiplayer coop Defend-Your-Base game.
+
+![early_demo](https://raw.githubusercontent.com/payne911/marvelous-bob/master/utils/media/early_demo.gif)
 
 ## Project structure
 This repository contains 4 modules:
