@@ -42,7 +42,6 @@ public class MovementUtils {
      * Page</a>
      */
     public static boolean interpolatePlayer(Player p, float delta) {
-//        delta = delta;
         Vector2 oldPos = p.getCurrCenterPos().cpy();
         if (wantsToMove(p)) {
 //            log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
