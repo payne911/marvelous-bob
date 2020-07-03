@@ -283,13 +283,8 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         char[][] grid = DungeonUtility.hashesToLines(map);
 
         DungeonUtility.debugPrint(grid);
-        System.out.println("FINISHED PRINT");
-//        for (char[] chars : grid) {
-//            System.out.println(Arrays.toString(chars));
-//        }
         log.info("Finished generating a level.");
 
-        // do stuff with grid, it contains box drawing chars like ─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼
         return grid;
     }
 }
