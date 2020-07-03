@@ -115,23 +115,16 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         PathFinder<Vector2> pathFinder = new IndexedAStarPathFinder<>(graph);
         level.getAllPlayerBases().forEach(base -> {
             GraphPath<Vector2> pathFound = new DefaultGraphPath<>();
-            log.debug("searching for path from {} to {}", pos.toString(), base.getPos().toString());
-
             boolean found = pathFinder.searchNodePath(
                     graph.findNodeClosestTo(pos),
                     graph.findNodeClosestTo(base.getPos()),
                     Vector2::dst2,
                     pathFound);
-
-            log.debug("path finding {}", found ? "SUCCESSFUL!!!!!" : "unsuccessful");
             if (found) {
-                log.debug("path found: {} nodes!", pathFound.getCount());
+                Array<Vector2> path = new Array<>();
+                pathFound.forEach(path::add);
+                pathsToBase.add(path);
             }
-            log.debug("Connections from base {}", graph.getConnections(base.getPos()));
-            log.debug("Connections from spawn {}", graph.getConnections(pos));
-            Array<Vector2> path = new Array<>();
-            pathFound.forEach(path::add);
-            pathsToBase.add(path);
         });
 
     }

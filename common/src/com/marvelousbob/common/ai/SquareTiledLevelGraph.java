@@ -3,7 +3,6 @@ package com.marvelousbob.common.ai;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.DefaultConnection;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.model.entities.level.Level;
@@ -13,7 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,59 +42,16 @@ public class SquareTiledLevelGraph implements IndexedGraph<Vector2> {
         this.gridSize = level.getGridSize();
     }
 
-    public Vector2 findNodeClosestTo(Vector2 vect) {
-        Vector2 closest = null;
-        for (var v : connections.keySet()) {
-            if (closest == null) {
-                closest = v;
-            }
-            float dist = vect.dst2(v);
-            if (dist < vect.dst2(closest)) {
-                closest = v;
-            }
-        }
-        return closest;
-    }
-
-    public Vector2 getRandomNode() {
-        int i = MathUtils.random(nodeIndex);
-        AtomicReference<Vector2> vect = new AtomicReference<>();
-        nodes.forEach((v, in) -> {
-            if (in == i) {
-                vect.set(v);
-            }
-        });
-        return vect.get();
-    }
-
 
     @Override
     public Array<Connection<Vector2>> getConnections(Vector2 fromNode) {
         return connections.get(fromNode);
     }
 
-    public void addNode(Vector2 node) {
-        nodes.put(node, nodeIndex);
-        nodeIndex++;
-//        Array<Vector2> neighbors = new Array<>();
-//        int halfGrid = gridSize / 2;
-//        float maxDist = (float) Math.sqrt(2 * halfGrid * halfGrid);
-//        nodes.keySet().forEach(v -> {
-//            if (Float.compare(node.dst(v), maxDist + 1) <= 0) {
-//                neighbors.add(v);
-//            }
-//        });
-//        Array<Connection<Vector2>> conn = new Array<>();
-//        neighbors.forEach(v -> {
-//            conn.add(new MyDefaultConnection(node, v));
-//            var arr = connections.get(v);
-//            if (arr != null) {
-//                arr.add(new MyDefaultConnection(v, node));
-//            }
-//        });
-//        connections.put(node, conn);
-//        nodes.put(node, nodeIndex);
-//        nodeIndex++;
+
+    @Override
+    public int getNodeCount() {
+        return nodeIndex;
     }
 
 
@@ -108,7 +63,7 @@ public class SquareTiledLevelGraph implements IndexedGraph<Vector2> {
             for (var v1 : nodes.keySet()) {
                 Array<Connection<Vector2>> neighbors = new Array<>();
                 for (var v2 : nodes.keySet()) {
-                    // todo: fix this stupid O(n^2) distance implementation
+                    // todo: fix this stupid O(n^2) distance implementation...
                     if (v1.epsilonEquals(v2)) {
                         continue;
                     }
@@ -122,6 +77,7 @@ public class SquareTiledLevelGraph implements IndexedGraph<Vector2> {
         }
         computed = true;
     }
+
 
     private void computeNodes(List<Wall> walls) {
         int halfGrid = gridSize / 2;
@@ -159,13 +115,24 @@ public class SquareTiledLevelGraph implements IndexedGraph<Vector2> {
 
     }
 
+
     public int getIndex(Vector2 node) {
         return nodes.get(node);
     }
 
-    @Override
-    public int getNodeCount() {
-        return nodeIndex;
+
+    public Vector2 findNodeClosestTo(Vector2 vect) {
+        Vector2 closest = null;
+        for (var v : connections.keySet()) {
+            if (closest == null) {
+                closest = v;
+            }
+            float dist = vect.dst2(v);
+            if (dist < vect.dst2(closest)) {
+                closest = v;
+            }
+        }
+        return closest;
     }
 
 
