@@ -26,4 +26,6 @@ public abstract class Bullet implements Drawable, Identifiable, Movable {
 
    @EqualsAndHashCode.Include
    protected UUID uuid;
+
+   public abstract void updatePos(float delta);
 }

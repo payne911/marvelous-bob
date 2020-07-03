@@ -6,7 +6,7 @@ import com.marvelousbob.common.model.entities.level.Wall;
 
 public class WallFactory {
 
-    private static final float THICKNESS = 8;
+    private static final float THICKNESS = 12;
     private static final float HALF_THICKNESS = THICKNESS / 2;
 
     /**

@@ -4,6 +4,7 @@ import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.controller;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
@@ -78,8 +79,7 @@ public class Controller {
      * Origin of screen is assumed at bottom-left.
      */
     public void playerRightClicked(float screenX, float screenY) {
-        playerMouseMoved(screenX, screenY);
-        // todo
+        getSelfPlayer().attack(new Vector2(screenX, screenY));
     }
 
     /**

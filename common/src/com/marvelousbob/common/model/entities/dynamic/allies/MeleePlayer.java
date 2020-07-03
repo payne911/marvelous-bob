@@ -3,7 +3,7 @@ package com.marvelousbob.common.model.entities.dynamic.allies;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
+import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.utils.UUID;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,12 +15,19 @@ public class MeleePlayer extends Player {
 
     private static final float ROD_SIZE = 3;
 
-    public MeleePlayer(PlayerDto playerDto) {
-        super(playerDto);
-    }
 
     public MeleePlayer(UUID uuid, Color color, Vector2 initCenterPos) {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
+    }
+
+    @Override
+    public void attack(Vector2 pos) {
+        // TODO: 2020-07-03   --- OLA
+    }
+
+    @Override
+    public void updateProjectiles(float delta, Level level) {
+        // TODO: 2020-07-03   --- OLA
     }
 
     private void drawRod(ShapeDrawer shapeDrawer) {

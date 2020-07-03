@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.Movable;
+import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
@@ -35,6 +36,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     protected Vector2 destination;
     protected Vector2 previousPosition;
 
+
     /**
      * {@code zero} degrees means pointing to the right.<p> Increases counter-clockwise.<p> Should
      * always be [0,360] ?
@@ -42,7 +44,7 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     protected float mouseAngleRelativeToCenter;
 
     @EqualsAndHashCode.Include
-    private UUID uuid;
+    protected UUID uuid;
 
     public Player(
             float hp,
@@ -67,14 +69,9 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
 
     public abstract Polygon getShape();
 
-    @Deprecated
-    public Player(PlayerDto playerDto) {
-        this.uuid = playerDto.getUuid();
-        this.playerDto = playerDto;
-        this.speed = 20;
-        this.size = 40;
-        updateFromDto(playerDto);
-    }
+    public abstract void attack(Vector2 pos);
+
+    public abstract void updateProjectiles(float delta, Level level);
 
     public void updateFromDto(PlayerDto input) {
         this.colorIndex = input.colorIndex;

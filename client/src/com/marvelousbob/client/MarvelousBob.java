@@ -14,7 +14,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -115,9 +114,10 @@ public class MarvelousBob extends Game {
 
     private void instantiatePlayer() {
         // todo: add screen for Player Type choice
-        var playerType = MathUtils.random(1f) > .5f
-                ? PlayerTypeDto.RANGED
-                : PlayerTypeDto.MELEE;
+//        var playerType = MathUtils.random(1f) > .5f
+//                ? PlayerTypeDto.RANGED
+//                : PlayerTypeDto.MELEE;
+        var playerType = PlayerTypeDto.RANGED;
         client.getClient().sendTCP(new PlayerConnectionDto(playerType));
 //        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
 //        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.RANGED));
