@@ -141,6 +141,9 @@ public class ProceduralLevelGenerator implements LevelGenerator {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
                 int length = firstCoord - secondCoord;
+                if (length == 0) { // possible edge-case when trimming happened on a lonely wall
+                    continue;
+                }
                 horizWalls.add(buildGridWall(Orientation.HORIZONTAL, Headed.RIGHT,
                         secondCoord / 2f, GameConstant.BLOCKS_Y - (float) y - HALF_GRID_CELL,
                         length / 2f));
@@ -180,6 +183,9 @@ public class ProceduralLevelGenerator implements LevelGenerator {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
                 int length = firstCoord - secondCoord;
+                if (length == 0) { // possible edge-case when trimming happened on a lonely wall
+                    continue;
+                }
                 vertWalls.add(buildGridWall(Orientation.VERTICAL, Headed.BOTTOM,
                         x + HALF_GRID_CELL, GameConstant.BLOCKS_Y - secondCoord / 2f,
                         length / 2f));
