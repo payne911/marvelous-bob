@@ -1,9 +1,5 @@
 package com.marvelousbob.server.worlds;
 
-import static com.marvelousbob.common.network.constants.GameConstant.BLOCKS_X;
-import static com.marvelousbob.common.network.constants.GameConstant.BLOCKS_Y;
-import static com.marvelousbob.common.network.constants.GameConstant.PIXELS_PER_GRID_CELL;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
@@ -94,7 +90,8 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         spawns.put(spawnUuid2,
                 EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells), 10));
 
-        return new Level(bases, spawns, walls, BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
+        return new Level(bases, spawns, walls,
+                GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, GameConstant.PIXELS_PER_GRID_CELL);
     }
 
     private Vector2 randomFreePos(ArrayList<Vector2> emptyCells) {
@@ -272,7 +269,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
         StatefulRNG rng = new StatefulRNG(seed); // change seed to change level
         GrowingTreeMazeGenerator mazeGenerator =
-                new GrowingTreeMazeGenerator(BLOCKS_X, GameConstant.BLOCKS_Y, rng);
+                new GrowingTreeMazeGenerator(GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, rng);
         char[][] map = mazeGenerator.generate();
         GreasedRegion walls = new GreasedRegion(map, '#');
         GreasedRegion temp = walls.copy();
