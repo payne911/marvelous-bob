@@ -10,7 +10,7 @@ import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.utils.Tuple2;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.factories.WallFactory;
-import com.marvelousbob.server.factories.WallFactory.BeginFrom;
+import com.marvelousbob.server.factories.WallFactory.Headed;
 import com.marvelousbob.server.factories.WallFactory.Orientation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,7 +137,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
                 int length = firstCoord - secondCoord;
-                horizWalls.add(buildGridWall(Orientation.HORIZONTAL, BeginFrom.LEFT,
+                horizWalls.add(buildGridWall(Orientation.HORIZONTAL, Headed.RIGHT,
                         secondCoord / 2f, GameConstant.BLOCKS_Y - (float) y - HALF_GRID_CELL,
                         length / 2f));
             }
@@ -176,7 +176,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
                 int firstCoord = halfCoords.get(--tmpSize);
                 int secondCoord = halfCoords.get(--tmpSize);
                 int length = firstCoord - secondCoord;
-                vertWalls.add(buildGridWall(Orientation.VERTICAL, BeginFrom.TOP,
+                vertWalls.add(buildGridWall(Orientation.VERTICAL, Headed.BOTTOM,
                         x + HALF_GRID_CELL, GameConstant.BLOCKS_Y - secondCoord / 2f,
                         length / 2f));
             }
@@ -235,7 +235,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         return continuingAWall;
     }
 
-    private Wall buildGridWall(Orientation orientation, BeginFrom beginFrom, float x, float y,
+    private Wall buildGridWall(Orientation orientation, Headed headed, float x, float y,
             float length) {
         System.out.println();
         log.info("input: x={}, y={}, L={}", x, y, length);
@@ -244,7 +244,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         length *= GameConstant.PIXELS_PER_GRID_CELL;
         Vector2 pos = new Vector2(x, y);
         log.info("output: x={}, y={}, L={}, pos={}", x, y, length, pos);
-        return wallFactory.buildCenteredWall(orientation, beginFrom, pos, length);
+        return wallFactory.buildCenteredWall(orientation, headed, pos, length);
     }
 
     /**

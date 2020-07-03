@@ -11,6 +11,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @NoArgsConstructor
 public class Wall implements Drawable {
 
+    public static final Color DEFAULT_COLOR = Color.BLACK;
     private Rectangle rectangle;
     private Color color;
 
@@ -19,7 +20,7 @@ public class Wall implements Drawable {
     }
 
     public Wall(float blX, float blY, float width, float height) {
-        this(new Rectangle(blX, blY, width, height), Color.BLACK);
+        this(new Rectangle(blX, blY, width, height), DEFAULT_COLOR);
     }
 
     public Wall(Rectangle rectangle, Color color) {
@@ -28,7 +29,7 @@ public class Wall implements Drawable {
     }
 
     public Wall(Rectangle rectangle) {
-        this(rectangle, Color.BLACK);
+        this(rectangle, DEFAULT_COLOR);
     }
 
 
