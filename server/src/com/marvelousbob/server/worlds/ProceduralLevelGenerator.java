@@ -261,6 +261,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
      *
      * @param seed inputting twice the same seed will result in the same map being generated.
      * @return 2D array as grid[x][y] with [0][0] being the top-left of the screen.
+     * @author TEttinger
      */
     public char[][] generateGrid(long seed) {
         log.warn("Starting procedural generation of a new level. Seed: " + seed);
