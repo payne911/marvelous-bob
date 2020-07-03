@@ -65,6 +65,11 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         }
 
         GameWorld gameWorld = gameInit.newGameWorld;
+
+        // calculate the ennemy map
+        gameWorld.getLevel().getAllSpawnPoints()
+                .forEach(s -> s.findPathToBase(gameWorld.getLevel()));
+
         log.info("before controller");
         controller = new Controller(kClient, gameWorld, gameInit.currentPlayerId);
         log.info("controller: " + controller);

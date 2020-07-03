@@ -13,7 +13,6 @@ import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.MovementUtils;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,7 +20,6 @@ import java.util.stream.Stream;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
 @Data
 @Slf4j
 public class GameWorld implements Drawable {
@@ -30,10 +28,9 @@ public class GameWorld implements Drawable {
     private Level level;
 
     public GameWorld() {
-        this.level = new Level(new ConcurrentHashMap<>(), new ConcurrentHashMap<>(),
-                new ArrayList<>());
         this.localGameState = new LocalGameState(new HashMap<>(), new ConcurrentHashMap<>(),
                 new ConcurrentHashMap<>());
+
     }
 
     @Override
@@ -120,11 +117,11 @@ public class GameWorld implements Drawable {
      */
     public Optional<Vector2> checkForLineIntersectionWithAllWalls(Vector2 p1, Vector2 p2) {
         return level.getWalls().stream()
-                .flatMap(w -> isLineIntersectiongWithWall(w, p1, p2))
+                .flatMap(w -> isLineIntersectingWithWall(w, p1, p2))
                 .reduce((v1, v2) -> p1.dst2(v2) < p1.dst(v1) ? v2 : v1);
     }
 
-    private Stream<Vector2> isLineIntersectiongWithWall(Wall wall, Vector2 p1, Vector2 p2) {
+    private Stream<Vector2> isLineIntersectingWithWall(Wall wall, Vector2 p1, Vector2 p2) {
         return getLinesFromWalls(wall)
                 .map(line -> getIntersectionPointIfIntersection(line, p1, p2))
                 .filter(Optional::isPresent)

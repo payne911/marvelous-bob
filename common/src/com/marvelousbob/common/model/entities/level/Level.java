@@ -1,5 +1,6 @@
 package com.marvelousbob.common.model.entities.level;
 
+import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
@@ -19,6 +20,7 @@ public class Level implements Drawable {
     private ConcurrentHashMap<UUID, PlayersBase> bases;
     private ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints;
     private ArrayList<Wall> walls;
+    private int sizeX, sizeY, gridSize;
 
 
     @Override
@@ -36,5 +38,17 @@ public class Level implements Drawable {
     public void updateUsingSpawnPoints(SpawnPointDto spawnPointDto) {
         var spawn = enemySpawnPoints.get(spawnPointDto.uuid);
         spawn.setHp(spawnPointDto.getHp());
+    }
+
+    public Array<PlayersBase> getAllPlayerBases() {
+        var arr = new Array<PlayersBase>();
+        bases.values().forEach(arr::add);
+        return arr;
+    }
+
+    public Array<EnemySpawnPoint> getAllSpawnPoints() {
+        var arr = new Array<EnemySpawnPoint>();
+        enemySpawnPoints.values().forEach(arr::add);
+        return arr;
     }
 }

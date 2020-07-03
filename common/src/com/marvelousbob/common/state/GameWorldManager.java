@@ -55,6 +55,8 @@ public class GameWorldManager {
      */
     public void updateGameState(float delta) {
         mutableGameWorld.checkForPlayerCollisionWithWalls();
+        mutableGameWorld.getLocalGameState().getPlayers().values()
+                .forEach(p -> p.updateProjectiles(delta, mutableGameWorld.getLevel()));
         mutableGameWorld.interpolatePlayerPositions(delta);
     }
 

@@ -1,22 +1,37 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
+import static com.marvelousbob.common.model.entities.dynamic.projectiles.RangedBulletExplosion.DEFAULT_LIFESPAN;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedBulletExplosion;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedPlayerBullet;
+import com.marvelousbob.common.model.entities.level.Level;
+import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @NoArgsConstructor
 @ToString(callSuper = true)
+@Slf4j
 public class RangedPlayer extends Player {
 
-    private Set<RangedPlayerBullet> bullets;
+    // TODO: 2020-07-03 fetch dynamically from config, or player stat or something...
+    private static final float DEFAULT_INITIAL_BULLET_SPEED = 200f;
+    private static final float DEFAULT_INITIAL_BULLET_RADIUS = 3f;
+
+
+    private Array<RangedPlayerBullet> bullets;
+    private Array<RangedBulletExplosion> explosions;
+    private float bulletSpeed;
+
     private final Polygon gun = new Polygon(GUN_VERTICES);
     private static final float GUN_LENGTH = 8;
     private static final float GUN_THICKNESS = 3;
@@ -30,7 +45,55 @@ public class RangedPlayer extends Player {
 
     public RangedPlayer(UUID uuid, Color color, Vector2 initCenterPos) {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
-        this.bullets = new HashSet<>();
+        this.bulletSpeed = DEFAULT_INITIAL_BULLET_SPEED;
+        this.bullets = new Array<>();
+        this.explosions = new Array<>();
+    }
+
+    @Override
+    public void attack(Vector2 pos) {
+        bullets.add(new RangedPlayerBullet(currCenterPos, pos, color, DEFAULT_INITIAL_BULLET_SPEED,
+                DEFAULT_INITIAL_BULLET_RADIUS));
+    }
+
+    @Override
+    public void updateProjectiles(float delta, Level level) {
+        checkForCollisionWithWalls(level.getWalls());
+        bullets.forEach(b -> b.updatePos(delta));
+        explosions.forEach(e -> e.update(delta));
+        // TODO: 2020-07-03 remove me: this is a dummy technique to remove projectile
+        //       while collision detection is not yet implemented    --- OLA
+        for (int i = bullets.size - 1; i >= 0; i--) {
+            float ARBITRARY_DISTANCE = 400f;
+            var bullet = bullets.get(i);
+            if (bullet.getCurrentPos().dst(bullet.getStartPos()) > ARBITRARY_DISTANCE) {
+                var bulletRemoved = bullets.removeIndex(i);
+                explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
+            }
+        }
+        if (!explosions.isEmpty()) {
+            for (int i = explosions.size - 1; i >= 0; i--) {
+                if (explosions.get(i).getLifespan() >= DEFAULT_LIFESPAN) {
+                    explosions.removeIndex(i);
+                }
+            }
+        }
+    }
+
+
+    // TODO: 2020-07-03 fix wall skip   --- OLA
+    public void checkForCollisionWithWalls(Collection<Wall> walls) {
+        outer:
+        for (int i = bullets.size - 1; i >= 0; i--) {
+            var bullet = bullets.get(i);
+            for (var wall : walls) {
+                if (wall.getRectangle().contains(bullet.getCircle())) {
+                    var bulletRemoved = bullets.removeIndex(i);
+                    explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
+                    continue outer;
+                }
+            }
+        }
     }
 
     @Override
@@ -53,6 +116,7 @@ public class RangedPlayer extends Player {
         shapeDrawer.filledPolygon(gun);
         shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
         bullets.forEach(b -> b.drawMe(shapeDrawer));
+        explosions.forEach(e -> e.drawMe(shapeDrawer));
     }
 
     @Override

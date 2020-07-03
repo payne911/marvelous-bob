@@ -1,33 +1,52 @@
 package com.marvelousbob.common.model.entities.level;
 
+import static com.badlogic.gdx.math.MathUtils.PI2;
+
+import com.badlogic.gdx.ai.pfa.Connection;
+import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
+import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.ai.pfa.PathFinder;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.marvelousbob.common.ai.SquareTiledLevelGraph;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.utils.UUID;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class EnemySpawnPoint implements Drawable, Identifiable {
 
+    private Set<Connection<Vector2>> connections;
     private UUID uuid;
     private Vector2 pos;
     private float hp, maxHp;
     private Polygon shape;
     private Polygon shape2;
     private Color color;
+    private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
+    private float offset;
 
-    public EnemySpawnPoint(UUID uuid, Polygon shape, Polygon shape2, Color color) {
+    public EnemySpawnPoint(UUID uuid, Vector2 pos, Polygon shape, Polygon shape2, Color color) {
         this.uuid = uuid;
+        this.pos = pos;
         this.shape = shape;
         this.shape2 = shape2;
         this.color = color;
+        this.pathsToBase = new Array<>();
+        this.offset = 0;
     }
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size, Color color) {
@@ -48,7 +67,8 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                 p5.x, p5.y,
                 p6.x, p6.y,
         };
-        return new EnemySpawnPoint(uuid, new Polygon(tVertices), new Polygon(t2Vertices), color);
+        return new EnemySpawnPoint(uuid, center, new Polygon(tVertices), new Polygon(t2Vertices),
+                color);
     }
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
@@ -62,5 +82,44 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         shapeDrawer.setColor(color);
         shapeDrawer.filledTriangle(t1[0], t1[1], t1[2], t1[3], t1[4], t1[5]);
         shapeDrawer.filledTriangle(t2[0], t2[1], t2[2], t2[3], t2[4], t2[5]);
+
+        // draw the animated paths from spawn point to bases
+        Vector2 prev = null;
+        if (!pathsToBase.isEmpty()) {
+            for (var arr : pathsToBase) {
+                Color color = Color.CYAN;
+                for (int i = 0; i < arr.size; i++) {
+                    float angle = MathUtils.map(0, arr.size, 0.1f, PI2, i);
+                    var v = arr.get(i);
+                    color.a = (float) Math.tan((angle + offset) % PI2);
+                    color.clamp();
+                    if (prev != null) {
+                        shapeDrawer.line(prev, v, color);
+                    }
+                    prev = v;
+                }
+            }
+        }
+        offset = ((offset - 0.04f) % PI2); // should be using delta from render... ?
+    }
+
+    public void findPathToBase(Level level) {
+        SquareTiledLevelGraph graph = new SquareTiledLevelGraph(level);
+        graph.computeConnections();
+        PathFinder<Vector2> pathFinder = new IndexedAStarPathFinder<>(graph);
+        level.getAllPlayerBases().forEach(base -> {
+            GraphPath<Vector2> pathFound = new DefaultGraphPath<>();
+            boolean found = pathFinder.searchNodePath(
+                    graph.findNodeClosestTo(pos),
+                    graph.findNodeClosestTo(base.getPos()),
+                    Vector2::dst2,
+                    pathFound);
+            if (found) {
+                Array<Vector2> path = new Array<>();
+                pathFound.forEach(path::add);
+                pathsToBase.add(path);
+            }
+        });
+
     }
 }

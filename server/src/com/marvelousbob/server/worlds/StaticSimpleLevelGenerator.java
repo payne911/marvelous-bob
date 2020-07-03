@@ -1,5 +1,9 @@
 package com.marvelousbob.server.worlds;
 
+import static com.marvelousbob.common.network.constants.GameConstant.BLOCKS_X;
+import static com.marvelousbob.common.network.constants.GameConstant.BLOCKS_Y;
+import static com.marvelousbob.common.network.constants.GameConstant.PIXELS_PER_GRID_CELL;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
@@ -45,7 +49,7 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 350), 350));
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 250), 350));
 
-        return new Level(bases, enemySpawnPoints, walls);
+        return new Level(bases, enemySpawnPoints, walls, BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
     }
 
     private Wall buildWall(Orientation orientation, Vector2 pos, float length) {
