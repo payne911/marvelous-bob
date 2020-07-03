@@ -214,21 +214,21 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             Tuple2<Boolean, Boolean> currentBools) {
         log.info("First: " + currentBools.getFirst());
         continuingAWall = updateWallContinuation(halfCoords, continuingAWall,
-                currentBools.getFirst(), 2 * gridCoord);
+                currentBools.getFirst(), true, 2 * gridCoord);
         log.info("Second: " + currentBools.getSecond());
         continuingAWall = updateWallContinuation(halfCoords, continuingAWall,
-                currentBools.getSecond(), 2 * gridCoord + 1);
+                currentBools.getSecond(), false, 2 * gridCoord + 1);
         return continuingAWall;
     }
 
     private boolean updateWallContinuation(List<Integer> halfCoords, boolean continuingAWall,
-            boolean tupleBool, int halfCoord) {
-        if (!continuingAWall && tupleBool) {
-            halfCoords.add(halfCoord); // begin new wall
+            boolean tupleBool, boolean isFirstOfTuple, int halfCoord) {
+        if (!continuingAWall && tupleBool) { // begin new wall
+            halfCoords.add(isFirstOfTuple ? halfCoord + 1 : halfCoord); // trim edges
             log.info("Begun a wall");
         }
-        if (continuingAWall && !tupleBool) {
-            halfCoords.add(halfCoord); // end a wall
+        if (continuingAWall && !tupleBool) { // end a wall
+            halfCoords.add(isFirstOfTuple ? halfCoord - 1 : halfCoord); // trim edges
             log.info("Ended a wall");
         }
         continuingAWall = tupleBool;
@@ -244,7 +244,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         length *= GameConstant.PIXELS_PER_GRID_CELL;
         Vector2 pos = new Vector2(x, y);
         log.info("output: x={}, y={}, L={}, pos={}", x, y, length, pos);
-        return wallFactory.buildCenteredWall(orientation, headed, pos, length);
+        return wallFactory.buildBlendedWall(orientation, headed, pos, length);
     }
 
     /**

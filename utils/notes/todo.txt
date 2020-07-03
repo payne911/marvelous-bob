@@ -10,7 +10,6 @@ Marvelous Bob : to do
 ✓ Free Color Ids (update when player leaves)
 ✓ Angle Point At Mouse
 ✓ Procedural generation
-* Fix coords bug of ProceduralLevelGenerator to use "buildBlendedWalls"
 * Actual algorithm to place Bases and Spawns in ProceduralLevelGenerator
 - PlayerType choosing Screen
 - Send WeaponFacingDto (from Controller#playerMouseMoved)
