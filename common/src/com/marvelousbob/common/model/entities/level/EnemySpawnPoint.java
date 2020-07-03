@@ -36,8 +36,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Polygon shape;
     private Polygon shape2;
     private Color color;
-    private Array<Array<Vector2>> pathsToBase;
-    private Array<Vector2> gridPoints;
+    private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
     private float offset;
 
     public EnemySpawnPoint(UUID uuid, Vector2 pos, Polygon shape, Polygon shape2, Color color) {
@@ -47,7 +46,6 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         this.shape2 = shape2;
         this.color = color;
         this.pathsToBase = new Array<>();
-        this.gridPoints = new Array<>();
         this.offset = 0;
     }
 
@@ -85,6 +83,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         shapeDrawer.filledTriangle(t1[0], t1[1], t1[2], t1[3], t1[4], t1[5]);
         shapeDrawer.filledTriangle(t2[0], t2[1], t2[2], t2[3], t2[4], t2[5]);
 
+        // draw the animated paths from spawn point to bases
         Vector2 prev = null;
         if (!pathsToBase.isEmpty()) {
             for (var arr : pathsToBase) {
@@ -107,7 +106,6 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     public void findPathToBase(Level level) {
         SquareTiledLevelGraph graph = new SquareTiledLevelGraph(level);
         graph.computeConnections();
-        graph.getNodes().keySet().forEach(v -> gridPoints.add(v));
         PathFinder<Vector2> pathFinder = new IndexedAStarPathFinder<>(graph);
         level.getAllPlayerBases().forEach(base -> {
             GraphPath<Vector2> pathFound = new DefaultGraphPath<>();
