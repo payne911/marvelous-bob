@@ -18,12 +18,14 @@ public class PlayersBase implements Drawable, Identifiable {
     private Polygon shape;
     private Color color;
     private float hp, maxHp;
+    private Vector2 pos;
 
 
-    public PlayersBase(UUID uuid, Polygon shape, Color color) {
+    public PlayersBase(UUID uuid, Vector2 pos, Polygon shape, Color color) {
         this.shape = shape;
         this.color = color;
         this.uuid = uuid;
+        this.pos = pos;
     }
 
     public static PlayersBase hexagonalPlayerBase(UUID uuid, Vector2 center, float size,
@@ -42,7 +44,7 @@ public class PlayersBase implements Drawable, Identifiable {
                 p3.x, p3.y,
                 p6.x, p6.y
         };
-        return new PlayersBase(uuid, new Polygon(tVertices), color);
+        return new PlayersBase(uuid, center, new Polygon(tVertices), color);
     }
 
     public static PlayersBase hexagonalPlayerBase(UUID uuid, Vector2 center, float size) {

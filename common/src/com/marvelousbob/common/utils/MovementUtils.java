@@ -16,6 +16,8 @@ public class MovementUtils {
      */
     private static final float SMALLEST_DELTA = 1;
 
+    private static Interpolation interpolation = Interpolation.linear;
+
     private MovementUtils() {
     }
 
@@ -40,20 +42,21 @@ public class MovementUtils {
      * Page</a>
      */
     public static boolean interpolatePlayer(Player p, float delta) {
+//        delta = delta;
         Vector2 oldPos = p.getCurrCenterPos().cpy();
         if (wantsToMove(p)) {
-            log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
-                    .formatted(p.getUuid().getId(), delta,
-                            p.getCurrCenterX(), p.getCurrCenterY(),
-                            p.getDestX(), p.getDestY()));
+//            log.info("Interpolating player UUID %d with delta %f from (%f , %f) toward (%f , %f)"
+//                    .formatted(p.getUuid().getId(), delta,
+//                            p.getCurrCenterX(), p.getCurrCenterY(),
+//                            p.getDestX(), p.getDestY()));
 
             p.setCurrCenterX(
                     isBigEnoughDelta(p.getCurrCenterX(), p.getDestX())
-                            ? Interpolation.exp10Out.apply(p.getCurrCenterX(), p.getDestX(), delta)
+                            ? interpolation.apply(p.getCurrCenterX(), p.getDestX(), delta)
                             : p.getDestX());
             p.setCurrCenterY(
                     isBigEnoughDelta(p.getCurrCenterY(), p.getDestY())
-                            ? Interpolation.exp10Out.apply(p.getCurrCenterY(), p.getDestY(), delta)
+                            ? interpolation.apply(p.getCurrCenterY(), p.getDestY(), delta)
                             : p.getDestY());
 
             p.setPreviousPosition(oldPos);

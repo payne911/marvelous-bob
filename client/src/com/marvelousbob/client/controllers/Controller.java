@@ -78,6 +78,7 @@ public class Controller {
      * Origin of screen is assumed at bottom-left.
      */
     public void playerRightClicked(float screenX, float screenY) {
+        playerMouseMoved(screenX, screenY);
         // todo
     }
 
@@ -94,6 +95,7 @@ public class Controller {
                 atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
 
         // todo: send WeaponFacingDto
+        //     OLA: I dont think so, we send that info every 100ms...
     }
 
     // ==========================================
