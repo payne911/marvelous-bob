@@ -85,9 +85,6 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         shapeDrawer.filledTriangle(t1[0], t1[1], t1[2], t1[3], t1[4], t1[5]);
         shapeDrawer.filledTriangle(t2[0], t2[1], t2[2], t2[3], t2[4], t2[5]);
 
-        // debug
-//        connections.forEach(conn -> shapeDrawer.line(conn.getFromNode(), conn.getToNode(), Color.SCARLET));
-//        gridPoints.forEach(v -> shapeDrawer.filledCircle(v.x, v.y, 3, Color.RED));
         Vector2 prev = null;
         if (!pathsToBase.isEmpty()) {
             for (var arr : pathsToBase) {
@@ -97,7 +94,6 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                     var v = arr.get(i);
                     color.a = (float) Math.tan((angle + offset) % PI2);
                     color.clamp();
-//                    shapeDrawer.filledCircle(v.x, v.y, 5, Color.CYAN);
                     if (prev != null) {
                         shapeDrawer.line(prev, v, color);
                     }
@@ -105,7 +101,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                 }
             }
         }
-        offset = ((offset - 0.04f) % PI2);
+        offset = ((offset - 0.04f) % PI2); // should be using delta from render... ?
     }
 
     public void findPathToBase(Level level) {
