@@ -48,6 +48,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         LEFT_RIGHT_CONTINUUM.put('┴', new Tuple2<>(true, true));
         LEFT_RIGHT_CONTINUUM.put('┼', new Tuple2<>(true, true));
         LEFT_RIGHT_CONTINUUM.put('.', new Tuple2<>(false, false));
+        LEFT_RIGHT_CONTINUUM.put(' ', new Tuple2<>(false, false));
 
         TOP_BOTTOM_CONTINUUM.put('│', new Tuple2<>(true, true));
         TOP_BOTTOM_CONTINUUM.put('─', new Tuple2<>(false, false));
@@ -61,6 +62,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         TOP_BOTTOM_CONTINUUM.put('┴', new Tuple2<>(true, false));
         TOP_BOTTOM_CONTINUUM.put('┼', new Tuple2<>(true, true));
         TOP_BOTTOM_CONTINUUM.put('.', new Tuple2<>(false, false));
+        TOP_BOTTOM_CONTINUUM.put(' ', new Tuple2<>(false, false));
     }
 
     public ProceduralLevelGenerator() {
@@ -70,7 +72,8 @@ public class ProceduralLevelGenerator implements LevelGenerator {
     @Override
     public Level getLevel() {
 //        final long seed = 123L;
-        final long seed = MathUtils.random(Long.MAX_VALUE);
+//        final long seed = MathUtils.random(Long.MAX_VALUE);
+        final long seed = 3116578954363177984L;
         char[][] grid = generateGrid(seed);
 
         var walls = getWalls(grid);
@@ -129,7 +132,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             boolean continuingAWall = false; // we never continue a wall when we begin
 
             for (int x = 0; x < grid.length; x++) {
-                System.out.println(grid[x][y]);
+                System.out.println("(%d , %d) = %c".formatted(x, y, grid[x][y]));
                 continuingAWall = updateWallAccumulator(x, halfCoords, continuingAWall,
                         LEFT_RIGHT_CONTINUUM.get(grid[x][y]));
             }
@@ -171,7 +174,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             boolean continuingAWall = false; // we never continue a wall when we begin
 
             for (int y = 0; y < grid[0].length; y++) {
-                System.out.println(grid[x][y]);
+                System.out.println("(%d , %d) = %c".formatted(x, y, grid[x][y]));
                 continuingAWall = updateWallAccumulator(y, halfCoords, continuingAWall,
                         TOP_BOTTOM_CONTINUUM.get(grid[x][y]));
             }
@@ -225,8 +228,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
     }
 
     private boolean updateWallAccumulator(int gridCoord, List<Integer> halfCoords,
-            boolean continuingAWall,
-            Tuple2<Boolean, Boolean> currentBools) {
+            boolean continuingAWall, Tuple2<Boolean, Boolean> currentBools) {
         log.info("First: " + currentBools.getFirst());
         continuingAWall = updateWallContinuation(halfCoords, continuingAWall,
                 currentBools.getFirst(), true, 2 * gridCoord);

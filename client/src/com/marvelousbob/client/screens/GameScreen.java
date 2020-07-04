@@ -49,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
         /* Draws that do not require Scene2d (Stage, Table, Shapes, etc.). */
         batch.begin();
         controller.getGameWorld().drawMe(shapeDrawer);
-        effect.draw(shapeDrawer.getBatch(), delta);
+//        effect.draw(shapeDrawer.getBatch(), delta);
         batch.end();
 
         /* Drawing the Scene2d stuff (UI and Actors). */
