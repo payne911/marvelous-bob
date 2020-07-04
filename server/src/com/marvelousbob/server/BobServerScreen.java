@@ -5,13 +5,13 @@ import com.esotericsoftware.kryonet.Server;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.server.listeners.DebugListener;
 import com.marvelousbob.server.listeners.EnemyCollisionListener;
+import com.marvelousbob.server.listeners.ForceNewLevelListener;
 import com.marvelousbob.server.listeners.MoveActionListener;
 import com.marvelousbob.server.listeners.PlayerAttackListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
 import com.marvelousbob.server.listeners.PlayerDisconnectionListener;
 import com.marvelousbob.server.listeners.WeapongFacingListener;
 import com.marvelousbob.server.model.ServerState;
-import lombok.SneakyThrows;
 
 public class BobServerScreen extends ScreenAdapter {
 
@@ -38,10 +38,10 @@ public class BobServerScreen extends ScreenAdapter {
         server.addListener(new EnemyCollisionListener(serverState));
         server.addListener(new PlayerAttackListener(server));
         server.addListener(new WeapongFacingListener(serverState));
+        server.addListener(new ForceNewLevelListener(server, serverState));
     }
 
     @Override
-    @SneakyThrows
     public void render(float delta) {
 
         if (deltaAcc >= LOOP_SPEED) {

@@ -17,6 +17,7 @@ import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.ProceduralLevelGenerator;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class ServerState {
 
-    public static final Color[] playerColors = {
+    public static final Color[] PLAYER_COLORS = {
             Color.WHITE,
             Color.GREEN,
             Color.RED,
@@ -108,8 +109,16 @@ public class ServerState {
         return gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().isEmpty();
     }
 
-    public void initializeOnFirstPlayerConnected() {
+    public synchronized void initializeOnFirstPlayerConnected() {
+        newLevel();
+    }
+
+    public synchronized void newLevel() {
         gameWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
+    }
+
+    public synchronized Collection<Player> getPlayers() {
+        return gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().values();
     }
 
     public synchronized void addPlayer(Player<?> player) {
@@ -123,7 +132,7 @@ public class ServerState {
     }
 
     public Color getFreeColor(UUID uuid) throws MarvelousBobException {
-        return playerColors[extractFreeColorId(uuid)];
+        return PLAYER_COLORS[extractFreeColorId(uuid)];
     }
 
     public int extractFreeColorId(UUID uuid) throws MarvelousBobException {
@@ -141,7 +150,8 @@ public class ServerState {
     }
 
     public GameInitializationDto getGameInitDto(UUID currentPlayerUuid) {
-        return new GameInitializationDto(gameWorldManager.getMutableGameWorld(), currentPlayerUuid);
+        var world = gameWorldManager.getMutableGameWorld();
+        return new GameInitializationDto(world, world.getLevel().getSeed(), currentPlayerUuid);
     }
 
     public void updatePlayerPos(MoveActionDto moveAction) {

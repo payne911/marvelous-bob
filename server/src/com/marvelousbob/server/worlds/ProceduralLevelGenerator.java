@@ -69,8 +69,9 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
     @Override
     public Level getLevel() {
-//        char[][] grid = generateGrid(123L);
-        char[][] grid = generateGrid(MathUtils.random(Long.MAX_VALUE));
+//        final long seed = 123L;
+        final long seed = MathUtils.random(Long.MAX_VALUE);
+        char[][] grid = generateGrid(seed);
 
         var walls = getWalls(grid);
         var emptyCells = findEmptyCells(grid);
@@ -83,14 +84,21 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         bases.put(baseUuid, base);
 
         final ConcurrentHashMap<UUID, EnemySpawnPoint> spawns = new ConcurrentHashMap<>();
+        final int spawnSize = 12;
         UUID spawnUuid1 = UUID.getNext();
         UUID spawnUuid2 = UUID.getNext();
+        UUID spawnUuid3 = UUID.getNext();
+        UUID spawnUuid4 = UUID.getNext();
         spawns.put(spawnUuid1,
-                EnemySpawnPoint.starShaped(spawnUuid1, randomFreePos(emptyCells), 10));
+                EnemySpawnPoint.starShaped(spawnUuid1, randomFreePos(emptyCells), spawnSize));
         spawns.put(spawnUuid2,
-                EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells), 10));
+                EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells), spawnSize));
+        spawns.put(spawnUuid3,
+                EnemySpawnPoint.starShaped(spawnUuid3, randomFreePos(emptyCells), spawnSize));
+        spawns.put(spawnUuid4,
+                EnemySpawnPoint.starShaped(spawnUuid4, randomFreePos(emptyCells), spawnSize));
 
-        return new Level(bases, spawns, walls,
+        return new Level(seed, bases, spawns, walls,
                 GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, GameConstant.PIXELS_PER_GRID_CELL);
     }
 
@@ -101,8 +109,8 @@ public class ProceduralLevelGenerator implements LevelGenerator {
     }
 
     private ArrayList<Wall> getWalls(char[][] grid) {
-        var horizWalls = buildHorizontalWalls(grid);
-        var vertWalls = buildVerticalWalls(grid);
+        final var horizWalls = buildHorizontalWalls(grid);
+        final var vertWalls = buildVerticalWalls(grid);
         final ArrayList<Wall> walls = new ArrayList<>();
         walls.addAll(horizWalls);
         walls.addAll(vertWalls);

@@ -19,6 +19,7 @@ public final class MyGame {
     }
 
     public static final String GAME_TITLE = "Marvelous Bob";
+    public static long LEVEL_SEED = 0;
 
     /* Player. */
     public static MyClient client;

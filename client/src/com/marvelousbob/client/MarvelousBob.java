@@ -1,6 +1,7 @@
 package com.marvelousbob.client;
 
 import static com.marvelousbob.client.MyGame.GAME_TITLE;
+import static com.marvelousbob.client.MyGame.LEVEL_SEED;
 import static com.marvelousbob.client.MyGame.batch;
 import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.font;
@@ -37,6 +38,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class MarvelousBob extends Game {
 
+    public static final boolean IS_LOCAL = Boolean.parseBoolean(System.getenv("mbs_isLocal"));
+
     /* Splash Screen. */
     @Setter
     private ISplashWorker splashWorker;
@@ -61,10 +64,11 @@ public class MarvelousBob extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
-        Gdx.graphics.setTitle("%s -:- %d FPS | %d".formatted(
+        Gdx.graphics.setTitle("%s -:- %d FPS   |   local = %b   |   seed = %d".formatted(
                 GAME_TITLE,
                 Gdx.graphics.getFramesPerSecond(),
-                client.getClient().getReturnTripTime()));
+                IS_LOCAL,
+                LEVEL_SEED));
 
         // todo: loading screen with AssetManager, THEN `changeScreen()`
         super.render(); // calls the GameScreen's `render()` if the Screen is set (see GameInitializerListener)
@@ -107,8 +111,8 @@ public class MarvelousBob extends Game {
 
     private void createClient() {
 //        Log.set(LEVEL_TRACE);
-        log.warn("---> isLocal? " + Boolean.parseBoolean(System.getenv("mbs_isLocal")));
-        client = new MyClient(Boolean.parseBoolean(System.getenv("mbs_isLocal")), this);
+        log.warn("---> isLocal? " + IS_LOCAL);
+        client = new MyClient(IS_LOCAL, this);
         client.connect();
     }
 

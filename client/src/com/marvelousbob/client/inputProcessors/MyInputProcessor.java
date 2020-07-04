@@ -1,9 +1,13 @@
 package com.marvelousbob.client.inputProcessors;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
+import com.marvelousbob.client.MarvelousBob;
+import com.marvelousbob.client.MyGame;
 import com.marvelousbob.client.controllers.Controller;
+import com.marvelousbob.common.network.register.dto.ForceNewLevelDto;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -34,13 +38,19 @@ public class MyInputProcessor extends InputAdapter {
     public boolean keyDown(int keycode) {
 
         switch (keycode) {
-//            case Input.Keys.SPACE:
+            case Keys.N:
+                if (!MarvelousBob.IS_LOCAL) {
+                    break;
+                }
+                MyGame.client.sendTCP(new ForceNewLevelDto());
+                break;
+//            case Keys.SPACE:
 //                var ma = new MoveAction();
 //                ma.stampNow();
 //                MyGame.client.getClient().sendTCP(ma);
 //                System.out.println("space");
 //                break;
-//            case Input.Keys.ESCAPE:
+//            case Keys.ESCAPE:
 //                GameState gs = new GameState();
 //                gs.setP1x(234);
 //                MyGame.client.getClient().sendTCP(gs);

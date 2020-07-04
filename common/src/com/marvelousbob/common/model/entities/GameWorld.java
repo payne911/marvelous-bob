@@ -1,11 +1,16 @@
 package com.marvelousbob.common.model.entities;
 
+import static com.marvelousbob.common.network.constants.GameConstant.SIZE_X;
+import static com.marvelousbob.common.network.constants.GameConstant.SIZE_Y;
+
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.model.entities.level.Wall;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
@@ -62,6 +67,13 @@ public class GameWorld implements Drawable {
 
     public void interpolatePlayerPositions(float delta) {
         MovementUtils.interpolatePlayers(localGameState.getPlayers().values(), delta);
+    }
+
+    public Vector2 randomPos() {
+        final int offset = 2 * GameConstant.PIXELS_PER_GRID_CELL;
+        float x = MathUtils.random(offset, SIZE_X - offset);
+        float y = MathUtils.random(offset, SIZE_Y - offset);
+        return new Vector2(x, y);
     }
 
     // TODO: 2020-07-01 Fix wall teleportation
@@ -126,8 +138,7 @@ public class GameWorld implements Drawable {
         return getLinesFromWalls(wall)
                 .map(line -> getIntersectionPointIfIntersection(line, p1, p2))
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                ;
+                .map(Optional::get);
     }
 
     private Optional<Vector2> getIntersectionPointIfIntersection(Vector2[] line, Vector2 p1,

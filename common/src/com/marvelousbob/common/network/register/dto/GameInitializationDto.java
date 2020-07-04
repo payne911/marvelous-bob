@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 public final class GameInitializationDto implements Dto {
 
     public GameWorld newGameWorld;
+    public long levelSeed = 0;
     public UUID currentPlayerId;
 }

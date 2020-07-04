@@ -10,9 +10,6 @@
         <option name="ENABLED" value="true"/>
       </pattern>
     </extension>
-    <RunnerSettings RunnerId="Debug with VisualVM">
-      <option name="visualVMId" value="426781064605200"/>
-    </RunnerSettings>
     <method v="2">
       <option name="Make" enabled="true"/>
     </method>

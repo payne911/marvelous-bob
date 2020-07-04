@@ -17,6 +17,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @AllArgsConstructor
 public class Level implements Drawable {
 
+    private long seed;
     private ConcurrentHashMap<UUID, PlayersBase> bases;
     private ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints;
     private ArrayList<Wall> walls;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.marvelousbob.client.MarvelousBob;
+import com.marvelousbob.client.MyGame;
 import com.marvelousbob.client.controllers.Controller;
 import com.marvelousbob.client.inputProcessors.MyGestureListener;
 import com.marvelousbob.client.inputProcessors.MyInputProcessor;
@@ -82,6 +83,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
 
         /* Draw the screen to start the game. */
         Gdx.app.postRunnable(() -> {
+            MyGame.LEVEL_SEED = gameWorld.getLevel().getSeed();
             marvelousBob.setScreen(new GameScreen(controller));
 
             LocalGameState localGameState = controller.getGameWorld().getLocalGameState();

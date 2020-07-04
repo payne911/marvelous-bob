@@ -49,7 +49,8 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 350), 350));
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 250), 350));
 
-        return new Level(bases, enemySpawnPoints, walls, BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
+        return new Level(0, bases, enemySpawnPoints, walls,
+                BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
     }
 
     private Wall buildWall(Orientation orientation, Vector2 pos, float length) {
