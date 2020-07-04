@@ -72,8 +72,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
     @Override
     public Level getLevel() {
 //        final long seed = 123L;
-//        final long seed = MathUtils.random(Long.MAX_VALUE);
-        final long seed = 3116578954363177984L;
+        final long seed = MathUtils.random(Long.MAX_VALUE);
         char[][] grid = generateGrid(seed);
 
         var walls = getWalls(grid);
