@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.Movable;
+import com.marvelousbob.common.model.entities.dynamic.projectiles.Bullet;
 import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.network.register.dto.Dto;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
@@ -21,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
-public abstract class Player implements Identifiable, Drawable, Movable, Dto {
+public abstract class Player<T extends Bullet> implements Identifiable, Drawable, Movable, Dto {
 
     @Deprecated
     private PlayerDto playerDto;
@@ -72,6 +73,8 @@ public abstract class Player implements Identifiable, Drawable, Movable, Dto {
     public abstract void attack(Vector2 pos);
 
     public abstract void updateProjectiles(float delta, Level level);
+
+    public abstract void addBullet(T bullet);
 
     public void updateFromDto(PlayerDto input) {
         this.colorIndex = input.colorIndex;

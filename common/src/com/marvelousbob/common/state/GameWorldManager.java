@@ -34,7 +34,7 @@ public class GameWorldManager {
      * @param serverGameState a game state sent by the server, to be taken as the source of truth.
      */
     public void reconcile(GameStateDto serverGameState) {
-//        log.debug("Starting actual reconciliation with server GS: " + serverGameState);
+        log.debug("Starting actual reconciliation with server GS: " + serverGameState);
 
         if (serverGameState.getIndex() > newestGameStateIndexProcessed) {
             newestGameStateIndexProcessed = serverGameState.getIndex();

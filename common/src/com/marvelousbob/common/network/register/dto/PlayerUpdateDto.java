@@ -13,4 +13,5 @@ public class PlayerUpdateDto implements Dto, Identifiable {
 
     public UUID uuid;
     public float health, angle;
+    public boolean healthHasChanged;
 }

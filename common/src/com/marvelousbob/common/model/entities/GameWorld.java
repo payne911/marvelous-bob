@@ -40,6 +40,7 @@ public class GameWorld implements Drawable {
     }
 
     public void updatePlayer(PlayerUpdateDto playerUpdateDto) {
+        log.debug("updating player: {}", playerUpdateDto.toString());
         localGameState.updateUsingPlayerList(playerUpdateDto);
     }
 

@@ -3,6 +3,7 @@ package com.marvelousbob.common.model.entities.dynamic.allies;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.common.model.entities.dynamic.projectiles.Bullet;
 import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.utils.UUID;
 import lombok.NoArgsConstructor;
@@ -84,5 +85,9 @@ public class MeleePlayer extends Player {
         });
     }
 
+    // TODO: 2020-07-03 Melee payer 'Bullets' ???    --- OLA
+    @Override
+    public void addBullet(Bullet bullet) {
 
+    }
 }

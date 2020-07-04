@@ -28,6 +28,7 @@ public class RangedPlayerBullet extends Bullet {
     @Getter
     private Color color;
 
+
     public RangedPlayerBullet(Vector2 initPos, Vector2 dest, Color color, float speed,
             float radius) {
         super(UUID.getNext());

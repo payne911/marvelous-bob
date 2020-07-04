@@ -3,6 +3,7 @@ package com.marvelousbob.common.state;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.RangedPlayer;
 import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
@@ -77,7 +78,12 @@ public class LocalGameState implements Drawable {
     }
 
     public void updateUsingPlayerList(PlayerUpdateDto playerUpdateDto) {
-        // TODO
+        Player<?> player = players.get(playerUpdateDto.uuid);
+        if (player != null) {
+            player.setMouseAngleRelativeToCenter(playerUpdateDto.angle);
+        }
+        // TODO: 2020-07-03 All the rest    --- OLA
+
     }
 
     public void updateNewEnemy(NewEnemyDto newEnemyDto) {
@@ -106,6 +112,17 @@ public class LocalGameState implements Drawable {
             log.warn("Overwriting a player who already had that UUID assigned in the GS.");
         }
         players.put(player.getUuid(), player);
+    }
+
+    public Optional<RangedPlayer> getRangedPlayerById(UUID uuid) {
+        Player p = players.get(uuid);
+        if (p == null) {
+            return Optional.empty();
+        }
+        if (p instanceof RangedPlayer rp) {
+            return Optional.of(rp);
+        }
+        return Optional.empty();
     }
 
     public boolean containsPlayerUuid(Player player) {

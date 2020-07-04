@@ -93,6 +93,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             kClient.addListener(new NewGameWorldListener(controller.getGameWorldManager()));
             kClient.addListener(new NewPlayerListener(localGameState, gameInit.currentPlayerId));
             kClient.addListener(new PlayerDisconnectListener(localGameState));
+            kClient.addListener(new RangedPlayerAttackListener(localGameState));
         });
     }
 }

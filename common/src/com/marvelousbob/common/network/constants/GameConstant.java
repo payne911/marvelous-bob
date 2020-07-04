@@ -8,8 +8,8 @@ public class GameConstant {
     public static final int WRITE_BUFFER_SIZE = 65536;
     public static final int OBJECT_BUFFER_SIZE = 8192;
 
-    public static final int SIZE_X = 1024;
-    public static final int SIZE_Y = 768;
+    public static final int SIZE_X = 800;
+    public static final int SIZE_Y = 600;
 
     public static final int PIXELS_PER_GRID_CELL = 30; // todo: player default size according to this?
 

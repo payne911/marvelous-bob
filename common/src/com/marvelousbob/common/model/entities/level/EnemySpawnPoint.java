@@ -37,6 +37,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Polygon shape2;
     private Color color;
     private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
+    private Array<Vector2> graphNodes; // for debug purpose
     private float offset;
 
     public EnemySpawnPoint(UUID uuid, Vector2 pos, Polygon shape, Polygon shape2, Color color) {
@@ -46,6 +47,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         this.shape2 = shape2;
         this.color = color;
         this.pathsToBase = new Array<>();
+        this.graphNodes = new Array<>();
         this.offset = 0;
     }
 
@@ -94,25 +96,32 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                     color.a = (float) Math.tan((angle + offset) % PI2);
                     color.clamp();
                     if (prev != null) {
-                        shapeDrawer.line(prev, v, color);
+                        shapeDrawer.setColor(color);
+                        shapeDrawer.line(prev, v);
                     }
                     prev = v;
                 }
             }
         }
         offset = ((offset - 0.04f) % PI2); // should be using delta from render... ?
+
+        // debug
+//        Color c = new Color(0, 1, 1, 1);
+//        shapeDrawer.setColor(c);
+//        graphNodes.forEach(n -> shapeDrawer.filledCircle(n.x, n.y, 2f, c));
     }
 
     public void findPathToBase(Level level) {
         SquareTiledLevelGraph graph = new SquareTiledLevelGraph(level);
         graph.computeConnections();
+        graph.getNodes().keySet().forEach(graphNodes::add);
         PathFinder<Vector2> pathFinder = new IndexedAStarPathFinder<>(graph);
         level.getAllPlayerBases().forEach(base -> {
             GraphPath<Vector2> pathFound = new DefaultGraphPath<>();
             boolean found = pathFinder.searchNodePath(
                     graph.findNodeClosestTo(pos),
                     graph.findNodeClosestTo(base.getPos()),
-                    Vector2::dst2,
+                    Vector2::dst,
                     pathFound);
             if (found) {
                 Array<Vector2> path = new Array<>();

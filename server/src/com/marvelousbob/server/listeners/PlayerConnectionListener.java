@@ -33,7 +33,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
             serverState.initializeOnFirstPlayerConnected();
         }
         UUID uuid = UUID.getNext();
-        Player player = null;
+        Player<?> player = null;
         try {
             player = playerConnection.playerType
                     .getPlayerInstance(uuid, serverState.getFreeColor(uuid), randomPos());

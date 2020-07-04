@@ -6,8 +6,10 @@ import com.marvelousbob.common.network.register.dto.GameStateDto;
 import com.marvelousbob.server.listeners.DebugListener;
 import com.marvelousbob.server.listeners.EnemyCollisionListener;
 import com.marvelousbob.server.listeners.MoveActionListener;
+import com.marvelousbob.server.listeners.PlayerAttackListener;
 import com.marvelousbob.server.listeners.PlayerConnectionListener;
 import com.marvelousbob.server.listeners.PlayerDisconnectionListener;
+import com.marvelousbob.server.listeners.WeapongFacingListener;
 import com.marvelousbob.server.model.ServerState;
 import lombok.SneakyThrows;
 
@@ -34,6 +36,8 @@ public class BobServerScreen extends ScreenAdapter {
         server.addListener(new MoveActionListener(server, serverState));
         server.addListener(new PlayerDisconnectionListener(server, serverState));
         server.addListener(new EnemyCollisionListener(serverState));
+        server.addListener(new PlayerAttackListener(server));
+        server.addListener(new WeapongFacingListener(serverState));
     }
 
     @Override
@@ -42,9 +46,10 @@ public class BobServerScreen extends ScreenAdapter {
 
         if (deltaAcc >= LOOP_SPEED) {
             deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
+//            serverState.runGameLogic(delta);
             GameStateDto gameStateDto = serverState.getCurrentGameStateAsDto();
             server.sendToAllTCP(gameStateDto);
-            serverState.resetLists();
+//            serverState.resetLists();
         } else {
             deltaAcc += delta;
         }

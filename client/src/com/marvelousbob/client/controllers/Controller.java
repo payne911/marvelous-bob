@@ -9,7 +9,10 @@ import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.common.model.MarvelousBobException;
 import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
+import com.marvelousbob.common.model.entities.dynamic.allies.RangedPlayer;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
+import com.marvelousbob.common.network.register.dto.RangedPlayerAttackDto;
+import com.marvelousbob.common.network.register.dto.WeaponFacingDto;
 import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
@@ -71,7 +74,7 @@ public class Controller {
         moveActionDto.stampNow();
         moveActionDto.setSourcePlayerUuid(selfPlayerUuid);
         log.debug("sending MoveActionDto: " + moveActionDto);
-        client.getClient().sendTCP(moveActionDto);
+        client.sendTCP(moveActionDto);
         log.debug("After changes, game state is: " + controller.getLocalState());
     }
 
@@ -80,6 +83,18 @@ public class Controller {
      */
     public void playerRightClicked(float screenX, float screenY) {
         getSelfPlayer().attack(new Vector2(screenX, screenY));
+        var player = getSelfPlayer();
+        // TODO: 2020-07-03 FIX INSTANCE OF!!!     --- OLA
+        if (player instanceof RangedPlayer rp) {
+            var playerAttackDto = new RangedPlayerAttackDto(
+                    player.getCurrCenterPos(),
+                    new Vector2(screenX, screenY),
+                    rp.getBulletSpeed(),
+                    rp.getBulletSize(),
+                    selfPlayerUuid);
+            log.debug("sending PlayerAttackDto: {}", playerAttackDto.toString());
+            client.sendTCP(playerAttackDto);
+        }
     }
 
     /**
@@ -91,11 +106,11 @@ public class Controller {
         float mouseRelativeToPlayerX = screenX - player.getCurrCenterX();
 //        log.info("Input screen (%f , %f) corresponds to relative coords (%f , %f)"
 //                .formatted(screenX, screenY, mouseRelativeToPlayerX, mouseRelativeToPlayerY));
-        player.setMouseAngleRelativeToCenter(
-                atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX));
-
-        // todo: send WeaponFacingDto
-        //     OLA: I dont think so, we send that info every 100ms...
+        float angle = atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX);
+        player.setMouseAngleRelativeToCenter(angle);
+        var dto = new WeaponFacingDto(player.getUuid(), angle);
+        log.debug("Sending WeaponFacingDto: {}", dto.toString());
+        client.sendTCP(dto);
     }
 
     // ==========================================

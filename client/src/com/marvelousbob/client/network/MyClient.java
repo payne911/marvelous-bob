@@ -7,6 +7,7 @@ import com.marvelousbob.client.network.listeners.GameInitializerListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.constants.NetworkConstants;
+import com.marvelousbob.common.network.register.dto.Dto;
 import java.net.InetAddress;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,5 +49,9 @@ public class MyClient {
 
         client.start();
         client.connect(NetworkConstants.TIMEOUT, addr, NetworkConstants.PORT);
+    }
+
+    public <T extends Dto> void sendTCP(T dto) {
+        client.sendTCP(dto);
     }
 }

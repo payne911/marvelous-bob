@@ -13,6 +13,7 @@ import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
 import java.util.Collection;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -21,16 +22,20 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Slf4j
-public class RangedPlayer extends Player {
+public class RangedPlayer extends Player<RangedPlayerBullet> {
 
     // TODO: 2020-07-03 fetch dynamically from config, or player stat or something...
     private static final float DEFAULT_INITIAL_BULLET_SPEED = 200f;
     private static final float DEFAULT_INITIAL_BULLET_RADIUS = 3f;
 
 
+    @Getter
     private Array<RangedPlayerBullet> bullets;
     private Array<RangedBulletExplosion> explosions;
+    @Getter
     private float bulletSpeed;
+    @Getter
+    private float bulletSize;
 
     private final Polygon gun = new Polygon(GUN_VERTICES);
     private static final float GUN_LENGTH = 8;
@@ -46,14 +51,14 @@ public class RangedPlayer extends Player {
     public RangedPlayer(UUID uuid, Color color, Vector2 initCenterPos) {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
         this.bulletSpeed = DEFAULT_INITIAL_BULLET_SPEED;
+        this.bulletSize = DEFAULT_INITIAL_BULLET_RADIUS;
         this.bullets = new Array<>();
         this.explosions = new Array<>();
     }
 
     @Override
     public void attack(Vector2 pos) {
-        bullets.add(new RangedPlayerBullet(currCenterPos, pos, color, DEFAULT_INITIAL_BULLET_SPEED,
-                DEFAULT_INITIAL_BULLET_RADIUS));
+        bullets.add(new RangedPlayerBullet(currCenterPos, pos, color, bulletSpeed, bulletSize));
     }
 
     @Override
@@ -94,6 +99,11 @@ public class RangedPlayer extends Player {
                 }
             }
         }
+    }
+
+    @Override
+    public void addBullet(RangedPlayerBullet bullet) {
+        bullets.add(bullet);
     }
 
     @Override

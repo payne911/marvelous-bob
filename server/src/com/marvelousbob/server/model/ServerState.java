@@ -14,12 +14,12 @@ import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.utils.UUID;
-import com.marvelousbob.server.model.actions.Action;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.ProceduralLevelGenerator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.Data;
@@ -52,7 +52,7 @@ public class ServerState {
 //    private Queue<Action> actions;
 
     private ArrayList<EnemyCollisionDto> enemyCollisions;
-    private ArrayList<PlayerUpdateDto> playerUpdates;
+    private ConcurrentHashMap<UUID, PlayerUpdateDto> playerUpdates;
     private ArrayList<NewEnemyDto> newEnemies;
     private ArrayList<PlayersBaseDto> basesHealth;
     private ArrayList<SpawnPointDto> spawnPointHealth;
@@ -60,7 +60,7 @@ public class ServerState {
     private LevelGenerator levelGenerator;
 
     public ServerState() {
-        this.playersColorId = new ConcurrentHashMap(MAX_PLAYER_AMOUNT);
+        this.playersColorId = new ConcurrentHashMap<>(MAX_PLAYER_AMOUNT);
 //        this.actions = new SynchronousQueue<>();
         this.gameWorldManager = new GameWorldManager(new GameWorld());
 //        this.levelGenerator = new StaticSimpleLevelGenerator();
@@ -69,7 +69,7 @@ public class ServerState {
     }
 
     public void runGameLogic(float delta) {
-        Action action;
+//        Action action;
 //        while ((action = actions.poll()) != null) {
 //            action.execute(this, delta);
 //        }
@@ -80,7 +80,7 @@ public class ServerState {
     public GameStateDto getCurrentGameStateAsDto() {
         return new GameStateDto(
                 enemyCollisions,
-                playerUpdates,
+                new ArrayList<>(playerUpdates.values()),
                 newEnemies,
                 basesHealth,
                 spawnPointHealth,
@@ -88,7 +88,6 @@ public class ServerState {
     }
 
     public void reset() {
-        gameStateIndex = 0;
         resetLists();
     }
 
@@ -99,7 +98,7 @@ public class ServerState {
 
     public void resetLists() {
         enemyCollisions = new ArrayList<>();
-        playerUpdates = new ArrayList<>();
+        playerUpdates = new ConcurrentHashMap<>();
         newEnemies = new ArrayList<>();
         basesHealth = new ArrayList<>();
         spawnPointHealth = new ArrayList<>();
@@ -113,7 +112,7 @@ public class ServerState {
         gameWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
     }
 
-    public synchronized void addPlayer(Player player) {
+    public synchronized void addPlayer(Player<?> player) {
         gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
                 .put(player.getUuid(), player);
     }
@@ -148,5 +147,22 @@ public class ServerState {
     public void updatePlayerPos(MoveActionDto moveAction) {
         gameWorldManager.getMutableGameWorld().getLocalGameState()
                 .updateUsingMoveAction(moveAction);
+    }
+
+    public void updatePlayerFacingAngle(UUID playerUuid, float angle) {
+        gameWorldManager.getMutableGameWorld().getLocalGameState().getRangedPlayerById(playerUuid)
+                .ifPresent(p -> p.setMouseAngleRelativeToCenter(angle));
+
+        var playerUpdate = playerUpdates.get(playerUuid);
+        if (playerUpdate == null) {
+            AtomicReference<Float> health = new AtomicReference<>();
+            gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayer(playerUuid)
+                    .ifPresent(
+                            p -> health.set(p.getHp()));
+            playerUpdates
+                    .put(playerUuid, new PlayerUpdateDto(playerUuid, health.get(), angle, false));
+        } else {
+            playerUpdate.setAngle(angle);
+        }
     }
 }
