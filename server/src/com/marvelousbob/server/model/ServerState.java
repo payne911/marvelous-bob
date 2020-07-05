@@ -31,14 +31,14 @@ import lombok.extern.slf4j.Slf4j;
 public class ServerState {
 
     public static final Color[] PLAYER_COLORS = {
-            Color.WHITE,
-            Color.GREEN,
-            Color.RED,
-            Color.MAGENTA,
-            Color.YELLOW,
-            Color.BROWN,
-            Color.ORANGE,
-            Color.TEAL
+            Color.WHITE.cpy(),
+            Color.GREEN.cpy(),
+            Color.RED.cpy(),
+            Color.MAGENTA.cpy(),
+            Color.YELLOW.cpy(),
+            Color.BROWN.cpy(),
+            Color.ORANGE.cpy(),
+            Color.TEAL.cpy()
     };
 
     public static final short MAX_PLAYER_AMOUNT = 8;

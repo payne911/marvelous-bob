@@ -14,6 +14,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @ToString(callSuper = true)
 public class MeleePlayer extends Player {
 
+    public static final Color ROD_COLOR = Color.RED.cpy();
     private static final float ROD_SIZE = 3;
 
 
@@ -32,7 +33,7 @@ public class MeleePlayer extends Player {
     }
 
     private void drawRod(ShapeDrawer shapeDrawer) {
-        shapeDrawer.setColor(Color.RED); // whatever weapon color
+        shapeDrawer.setColor(ROD_COLOR); // whatever weapon color
 
         float centerX, centerY, radiusX, radiusY;
         if (mouseAngleRelativeToCenter >= 45 && mouseAngleRelativeToCenter < 135) { // top

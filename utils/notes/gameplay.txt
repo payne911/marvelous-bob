@@ -71,7 +71,7 @@ Victory
 
 ======================== ACTIONS/EVENTS =========================
 Players:
-- Attack (at mouse angle)
+✓ Attack (at mouse angle)
 ✓ Move (To target destination)
 - Lose health (Collision with enemy, Spawn collision)
 - Die (health <= 0)
@@ -107,15 +107,15 @@ Bases:
   - bullet id
 
 - Authoritative Server
-  - Random generation
+  ✓ Random generation
   ✓ Uuid
-  - Enemy path
+  ✓ Enemy path
   - other Players health / death
   - Bases health / damage / death
 
 - Client events - Actions
   ✓ Move action
-  - Pointing at
+  ✓ Pointing at
   - Damage received
   - Damage dealt to enemy
     - incl opt bullet uuid

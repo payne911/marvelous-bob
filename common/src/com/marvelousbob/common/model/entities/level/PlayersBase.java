@@ -14,6 +14,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @NoArgsConstructor
 public class PlayersBase implements Drawable, Identifiable {
 
+    public static final Color DEFAULT_COLOR = Color.FIREBRICK.cpy();
     private UUID uuid;
     private Polygon shape;
     private Color color;
@@ -48,7 +49,7 @@ public class PlayersBase implements Drawable, Identifiable {
     }
 
     public static PlayersBase hexagonalPlayerBase(UUID uuid, Vector2 center, float size) {
-        return hexagonalPlayerBase(uuid, center, size, Color.FIREBRICK);
+        return hexagonalPlayerBase(uuid, center, size, DEFAULT_COLOR);
     }
 
     @Override

@@ -29,6 +29,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class EnemySpawnPoint implements Drawable, Identifiable {
 
+    public static final Color DEFAULT_COLOR = Color.BLUE.cpy();
+    private static final Color PATH_COLOR = Color.CYAN.cpy();
     private Set<Connection<Vector2>> connections;
     private UUID uuid;
     private Vector2 pos;
@@ -74,7 +76,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     }
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
-        return starShaped(uuid, center, size, Color.BLUE);
+        return starShaped(uuid, center, size, DEFAULT_COLOR);
     }
 
     @Override
@@ -89,14 +91,13 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         Vector2 prev = null;
         if (!pathsToBase.isEmpty()) {
             for (var arr : pathsToBase) {
-                Color color = Color.CYAN;
                 for (int i = 0; i < arr.size; i++) {
                     float angle = MathUtils.map(0, arr.size, 0.1f, PI2, i);
                     var v = arr.get(i);
-                    color.a = (float) Math.tan((angle + offset) % PI2);
-                    color.clamp();
+                    PATH_COLOR.a = (float) Math.tan((angle + offset) % PI2);
+                    PATH_COLOR.clamp();
                     if (prev != null) {
-                        shapeDrawer.setColor(color);
+                        shapeDrawer.setColor(PATH_COLOR);
                         shapeDrawer.line(prev, v);
                     }
                     prev = v;
