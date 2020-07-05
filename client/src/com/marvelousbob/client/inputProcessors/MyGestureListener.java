@@ -1,8 +1,8 @@
 package com.marvelousbob.client.inputProcessors;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marvelousbob.client.controllers.Controller;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,11 +25,11 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
         LEFT, RIGHT, MIDDLE
     }
 
-    private final Camera camera;
+    private final Viewport viewport;
     private final Controller controller;
 
-    public MyGestureListener(Camera camera, Controller controller) {
-        this.camera = camera;
+    public MyGestureListener(Viewport viewport, Controller controller) {
+        this.viewport = viewport;
         this.controller = controller;
     }
 
@@ -46,7 +46,7 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
             return false;
         }
 
-        Vector3 vec = camera.unproject(new Vector3(x, y, 1));
+        Vector3 vec = viewport.unproject(new Vector3(x, y, 1));
         log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
         if (button == MOUSE_CLICK.LEFT.ordinal()) {
             controller.playerLeftClicked(vec.x, vec.y);

@@ -2,8 +2,8 @@ package com.marvelousbob.client.inputProcessors;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.client.MyGame;
 import com.marvelousbob.client.controllers.Controller;
@@ -18,18 +18,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyInputProcessor extends InputAdapter {
 
-    private Camera camera;
+    private Viewport viewport;
     private Controller controller;
 
 
-    public MyInputProcessor(Camera camera, Controller controller) {
-        this.camera = camera;
+    public MyInputProcessor(Viewport viewport, Controller controller) {
+        this.viewport = viewport;
         this.controller = controller;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        Vector3 vec = camera.unproject(new Vector3(screenX, screenY, 1));
+        Vector3 vec = viewport.unproject(new Vector3(screenX, screenY, 1));
         controller.playerMouseMoved(vec.x, vec.y);
         return false; // because we want other things to treat the mouseMoved event
     }

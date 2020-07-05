@@ -18,10 +18,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
+import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
 import com.marvelousbob.common.network.register.dto.PlayerTypeDto;
 import java.util.Objects;
@@ -130,7 +131,8 @@ public class MarvelousBob extends Game {
     private void initializeDisplayElements() {
         /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
         batch = new SpriteBatch();
-        stage = new Stage(new ScreenViewport(), batch);
+//        stage = new Stage(new ExtendViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
+        stage = new Stage(new FitViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
         font = new BitmapFont();

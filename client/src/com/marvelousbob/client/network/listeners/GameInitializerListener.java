@@ -76,8 +76,8 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
         log.info("controller: " + controller);
 
         /* Input processors. */
-        MyGestureListener inputProcessor1 = new MyGestureListener(stage.getCamera(), controller);
-        MyInputProcessor inputProcessor2 = new MyInputProcessor(stage.getCamera(), controller);
+        MyGestureListener inputProcessor1 = new MyGestureListener(stage.getViewport(), controller);
+        MyInputProcessor inputProcessor2 = new MyInputProcessor(stage.getViewport(), controller);
         Gdx.input.setInputProcessor(
                 new InputMultiplexer(stage, new GestureDetector(inputProcessor1), inputProcessor2));
 
