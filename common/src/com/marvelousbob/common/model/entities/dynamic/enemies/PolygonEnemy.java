@@ -17,14 +17,16 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 public class PolygonEnemy extends Enemy {
 
     public static final Color DEFAULT_COLOR = Color.GOLDENROD.cpy();
-    private static final float HEIGHT = 30;
-    private static final float WIDTH = 15;
+    private static final float HEIGHT = 20;
+    private static final float HALF_HEIGHT = HEIGHT / 2;
+    private static final float WIDTH = 14;
+    private static final float HALF_WIDTH = WIDTH / 2;
     private final Polygon polyShape = new Polygon(VERTICES);
     private static final float[] VERTICES = new float[]{
-            0, 0,
-            WIDTH / 2, HEIGHT,
-            WIDTH, 0,
-            WIDTH / 2, HEIGHT / 3
+            -HALF_WIDTH, -HALF_HEIGHT,
+            0, HALF_HEIGHT,
+            HALF_WIDTH, -HALF_HEIGHT,
+            0, -HEIGHT / 4
     };
 
     private Color color;
