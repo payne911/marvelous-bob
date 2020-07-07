@@ -8,7 +8,7 @@ import com.marvelousbob.common.utils.UUID;
 
 public enum EnemyType {
     POLYGON {
-        public Enemy getPlayerInstance(UUID uuid, UUID spawnPoint, Vector2 initPos, Color color) {
+        public Enemy getEnemyType(UUID uuid, UUID spawnPoint, Vector2 initPos, Color color) {
             return new PolygonEnemy(uuid, spawnPoint, initPos, color);
         }
     }/*,
@@ -28,6 +28,6 @@ public enum EnemyType {
         }
     }*/;
 
-    public abstract Enemy getPlayerInstance(UUID uuid, UUID spawnPoint, Vector2 initPos,
+    public abstract Enemy getEnemyType(UUID uuid, UUID spawnPoint, Vector2 initPos,
             Color color);
 }
