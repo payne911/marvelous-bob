@@ -16,10 +16,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public abstract class Enemy implements Drawable, Identifiable, Movable {
 
-    protected float hp, maxHp;
+    protected float hp, maxHp = 100;
 
     @EqualsAndHashCode.Include
     protected UUID uuid;
+
+    protected UUID spawnPointUuid;
+
+    public Enemy(UUID uuid, UUID spawnPointUuid) {
+        this.uuid = uuid;
+        this.spawnPointUuid = spawnPointUuid;
+        this.hp = maxHp;
+    }
 
     public void dealDamage(float damage) {
         this.hp -= damage;

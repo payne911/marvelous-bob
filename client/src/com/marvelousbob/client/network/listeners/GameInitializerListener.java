@@ -67,7 +67,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
 
         GameWorld gameWorld = gameInit.newGameWorld;
 
-        // calculate the ennemy map
+        // calculate the enemy map
         gameWorld.getLevel().getAllSpawnPoints()
                 .forEach(s -> s.findPathToBase(gameWorld.getLevel()));
 
@@ -92,7 +92,7 @@ public class GameInitializerListener extends AbstractListener<GameInitialization
             kClient.addListener(new GameStateListener());
 //            kClient.addListener(new LagListener(0, 0, new GameStateListener()));
             kClient.addListener(new MoveActionListener(localGameState, gameInit.currentPlayerId));
-            kClient.addListener(new NewGameWorldListener(controller.getGameWorldManager()));
+            kClient.addListener(new NewGameWorldListener(controller.getClientWorldManager()));
             kClient.addListener(new NewPlayerListener(localGameState, gameInit.currentPlayerId));
             kClient.addListener(new PlayerDisconnectListener(localGameState));
             kClient.addListener(new RangedPlayerAttackListener(localGameState));

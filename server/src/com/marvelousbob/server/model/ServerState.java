@@ -12,7 +12,6 @@ import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
-import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.ProceduralLevelGenerator;
@@ -48,7 +47,7 @@ public class ServerState {
     private long gameStateIndex;
     private int colorIndex;
 
-    private GameWorldManager gameWorldManager;
+    private ServerWorldManager serverWorldManager;
 
 //    private Queue<Action> actions;
 
@@ -63,7 +62,7 @@ public class ServerState {
     public ServerState() {
         this.playersColorId = new ConcurrentHashMap<>(MAX_PLAYER_AMOUNT);
 //        this.actions = new SynchronousQueue<>();
-        this.gameWorldManager = new GameWorldManager(new GameWorld());
+        this.serverWorldManager = new ServerWorldManager(new GameWorld());
 //        this.levelGenerator = new StaticSimpleLevelGenerator();
         this.levelGenerator = new ProceduralLevelGenerator();
         reset();
@@ -74,15 +73,23 @@ public class ServerState {
 //        while ((action = actions.poll()) != null) {
 //            action.execute(this, delta);
 //        }
-        gameWorldManager.updateGameState(delta);
+        if (isLevelInitialized()) {
+            serverWorldManager.updateGameState(delta);
+        }
     }
 
+    private boolean isLevelInitialized() {
+        return getServerWorldManager().getMutableGameWorld().getLevel() != null;
+    }
 
     public GameStateDto getCurrentGameStateAsDto() {
+        var newEnemyDto = serverWorldManager.extractNewEnemies().stream()
+                .map(NewEnemyDto::new)
+                .collect(Collectors.toList());
         return new GameStateDto(
                 enemyCollisions,
                 new ArrayList<>(playerUpdates.values()),
-                newEnemies,
+                new ArrayList<>(newEnemyDto),
                 basesHealth,
                 spawnPointHealth,
                 gameStateIndex++);
@@ -106,7 +113,7 @@ public class ServerState {
     }
 
     public boolean isEmptyRoom() {
-        return gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().isEmpty();
+        return serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().isEmpty();
     }
 
     public synchronized void initializeOnFirstPlayerConnected() {
@@ -114,20 +121,20 @@ public class ServerState {
     }
 
     public synchronized void newLevel() {
-        gameWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
+        serverWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
     }
 
     public synchronized Collection<Player> getPlayers() {
-        return gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().values();
+        return serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().values();
     }
 
     public synchronized void addPlayer(Player<?> player) {
-        gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
+        serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
                 .put(player.getUuid(), player);
     }
 
     public synchronized void removePlayer(UUID playerUuid) {
-        gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
+        serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers()
                 .remove(playerUuid);
     }
 
@@ -150,23 +157,23 @@ public class ServerState {
     }
 
     public GameInitializationDto getGameInitDto(UUID currentPlayerUuid) {
-        var world = gameWorldManager.getMutableGameWorld();
+        var world = serverWorldManager.getMutableGameWorld();
         return new GameInitializationDto(world, world.getLevel().getSeed(), currentPlayerUuid);
     }
 
     public void updatePlayerPos(MoveActionDto moveAction) {
-        gameWorldManager.getMutableGameWorld().getLocalGameState()
+        serverWorldManager.getMutableGameWorld().getLocalGameState()
                 .updateUsingMoveAction(moveAction);
     }
 
     public void updatePlayerFacingAngle(UUID playerUuid, float angle) {
-        gameWorldManager.getMutableGameWorld().getLocalGameState().getRangedPlayerById(playerUuid)
+        serverWorldManager.getMutableGameWorld().getLocalGameState().getRangedPlayerById(playerUuid)
                 .ifPresent(p -> p.setMouseAngleRelativeToCenter(angle));
 
         var playerUpdate = playerUpdates.get(playerUuid);
         if (playerUpdate == null) {
             AtomicReference<Float> health = new AtomicReference<>();
-            gameWorldManager.getMutableGameWorld().getLocalGameState().getPlayer(playerUuid)
+            serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayer(playerUuid)
                     .ifPresent(
                             p -> health.set(p.getHp()));
             playerUpdates

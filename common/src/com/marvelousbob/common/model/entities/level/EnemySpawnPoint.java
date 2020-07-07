@@ -2,7 +2,6 @@ package com.marvelousbob.common.model.entities.level;
 
 import static com.badlogic.gdx.math.MathUtils.PI2;
 
-import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.PathFinder;
@@ -16,7 +15,6 @@ import com.marvelousbob.common.ai.SquareTiledLevelGraph;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.utils.UUID;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +29,6 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 
     public static final Color DEFAULT_COLOR = Color.BLUE.cpy();
     private static final Color PATH_COLOR = Color.CYAN.cpy();
-    private Set<Connection<Vector2>> connections;
     private UUID uuid;
     private Vector2 pos;
     private float hp, maxHp;
@@ -41,6 +38,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
     private Array<Vector2> graphNodes; // for debug purpose
     private float offset;
+
+    /* For spawning */
+    private float spawnRate = MathUtils.random(2f, 5f); // time in SECONDS
+    private float accumulator = 0;
 
     public EnemySpawnPoint(UUID uuid, Vector2 pos, Polygon shape, Polygon shape2, Color color) {
         this.uuid = uuid;
@@ -77,6 +78,19 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
         return starShaped(uuid, center, size, DEFAULT_COLOR);
+    }
+
+    /**
+     * @param delta amount of time that passed since last check
+     * @return {@code true} when ready to spawn a new unit
+     */
+    public boolean update(float delta) {
+        accumulator += delta;
+        if (accumulator >= spawnRate) { // it's time to spawn !
+            accumulator = 0;
+            return true;
+        }
+        return false;
     }
 
     @Override

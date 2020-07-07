@@ -15,7 +15,7 @@ public class GameStateListener extends AbstractListener<GameStateDto> {
     @Override
     public void accept(Connection connection, GameStateDto gameStateDto) {
         if (MyGame.controller != null) {
-            MyGame.controller.getGameWorldManager().reconcile(gameStateDto);
+            MyGame.controller.getClientWorldManager().reconcile(gameStateDto);
         }
     }
 }
