@@ -58,6 +58,8 @@ public class GameWorldManager {
         mutableGameWorld.getLocalGameState().getPlayers().values()
                 .forEach(p -> p.updateProjectiles(delta, mutableGameWorld.getLevel()));
         mutableGameWorld.interpolatePlayerPositions(delta);
+        mutableGameWorld.getLevel().getAllPlayerBases().forEach(b -> b.update(delta));
+        mutableGameWorld.update(delta);
     }
 
     public void updatePlayerDestination(Player player, float destX, float destY) {

@@ -26,6 +26,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
 
     // TODO: 2020-07-03 fetch dynamically from config, or player stat or something...
     private static final float DEFAULT_INITIAL_BULLET_SPEED = 200f;
+    public static final float ARBITRARY_BULLET_MAX_DISTANCE = 200f;
     private static final float DEFAULT_INITIAL_BULLET_RADIUS = 3f;
 
 
@@ -69,9 +70,8 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         // TODO: 2020-07-03 remove me: this is a dummy technique to remove projectile
         //       while collision detection is not yet implemented    --- OLA
         for (int i = bullets.size - 1; i >= 0; i--) {
-            float ARBITRARY_DISTANCE = 400f;
             var bullet = bullets.get(i);
-            if (bullet.getCurrentPos().dst(bullet.getStartPos()) > ARBITRARY_DISTANCE) {
+            if (bullet.getCurrentPos().dst(bullet.getStartPos()) > ARBITRARY_BULLET_MAX_DISTANCE) {
                 var bulletRemoved = bullets.removeIndex(i);
                 explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
             }

@@ -168,4 +168,7 @@ public class GameWorld implements Drawable {
     }
 
 
+    public void update(float delta) {
+        level.update(delta);
+    }
 }

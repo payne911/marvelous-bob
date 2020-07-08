@@ -64,7 +64,9 @@ public class MarvelousBob extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // clear the screen
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (
+                Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV
+                        : 0)); // clear the screen
         Gdx.graphics.setTitle("%s -:- %d FPS   |   local = %b   |   seed = %d".formatted(
                 GAME_TITLE,
                 Gdx.graphics.getFramesPerSecond(),

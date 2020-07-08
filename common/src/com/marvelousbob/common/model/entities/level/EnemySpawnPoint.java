@@ -2,7 +2,6 @@ package com.marvelousbob.common.model.entities.level;
 
 import static com.badlogic.gdx.math.MathUtils.PI2;
 
-import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.PathFinder;
@@ -15,8 +14,11 @@ import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.ai.SquareTiledLevelGraph;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
+import com.marvelousbob.common.model.entities.dynamic.enemies.CircleEnemy;
+import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import com.marvelousbob.common.utils.UUID;
-import java.util.Set;
+import com.marvelousbob.common.utils.movements.MovementStrategy;
+import com.marvelousbob.common.utils.movements.PathMovement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,9 +31,6 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class EnemySpawnPoint implements Drawable, Identifiable {
 
-    public static final Color DEFAULT_COLOR = Color.BLUE.cpy();
-    private static final Color PATH_COLOR = Color.CYAN.cpy();
-    private Set<Connection<Vector2>> connections;
     private UUID uuid;
     private Vector2 pos;
     private float hp, maxHp;
@@ -41,6 +40,8 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
     private Array<Vector2> graphNodes; // for debug purpose
     private float offset;
+    private Array<Enemy> enemies;
+    private MovementStrategy<Vector2> pathMovement;
 
     public EnemySpawnPoint(UUID uuid, Vector2 pos, Polygon shape, Polygon shape2, Color color) {
         this.uuid = uuid;
@@ -76,7 +77,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     }
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
-        return starShaped(uuid, center, size, DEFAULT_COLOR);
+        return starShaped(uuid, center, size, Color.valueOf("3d144c"));
     }
 
     @Override
@@ -91,13 +92,14 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         Vector2 prev = null;
         if (!pathsToBase.isEmpty()) {
             for (var arr : pathsToBase) {
+                Color color = Color.CYAN.cpy();
                 for (int i = 0; i < arr.size; i++) {
                     float angle = MathUtils.map(0, arr.size, 0.1f, PI2, i);
                     var v = arr.get(i);
-                    PATH_COLOR.a = (float) Math.tan((angle + offset) % PI2);
-                    PATH_COLOR.clamp();
+                    color.a = (float) Math.tan((angle + offset) % PI2);
+                    color.clamp();
                     if (prev != null) {
-                        shapeDrawer.setColor(PATH_COLOR);
+                        shapeDrawer.setColor(color);
                         shapeDrawer.line(prev, v);
                     }
                     prev = v;
@@ -110,6 +112,16 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 //        Color c = new Color(0, 1, 1, 1);
 //        shapeDrawer.setColor(c);
 //        graphNodes.forEach(n -> shapeDrawer.filledCircle(n.x, n.y, 2f, c));
+        enemies.forEach(e -> e.drawMe(shapeDrawer));
+    }
+
+    public void update(float delta) {
+        enemies.forEach(e -> {
+            Vector2 newPos = pathMovement
+                    .move(new Vector2(e.getCurrCenterX(), e.getCurrCenterY()), delta * 50f);
+            e.setCurrCenterY(newPos.y);
+            e.setCurrCenterX(newPos.x);
+        });
     }
 
     public void findPathToBase(Level level) {
@@ -131,5 +143,13 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
             }
         });
 
+        enemies = new Array<>();
+        Array<Vector2> path = pathsToBase.get(0);
+        Array<Vector2> pathCopy = new Array<>(path.size);
+        for (int i = 0; i < path.size; i++) {
+            pathCopy.add(path.get(i));
+        }
+        enemies.add(new CircleEnemy(pathCopy.get(0), 5, Color.CHARTREUSE));
+        pathMovement = PathMovement.from(pathCopy);
     }
 }
