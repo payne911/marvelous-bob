@@ -2,7 +2,6 @@ package com.marvelousbob.server;
 
 import com.badlogic.gdx.Game;
 import com.esotericsoftware.kryonet.Server;
-import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import java.util.Objects;
 import lombok.SneakyThrows;
@@ -19,7 +18,8 @@ public class BobServerGame extends Game {
 
     @SneakyThrows
     public BobServerGame() {
-        this.server = new Server(GameConstant.WRITE_BUFFER_SIZE, GameConstant.OBJECT_BUFFER_SIZE);
+        this.server = new Server(
+                NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         server.getKryo().setRegistrationRequired(false);
         server.getKryo().setWarnUnregisteredClasses(true);
 //        this.register = new Register(server);
