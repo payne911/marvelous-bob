@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
+import com.marvelousbob.common.utils.movements.ConstantSpeed;
+import com.marvelousbob.common.utils.movements.MovementStrategy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -28,25 +30,28 @@ public class RangedPlayerBullet extends Bullet {
     @Getter
     private Color color;
 
+    private MovementStrategy<Vector2> movementStrategy;
+
 
     public RangedPlayerBullet(Vector2 initPos, Vector2 dest, Color color, float speed,
             float radius) {
         super(UUID.getNext());
-        this.startPos = initPos;
-        this.currentPos = initPos;
+        this.startPos = initPos.cpy();
+        this.currentPos = initPos.cpy();
         this.speed = speed;
         this.angle = MathUtils.atan2(dest.y - initPos.y, dest.x - initPos.x);
         this.size = radius;
         this.circle = new Circle(initPos.x, initPos.y, radius);
+        this.circle.setPosition(currentPos);
         this.color = color;
+        this.movementStrategy = new ConstantSpeed(angle); // could be set from caller if needed
     }
 
     @Override
     public void updatePos(float delta) {
-        float x = currentPos.x + speed * delta * MathUtils.cos(angle);
-        float y = currentPos.y + speed * delta * MathUtils.sin(angle);
-        this.currentPos = new Vector2(x, y);
-        circle.setPosition(x, y);
+        var newPos = movementStrategy.move(currentPos, speed * delta);
+        circle.setPosition(newPos);
+        this.currentPos = newPos;
     }
 
     @Override

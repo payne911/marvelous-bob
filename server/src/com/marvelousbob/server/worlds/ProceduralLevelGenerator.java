@@ -82,23 +82,26 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
         final ConcurrentHashMap<UUID, PlayersBase> bases = new ConcurrentHashMap<>();
         UUID baseUuid = UUID.getNext();
-        var base = PlayersBase.hexagonalPlayerBase(baseUuid, randomFreePos(emptyCells), 15);
+//        UUID base2Uuid = UUID.getNext();
+        var base = PlayersBase.hexagonalPlayerBase(baseUuid, randomFreePos(emptyCells), 25);
+//        var base2 = PlayersBase.hexagonalPlayerBase(baseUuid, randomFreePos(emptyCells), 25);
         bases.put(baseUuid, base);
+//        bases.put(base2Uuid, base2);
 
         final ConcurrentHashMap<UUID, EnemySpawnPoint> spawns = new ConcurrentHashMap<>();
-        final int spawnSize = 12;
+        final int spawnSize = 18;
         UUID spawnUuid1 = UUID.getNext();
         UUID spawnUuid2 = UUID.getNext();
-        UUID spawnUuid3 = UUID.getNext();
-        UUID spawnUuid4 = UUID.getNext();
+//        UUID spawnUuid3 = UUID.getNext();
+//        UUID spawnUuid4 = UUID.getNext();
         spawns.put(spawnUuid1,
                 EnemySpawnPoint.starShaped(spawnUuid1, randomFreePos(emptyCells), spawnSize));
         spawns.put(spawnUuid2,
                 EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells), spawnSize));
-        spawns.put(spawnUuid3,
-                EnemySpawnPoint.starShaped(spawnUuid3, randomFreePos(emptyCells), spawnSize));
-        spawns.put(spawnUuid4,
-                EnemySpawnPoint.starShaped(spawnUuid4, randomFreePos(emptyCells), spawnSize));
+//        spawns.put(spawnUuid3,
+//                EnemySpawnPoint.starShaped(spawnUuid3, randomFreePos(emptyCells), spawnSize));
+//        spawns.put(spawnUuid4,
+//                EnemySpawnPoint.starShaped(spawnUuid4, randomFreePos(emptyCells), spawnSize));
 
         return new Level(seed, bases, spawns, walls,
                 GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, GameConstant.PIXELS_PER_GRID_CELL);

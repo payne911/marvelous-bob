@@ -1,6 +1,7 @@
 package com.marvelousbob.common.utils;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import java.util.Collection;
@@ -20,6 +21,42 @@ public class MovementUtils {
 
     private MovementUtils() {
     }
+
+
+    /**
+     * Updates the pos vector passed in moving at a constant speed in the direction of the angle
+     * provided
+     *
+     * @param pos   the initaial position
+     * @param speed the speed at which to move
+     * @param angle the angle (in radians) of the movement.
+     */
+    public static void updatePosConstantSpeed(Vector2 pos, float speed, float angle) {
+        pos.x += speed * MathUtils.cos(angle);
+        pos.y += speed * MathUtils.sin(angle);
+    }
+
+
+    /**
+     * Calculates a new position which is the
+     *
+     * @param pos
+     * @param target
+     * @param speed
+     * @return
+     */
+    public static Vector2 constantSpeed(Vector2 pos, Vector2 target, float speed) {
+        float angle = MathUtils.atan2(target.y - pos.y, target.x - pos.x);
+        return constantSpeed(pos, speed, angle);
+    }
+
+
+    public static Vector2 constantSpeed(Vector2 pos, float speed, float angle) {
+        float x = pos.x + speed * MathUtils.cos(angle);
+        float y = pos.y + speed * MathUtils.sin(angle);
+        return new Vector2(x, y);
+    }
+
 
     /**
      * @param players collection of players to interpolate
