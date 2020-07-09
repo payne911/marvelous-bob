@@ -90,7 +90,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         accumulator += delta;
         if (accumulator >= spawnRate) { // it's time to spawn !
             accumulator = 0;
-            System.out.println("\n\n\n\n======= SHOULD SPAWN"); // todo: only server should see this
+            System.out.println("\n\n\n\n======= SHOULD SPAWN"); // todo: remove when spawn is fixed
             return true;
         }
         return false;
