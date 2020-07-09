@@ -7,7 +7,6 @@ import com.marvelousbob.common.model.entities.dynamic.enemies.PolygonEnemy;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
-import com.marvelousbob.common.utils.movements.PathMovement;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,11 +31,9 @@ public class EnemySpawner {
             if (shouldSpawn) {
                 log.info("Should spawn for {}", sp);
 
-                var path = PathMovement
-                        .from(sp.getPathsToBase().get(0)); // todo: currently assuming only 1 Base
                 var randomEnemy = MathUtils.randomBoolean()
-                        ? new PolygonEnemy(UUID.getNext(), sp.getUuid(), path, sp.getPos().cpy())
-                        : new CircleEnemy(UUID.getNext(), sp.getUuid(), path, sp.getPos().cpy(), 7);
+                        ? new PolygonEnemy(UUID.getNext(), sp.getUuid(), sp.getPos().cpy())
+                        : new CircleEnemy(UUID.getNext(), sp.getUuid(), sp.getPos().cpy(), 7);
 
                 var enemy = gameState.addEnemy(randomEnemy);
                 spawnedEnemies.add(enemy);

@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
 @Data
 @Slf4j
 public class GameWorld implements Drawable {
@@ -70,7 +71,8 @@ public class GameWorld implements Drawable {
     }
 
     public void moveEnemies(float delta) {
-        localGameState.getEnemiesList().forEach(e -> e.move(delta));
+        localGameState.getEnemiesList().forEach(e -> MovementUtils
+                .moveEnemy(e, level.getEnemySpawnPoints().get(e.getSpawnPointUuid()), delta));
     }
 
     public void moveBullets(float delta) {

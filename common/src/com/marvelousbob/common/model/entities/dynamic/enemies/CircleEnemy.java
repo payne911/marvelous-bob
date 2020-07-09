@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
-import com.marvelousbob.common.utils.movements.MovementStrategy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,26 +20,22 @@ public class CircleEnemy extends Enemy {
     private Circle circle;
     private Color color;
 
-    public CircleEnemy(UUID uuid, UUID spawnPointUuid, MovementStrategy<Vector2> moveStrategy,
-            Circle circle, Color color) {
-        super(uuid, spawnPointUuid, moveStrategy);
+    public CircleEnemy(UUID uuid, UUID spawnPointUuid, Circle circle, Color color) {
+        super(uuid, spawnPointUuid);
         this.circle = circle;
         this.color = color;
     }
 
-    public CircleEnemy(UUID uuid, UUID spawnPointUuid, MovementStrategy<Vector2> moveStrategy,
-            Circle circle) {
-        this(uuid, spawnPointUuid, moveStrategy, circle, DEFAULT_COLOR.cpy());
+    public CircleEnemy(UUID uuid, UUID spawnPointUuid, Circle circle) {
+        this(uuid, spawnPointUuid, circle, DEFAULT_COLOR.cpy());
     }
 
-    public CircleEnemy(UUID uuid, UUID spawnPointUuid, MovementStrategy<Vector2> moveStrategy,
-            Vector2 center, float radius, Color color) {
-        this(uuid, spawnPointUuid, moveStrategy, new Circle(center, radius), color);
+    public CircleEnemy(UUID uuid, UUID spawnPointUuid, Vector2 center, float radius, Color color) {
+        this(uuid, spawnPointUuid, new Circle(center, radius), color);
     }
 
-    public CircleEnemy(UUID uuid, UUID spawnPointUuid, MovementStrategy<Vector2> moveStrategy,
-            Vector2 center, float radius) {
-        this(uuid, spawnPointUuid, moveStrategy, new Circle(center, radius), DEFAULT_COLOR.cpy());
+    public CircleEnemy(UUID uuid, UUID spawnPointUuid, Vector2 center, float radius) {
+        this(uuid, spawnPointUuid, new Circle(center, radius), DEFAULT_COLOR.cpy());
     }
 
     @Override
