@@ -10,6 +10,7 @@ import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.utils.UUID;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -107,6 +108,18 @@ public class LocalGameState implements Drawable {
 
     // ===============================================
     // Basic HashMap manipulations
+
+    public boolean hasNoPlayers() {
+        return players.isEmpty();
+    }
+
+    public Collection<Enemy> getEnemiesList() {
+        return enemies.values();
+    }
+
+    public Collection<Player> getPlayersList() {
+        return players.values();
+    }
 
     /**
      * @return the enemy that was just added

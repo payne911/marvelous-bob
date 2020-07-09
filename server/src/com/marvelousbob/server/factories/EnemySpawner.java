@@ -1,10 +1,13 @@
 package com.marvelousbob.server.factories;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.marvelousbob.common.model.entities.dynamic.enemies.CircleEnemy;
 import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import com.marvelousbob.common.model.entities.dynamic.enemies.PolygonEnemy;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
+import com.marvelousbob.common.utils.movements.PathMovement;
 import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,8 +31,14 @@ public class EnemySpawner {
             boolean shouldSpawn = sp.update(delta);
             if (shouldSpawn) {
                 log.info("Should spawn for {}", sp);
-                var enemy = gameState.addEnemy(
-                        new PolygonEnemy(UUID.getNext(), sp.getUuid(), sp.getPos().cpy()));
+
+                var path = PathMovement
+                        .from(sp.getPathsToBase().get(0)); // todo: currently assuming only 1 Base
+                var randomEnemy = MathUtils.randomBoolean()
+                        ? new PolygonEnemy(UUID.getNext(), sp.getUuid(), path, sp.getPos().cpy())
+                        : new CircleEnemy(UUID.getNext(), sp.getUuid(), path, sp.getPos().cpy(), 7);
+
+                var enemy = gameState.addEnemy(randomEnemy);
                 spawnedEnemies.add(enemy);
             }
         });

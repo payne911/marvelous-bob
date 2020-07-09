@@ -1,19 +1,21 @@
 package com.marvelousbob.common.utils.movements;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
+import lombok.ToString;
 
 /**
  * Assumes a linear path between node of the path
  */
+@ToString
 public class PathMovement implements MovementStrategy<Vector2> {
 
-    private Array<Vector2> path;
+    private ArrayList<Vector2> path;
     private int current, next;
     private ConstantSpeed constantSpeed;
 
-    private PathMovement(Array<Vector2> path) {
-        if (path.size < 2) {
+    private PathMovement(ArrayList<Vector2> path) {
+        if (path.size() < 2) {
             throw new RuntimeException("Path must contains at least two points.");
         }
         this.path = path;
@@ -23,11 +25,11 @@ public class PathMovement implements MovementStrategy<Vector2> {
 
     }
 
-    public static MovementStrategy<Vector2> from(Array<Vector2> path) {
+    public static MovementStrategy<Vector2> from(ArrayList<Vector2> path) {
         if (path == null || path.isEmpty()) {
             return new InstantMovement<>();
         }
-        if (path.size == 1) {
+        if (path.size() == 1) {
             return new StayAt<>(path.get(0));
         }
         return new PathMovement(path);
@@ -48,7 +50,7 @@ public class PathMovement implements MovementStrategy<Vector2> {
         // remaining between current and next nodes
 
         // are already we at the end ?
-        if (next == path.size - 1) {
+        if (next == path.size() - 1) {
             return path.get(next);
         }
 

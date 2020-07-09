@@ -23,10 +23,7 @@ public class ServerWorldManager extends GameWorldManager {
     @Override
     public void updateGameState(float delta) {
         spawnEnemies(delta);
-        mutableGameWorld.checkForPlayerCollisionWithWalls();
-        mutableGameWorld.getLocalGameState().getPlayers().values()
-                .forEach(p -> p.updateProjectiles(delta, mutableGameWorld.getLevel()));
-        mutableGameWorld.interpolatePlayerPositions(delta);
+        commonGameStateUpdate(delta);
     }
 
     private void spawnEnemies(float delta) {

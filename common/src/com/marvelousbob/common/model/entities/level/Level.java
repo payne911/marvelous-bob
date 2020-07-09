@@ -31,10 +31,6 @@ public class Level implements Drawable {
         enemySpawnPoints.values().forEach(es -> es.drawMe(shapeDrawer));
     }
 
-    public void update(float delta) {
-        enemySpawnPoints.values().forEach(enemySpawnPoint -> enemySpawnPoint.update(delta));
-    }
-
     public void updateUsingPlayerBase(PlayersBaseDto playersBaseDto) {
         var base = bases.get(playersBaseDto.uuid);
         base.setHp(playersBaseDto.getHp());

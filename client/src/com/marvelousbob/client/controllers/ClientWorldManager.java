@@ -13,5 +13,10 @@ public class ClientWorldManager extends GameWorldManager {
     @Override
     public void updateGameState(float delta) {
         commonGameStateUpdate(delta);
+        animateBases(delta);
+    }
+
+    private void animateBases(float delta) {
+        mutableGameWorld.getLevel().getAllPlayerBases().forEach(b -> b.update(delta));
     }
 }

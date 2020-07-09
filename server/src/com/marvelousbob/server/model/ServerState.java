@@ -113,7 +113,7 @@ public class ServerState {
     }
 
     public boolean isEmptyRoom() {
-        return serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().isEmpty();
+        return serverWorldManager.getMutableGameWorld().getLocalGameState().hasNoPlayers();
     }
 
     public synchronized void initializeOnFirstPlayerConnected() {
@@ -121,11 +121,13 @@ public class ServerState {
     }
 
     public synchronized void newLevel() {
-        serverWorldManager.getMutableGameWorld().setLevel(levelGenerator.getLevel());
+        var generatedLevel = levelGenerator.getLevel();
+        generatedLevel.getAllSpawnPoints().forEach(sp -> sp.findPathToBase(generatedLevel));
+        serverWorldManager.getMutableGameWorld().setLevel(generatedLevel);
     }
 
     public synchronized Collection<Player> getPlayers() {
-        return serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayers().values();
+        return serverWorldManager.getMutableGameWorld().getLocalGameState().getPlayersList();
     }
 
     public synchronized void addPlayer(Player<?> player) {

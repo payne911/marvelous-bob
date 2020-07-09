@@ -10,15 +10,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.ai.SquareTiledLevelGraph;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
-import com.marvelousbob.common.model.entities.dynamic.enemies.CircleEnemy;
-import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import com.marvelousbob.common.utils.UUID;
-import com.marvelousbob.common.utils.movements.MovementStrategy;
-import com.marvelousbob.common.utils.movements.PathMovement;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,11 +35,9 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     private Polygon shape;
     private Polygon shape2;
     private Color color;
-    private Array<Array<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
-    private Array<Vector2> graphNodes; // for debug purpose
+    private ArrayList<ArrayList<Vector2>> pathsToBase; // todo change to Map<PlayerBase, Array<Vector2>>   --- OLA
+    private ArrayList<Vector2> graphNodes; // for debug purpose
     private float offset;
-    private Array<Enemy> enemies;
-    private MovementStrategy<Vector2> pathMovement;
 
     /* For spawning */
     private float spawnRate = MathUtils.random(2f, 5f); // time in SECONDS
@@ -55,8 +49,8 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         this.shape = shape;
         this.shape2 = shape2;
         this.color = color;
-        this.pathsToBase = new Array<>();
-        this.graphNodes = new Array<>();
+        this.pathsToBase = new ArrayList<>();
+        this.graphNodes = new ArrayList<>();
         this.offset = 0;
     }
 
@@ -83,10 +77,12 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
     }
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
-        return starShaped(uuid, center, size, DEFAULT_COLOR);
+        return starShaped(uuid, center, size, DEFAULT_COLOR.cpy());
     }
 
     /**
+     * Used by the server to know if an enemy should be spawned by this SpawnPoint.
+     *
      * @param delta amount of time that passed since last check
      * @return {@code true} when ready to spawn a new unit
      */
@@ -94,6 +90,7 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         accumulator += delta;
         if (accumulator >= spawnRate) { // it's time to spawn !
             accumulator = 0;
+            System.out.println("\n\n\n\n======= SHOULD SPAWN"); // todo: only server should see this
             return true;
         }
         return false;
@@ -111,8 +108,8 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         Vector2 prev = null;
         if (!pathsToBase.isEmpty()) {
             for (var arr : pathsToBase) {
-                for (int i = 0; i < arr.size; i++) {
-                    float angle = MathUtils.map(0, arr.size, 0.1f, PI2, i);
+                for (int i = 0; i < arr.size(); i++) {
+                    float angle = MathUtils.map(0, arr.size(), 0.1f, PI2, i);
                     var v = arr.get(i);
                     PATH_COLOR.a = (float) Math.tan((angle + offset) % PI2);
                     PATH_COLOR.clamp();
@@ -130,22 +127,12 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 //        Color c = new Color(0, 1, 1, 1);
 //        shapeDrawer.setColor(c);
 //        graphNodes.forEach(n -> shapeDrawer.filledCircle(n.x, n.y, 2f, c));
-        enemies.forEach(e -> e.drawMe(shapeDrawer));
-    }
-
-    public void update(float delta) {
-        enemies.forEach(e -> {
-            Vector2 newPos = pathMovement
-                    .move(new Vector2(e.getCurrCenterX(), e.getCurrCenterY()), delta * 50f);
-            e.setCurrCenterY(newPos.y);
-            e.setCurrCenterX(newPos.x);
-        });
     }
 
     public void findPathToBase(Level level) {
         SquareTiledLevelGraph graph = new SquareTiledLevelGraph(level);
         graph.computeConnections();
-        graph.getNodes().keySet().forEach(graphNodes::add);
+        graph.getNodes().keySet().addAll(graphNodes);
         PathFinder<Vector2> pathFinder = new IndexedAStarPathFinder<>(graph);
         level.getAllPlayerBases().forEach(base -> {
             GraphPath<Vector2> pathFound = new DefaultGraphPath<>();
@@ -155,19 +142,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
                     Vector2::dst,
                     pathFound);
             if (found) {
-                Array<Vector2> path = new Array<>();
+                ArrayList<Vector2> path = new ArrayList<>();
                 pathFound.forEach(path::add);
                 pathsToBase.add(path);
             }
         });
-
-        enemies = new Array<>();
-        Array<Vector2> path = pathsToBase.get(0);
-        Array<Vector2> pathCopy = new Array<>(path.size);
-        for (int i = 0; i < path.size; i++) {
-            pathCopy.add(path.get(i));
-        }
-        enemies.add(new CircleEnemy(pathCopy.get(0), 5, Color.CHARTREUSE));
-        pathMovement = PathMovement.from(pathCopy);
     }
 }
