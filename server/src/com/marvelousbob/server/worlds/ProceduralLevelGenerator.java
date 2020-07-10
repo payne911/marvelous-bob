@@ -114,11 +114,13 @@ public class ProceduralLevelGenerator implements LevelGenerator {
     }
 
     private ArrayList<Wall> getWalls(char[][] grid) {
+        log.info("Starting the mapping to create Wall instances.");
         final var horizWalls = buildHorizontalWalls(grid);
         final var vertWalls = buildVerticalWalls(grid);
         final ArrayList<Wall> walls = new ArrayList<>();
         walls.addAll(horizWalls);
         walls.addAll(vertWalls);
+        log.info("Finished the mapping.");
         return walls;
     }
 
@@ -126,6 +128,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
      * Builds continuous horizontal walls with a single pass.
      */
     private ArrayList<Wall> buildHorizontalWalls(char[][] grid) {
+        log.info("Onto horizontal walls (left to right).");
         final ArrayList<Wall> horizWalls = new ArrayList<>();
 
         for (int y = 0; y < grid[0].length; y++) {
@@ -134,18 +137,18 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             boolean continuingAWall = false; // we never continue a wall when we begin
 
             for (int x = 0; x < grid.length; x++) {
-                System.out.println("(%d , %d) = %c".formatted(x, y, grid[x][y]));
+                log.trace("(%d , %d) = %c".formatted(x, y, grid[x][y]));
                 continuingAWall = updateWallAccumulator(x, halfCoords, continuingAWall,
                         LEFT_RIGHT_CONTINUUM.get(grid[x][y]));
             }
 
             if (continuingAWall) { // very last half was a filler (shouldn't happen)
+                log.warn("Shouldn't happen: filling the last coordinate.");
                 halfCoords.add(2 * y + 2);
             }
 
             /* Reconstructing and adding actual Walls from the extracted coordinates. */
             int tmpSize = halfCoords.size();
-            System.out.println(halfCoords);
             assert (tmpSize % 2 == 0); // should be even number of coords since they are pairs
             while (tmpSize != 0) {
                 int firstCoord = halfCoords.get(--tmpSize);
@@ -167,7 +170,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
      * Builds continuous vertical walls with a single pass.
      */
     private ArrayList<Wall> buildVerticalWalls(char[][] grid) {
-        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSTARTING VERTICALS!!!");
+        log.info("Onto vertical walls (top to bottom).");
         final ArrayList<Wall> vertWalls = new ArrayList<>();
 
         for (int x = 0; x < grid.length; x++) {
@@ -176,17 +179,17 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             boolean continuingAWall = false; // we never continue a wall when we begin
 
             for (int y = 0; y < grid[0].length; y++) {
-                System.out.println("(%d , %d) = %c".formatted(x, y, grid[x][y]));
+                log.trace("(%d , %d) = %c".formatted(x, y, grid[x][y]));
                 continuingAWall = updateWallAccumulator(y, halfCoords, continuingAWall,
                         TOP_BOTTOM_CONTINUUM.get(grid[x][y]));
             }
 
-            if (continuingAWall) { // very last half was a filler
+            if (continuingAWall) { // very last half was a filler (shouldn't happen)
+                log.warn("Shouldn't happen: filling the last coordinate.");
                 halfCoords.add(2 * x + 2);
             }
 
             /* Reconstructing and adding actual Walls from the extracted coordinates. */
-            System.out.println(halfCoords);
             int tmpSize = halfCoords.size();
             assert (tmpSize % 2 == 0); // should be even number of coords since they are pairs
             while (tmpSize != 0) {
@@ -231,10 +234,10 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
     private boolean updateWallAccumulator(int gridCoord, List<Integer> halfCoords,
             boolean continuingAWall, Tuple2<Boolean, Boolean> currentBools) {
-        log.info("First: " + currentBools.getFirst());
+        log.trace("First: " + currentBools.getFirst());
         continuingAWall = updateWallContinuation(halfCoords, continuingAWall,
                 currentBools.getFirst(), true, 2 * gridCoord);
-        log.info("Second: " + currentBools.getSecond());
+        log.trace("Second: " + currentBools.getSecond());
         continuingAWall = updateWallContinuation(halfCoords, continuingAWall,
                 currentBools.getSecond(), false, 2 * gridCoord + 1);
         return continuingAWall;
@@ -244,11 +247,11 @@ public class ProceduralLevelGenerator implements LevelGenerator {
             boolean tupleBool, boolean isFirstOfTuple, int halfCoord) {
         if (!continuingAWall && tupleBool) { // begin new wall
             halfCoords.add(isFirstOfTuple ? halfCoord + 1 : halfCoord); // trim edges
-            log.info("Begun a wall");
+            log.trace("Begun a wall");
         }
         if (continuingAWall && !tupleBool) { // end a wall
             halfCoords.add(isFirstOfTuple ? halfCoord - 1 : halfCoord); // trim edges
-            log.info("Ended a wall");
+            log.trace("Ended a wall");
         }
         continuingAWall = tupleBool;
         return continuingAWall;
@@ -256,13 +259,10 @@ public class ProceduralLevelGenerator implements LevelGenerator {
 
     private Wall buildGridWall(Orientation orientation, Headed headed, float x, float y,
             float length) {
-        System.out.println();
-        log.info("input: x={}, y={}, L={}", x, y, length);
         x *= GameConstant.PIXELS_PER_GRID_CELL;
         y *= GameConstant.PIXELS_PER_GRID_CELL;
         length *= GameConstant.PIXELS_PER_GRID_CELL;
         Vector2 pos = new Vector2(x, y);
-        log.info("output: x={}, y={}, L={}, pos={}", x, y, length, pos);
         return wallFactory.buildBlendedWall(orientation, headed, pos, length);
     }
 
@@ -277,7 +277,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
      * @author TEttinger
      */
     public char[][] generateGrid(long seed) {
-        log.warn("Starting procedural generation of a new level. Seed: " + seed);
+        log.warn("Starting procedural generation of a new Level. Seed: " + seed);
 
         StatefulRNG rng = new StatefulRNG(seed); // change seed to change level
         GrowingTreeMazeGenerator mazeGenerator =
@@ -292,7 +292,7 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         char[][] grid = DungeonUtility.hashesToLines(map);
 
         DungeonUtility.debugPrint(grid);
-        log.info("Finished generating a level.");
+        log.info("Finished generating a Level.");
 
         return grid;
     }

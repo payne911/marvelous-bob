@@ -31,7 +31,8 @@ public class EnemySpawner {
         spawnPoints.forEach(sp -> {
             boolean shouldSpawn = sp.update(delta);
             if (shouldSpawn) {
-                log.info("Should spawn for {}", sp);
+                log.info("Should spawn for EnemySpawnPoint {}, pos={}, spawnRate={}",
+                        sp.getUuid(), sp.getPos(), sp.getSpawnRate());
 
                 var path = PathMovement.from(sp.getPathsToBase().get(0)); // todo: assumes 1 Base
                 var randomEnemy = MathUtils.randomBoolean()
