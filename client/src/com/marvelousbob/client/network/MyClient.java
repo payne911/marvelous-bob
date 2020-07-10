@@ -5,7 +5,6 @@ import com.marvelousbob.client.MarvelousBob;
 import com.marvelousbob.client.network.listeners.DebugListener;
 import com.marvelousbob.client.network.listeners.GameInitializerListener;
 import com.marvelousbob.client.network.test.IncrementalAverage;
-import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.constants.NetworkConstants;
 import com.marvelousbob.common.network.register.dto.Dto;
 import java.net.InetAddress;
@@ -27,7 +26,8 @@ public class MyClient {
 
     @SneakyThrows
     public MyClient(boolean isLocalServer, MarvelousBob marvelousBob) {
-        this.client = new Client(GameConstant.WRITE_BUFFER_SIZE, GameConstant.OBJECT_BUFFER_SIZE);
+        this.client = new Client(
+                NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         client.getKryo().setRegistrationRequired(false);
         client.getKryo().setWarnUnregisteredClasses(true);
         this.marvelousBob = marvelousBob;

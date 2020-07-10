@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
+import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 
@@ -108,5 +109,13 @@ public class MovementUtils {
     private static boolean wantsToMove(Player p) {
         return p.getCurrCenterX() != p.getDestX()
                 || p.getCurrCenterY() != p.getDestY();
+    }
+
+    public static void moveEnemy(Enemy enemy, float delta) {
+        Vector2 newPos = enemy.getMovementStrategy().move(
+                new Vector2(enemy.getCurrCenterX(), enemy.getCurrCenterY()),
+                delta * 50f);
+        enemy.setCurrCenterY(newPos.y);
+        enemy.setCurrCenterX(newPos.x);
     }
 }

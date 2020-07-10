@@ -10,6 +10,7 @@ import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.utils.UUID;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -87,7 +88,8 @@ public class LocalGameState implements Drawable {
     }
 
     public void updateNewEnemy(NewEnemyDto newEnemyDto) {
-        // TODO
+        Enemy newEnemy = newEnemyDto.getEnemy();
+        enemies.put(newEnemy.getUuid(), newEnemy);
     }
 
 //    public void updateFromDto(GameStateDto otherGameStateDto) {
@@ -106,6 +108,29 @@ public class LocalGameState implements Drawable {
 
     // ===============================================
     // Basic HashMap manipulations
+
+    public boolean hasNoPlayers() {
+        return players.isEmpty();
+    }
+
+    public Collection<Enemy> getEnemiesList() {
+        return enemies.values();
+    }
+
+    public Collection<Player> getPlayersList() {
+        return players.values();
+    }
+
+    /**
+     * @return the enemy that was just added
+     */
+    public Enemy addEnemy(Enemy enemy) {
+        if (containsEnemyUuid(enemy)) {
+            log.warn("Overwriting an enemy who already had that UUID assigned in the GS.");
+        }
+        enemies.put(enemy.getUuid(), enemy);
+        return enemy;
+    }
 
     public void addPlayer(Player player) {
         if (containsPlayerUuid(player)) {
@@ -131,6 +156,14 @@ public class LocalGameState implements Drawable {
 
     public boolean containsPlayerUuid(UUID uuid) {
         return players.containsKey(uuid);
+    }
+
+    public boolean containsEnemyUuid(Enemy enemy) {
+        return containsEnemyUuid(enemy.getUuid());
+    }
+
+    public boolean containsEnemyUuid(UUID uuid) {
+        return enemies.containsKey(uuid);
     }
 
 //    public void compareAndRemoveDisconnectedPlayers(GameStateDto inputDto) {

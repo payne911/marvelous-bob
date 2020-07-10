@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
 @Data
 @Slf4j
 public class GameWorld implements Drawable {
@@ -66,7 +67,21 @@ public class GameWorld implements Drawable {
     }
 
     public void interpolatePlayerPositions(float delta) {
-        MovementUtils.interpolatePlayers(localGameState.getPlayers().values(), delta);
+        MovementUtils.interpolatePlayers(localGameState.getPlayersList(), delta);
+    }
+
+    public void moveEnemies(float delta) {
+        localGameState.getEnemiesList().forEach(e -> MovementUtils.moveEnemy(e, delta));
+    }
+
+    public void moveBullets(float delta) {
+        localGameState.getPlayersList().forEach(p -> p.updateProjectiles(delta, level));
+    }
+
+    public void moveEntities(float delta) {
+        moveBullets(delta);
+        interpolatePlayerPositions(delta);
+        moveEnemies(delta);
     }
 
     public Vector2 randomPos() {
@@ -78,7 +93,7 @@ public class GameWorld implements Drawable {
 
     // TODO: 2020-07-01 Fix wall teleportation
     public void checkForPlayerCollisionWithWalls() {
-        for (Player p : localGameState.getPlayers().values()) {
+        for (Player p : localGameState.getPlayersList()) {
             float px = p.getCurrCenterX();
             float pxRight = px + p.getHalfSize();
             float pxLeft = px - p.getHalfSize();
@@ -167,8 +182,4 @@ public class GameWorld implements Drawable {
         );
     }
 
-
-    public void update(float delta) {
-        level.update(delta);
-    }
 }

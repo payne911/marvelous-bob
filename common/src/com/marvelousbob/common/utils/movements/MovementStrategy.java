@@ -1,27 +1,23 @@
 package com.marvelousbob.common.utils.movements;
 
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * @param <T>
- */
-public interface MovementStrategy<T extends Vector<T>> {
+public interface MovementStrategy {
 
 
     /**
      * =================== = static creators = ===================
      */
 
-    static <V extends Vector<V>> MovementStrategy<V> instant() {
-        return new InstantMovement<>();
+    static MovementStrategy instant() {
+        return new InstantMovement();
     }
 
-    static <V extends Vector<V>> MovementStrategy<V> stayAt(V position) {
-        return new StayAt<>(position);
+    static MovementStrategy stayAt(Vector2 position) {
+        return new StayAt(position);
     }
 
-    static MovementStrategy<Vector2> constant(float angle) {
+    static MovementStrategy constant(float angle) {
         return new ConstantSpeed(angle);
     }
 
@@ -32,8 +28,6 @@ public interface MovementStrategy<T extends Vector<T>> {
      * @param distance todo
      * @return todo
      */
-    T move(T pos, float distance);
-
-
+    Vector2 move(Vector2 pos, float distance);
 }
 

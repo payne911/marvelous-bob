@@ -3,9 +3,13 @@ package com.marvelousbob.common.utils.movements;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.MovementUtils;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-public class ConstantSpeed implements MovementStrategy<Vector2> {
+@ToString
+@NoArgsConstructor
+public class ConstantSpeed implements MovementStrategy {
 
     @Setter
     private float angle;

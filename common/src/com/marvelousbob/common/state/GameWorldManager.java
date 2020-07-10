@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * Logic that relates to updating the world based on current and past data.
  */
 @Slf4j
-public class GameWorldManager {
+public abstract class GameWorldManager {
 
     private long newestGameStateIndexProcessed;
 
@@ -21,7 +21,7 @@ public class GameWorldManager {
      */
     @Getter
     @Setter
-    private GameWorld mutableGameWorld;
+    protected GameWorld mutableGameWorld;
 
 
     public GameWorldManager(GameWorld initialGameWorld) {
@@ -49,17 +49,19 @@ public class GameWorldManager {
     }
 
     /**
-     * Used to update the internal state of the GS. Things such as movement.
+     * @param delta amount of time which has passed since last render
+     */
+    public abstract void updateGameState(float delta);
+
+    /**
+     * Used by both Client and Server to update the internal state of the GS. Things such as
+     * movement.
      *
      * @param delta amount of time which has passed since last render.
      */
-    public void updateGameState(float delta) {
+    protected void commonGameStateUpdate(float delta) {
         mutableGameWorld.checkForPlayerCollisionWithWalls();
-        mutableGameWorld.getLocalGameState().getPlayers().values()
-                .forEach(p -> p.updateProjectiles(delta, mutableGameWorld.getLevel()));
-        mutableGameWorld.interpolatePlayerPositions(delta);
-        mutableGameWorld.getLevel().getAllPlayerBases().forEach(b -> b.update(delta));
-        mutableGameWorld.update(delta);
+        mutableGameWorld.moveEntities(delta);
     }
 
     public void updatePlayerDestination(Player player, float destX, float destY) {

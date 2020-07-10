@@ -5,13 +5,13 @@ import static com.marvelousbob.common.model.entities.dynamic.projectiles.RangedB
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedBulletExplosion;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedPlayerBullet;
 import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.utils.UUID;
+import java.util.ArrayList;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +31,8 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
 
 
     @Getter
-    private Array<RangedPlayerBullet> bullets;
-    private Array<RangedBulletExplosion> explosions;
+    private ArrayList<RangedPlayerBullet> bullets;
+    private ArrayList<RangedBulletExplosion> explosions;
     @Getter
     private float bulletSpeed;
     @Getter
@@ -53,8 +53,8 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
         this.bulletSpeed = DEFAULT_INITIAL_BULLET_SPEED;
         this.bulletSize = DEFAULT_INITIAL_BULLET_RADIUS;
-        this.bullets = new Array<>();
-        this.explosions = new Array<>();
+        this.bullets = new ArrayList<>();
+        this.explosions = new ArrayList<>();
     }
 
     @Override
@@ -69,17 +69,17 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         explosions.forEach(e -> e.update(delta));
         // TODO: 2020-07-03 remove me: this is a dummy technique to remove projectile
         //       while collision detection is not yet implemented    --- OLA
-        for (int i = bullets.size - 1; i >= 0; i--) {
+        for (int i = bullets.size() - 1; i >= 0; i--) {
             var bullet = bullets.get(i);
             if (bullet.getCurrentPos().dst(bullet.getStartPos()) > ARBITRARY_BULLET_MAX_DISTANCE) {
-                var bulletRemoved = bullets.removeIndex(i);
+                var bulletRemoved = bullets.remove(i);
                 explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
             }
         }
         if (!explosions.isEmpty()) {
-            for (int i = explosions.size - 1; i >= 0; i--) {
+            for (int i = explosions.size() - 1; i >= 0; i--) {
                 if (explosions.get(i).getLifespan() >= DEFAULT_LIFESPAN) {
-                    explosions.removeIndex(i);
+                    explosions.remove(i);
                 }
             }
         }
@@ -89,11 +89,11 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
     // TODO: 2020-07-03 fix wall skip   --- OLA
     public void checkForCollisionWithWalls(Collection<Wall> walls) {
         outer:
-        for (int i = bullets.size - 1; i >= 0; i--) {
+        for (int i = bullets.size() - 1; i >= 0; i--) {
             var bullet = bullets.get(i);
             for (var wall : walls) {
                 if (wall.getRectangle().contains(bullet.getCircle())) {
-                    var bulletRemoved = bullets.removeIndex(i);
+                    var bulletRemoved = bullets.remove(i);
                     explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
                     continue outer;
                 }

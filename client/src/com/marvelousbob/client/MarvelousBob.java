@@ -24,7 +24,7 @@ import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.PlayerConnectionDto;
-import com.marvelousbob.common.network.register.dto.PlayerTypeDto;
+import com.marvelousbob.common.network.register.dto.PlayerType;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,8 +64,9 @@ public class MarvelousBob extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (
-                Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
+                (Gdx.graphics.getBufferFormat().coverageSampling
+                        ? GL20.GL_COVERAGE_BUFFER_BIT_NV
                         : 0)); // clear the screen
         Gdx.graphics.setTitle("%s -:- %d FPS   |   local = %b   |   seed = %d".formatted(
                 GAME_TITLE,
@@ -124,7 +125,7 @@ public class MarvelousBob extends Game {
 //        var playerType = MathUtils.random(1f) > .5f
 //                ? PlayerTypeDto.RANGED
 //                : PlayerTypeDto.MELEE;
-        var playerType = PlayerTypeDto.RANGED;
+        var playerType = PlayerType.RANGED;
         client.getClient().sendTCP(new PlayerConnectionDto(playerType));
 //        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.MELEE));
 //        client.getClient().sendTCP(new PlayerConnectionDto(PlayerTypeDto.RANGED));

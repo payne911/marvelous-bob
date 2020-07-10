@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public final class PlayerConnectionDto implements Dto {
 
-   public PlayerTypeDto playerType;
+   public PlayerType playerType;
 }

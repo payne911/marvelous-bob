@@ -32,7 +32,7 @@ public class PlayerConnectionListener extends AbstractListener<PlayerConnectionD
         try {
             player = playerConnection.playerType
                     .getPlayerInstance(uuid, serverState.getFreeColor(uuid),
-                            serverState.getGameWorldManager().getMutableGameWorld().randomPos());
+                            serverState.getServerWorldManager().getMutableGameWorld().randomPos());
             serverState.addPlayer(player);
             server.sendToTCP(connection.getID(), serverState.getGameInitDto(uuid));
             server.sendToAllExceptTCP(connection.getID(), player);

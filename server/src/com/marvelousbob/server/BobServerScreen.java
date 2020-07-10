@@ -44,9 +44,9 @@ public class BobServerScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
 
+        serverState.runGameLogic(delta);
         if (deltaAcc >= LOOP_SPEED) {
             deltaAcc = 0f; // or subtract the amount of LOOP_SPEED... as we decide
-//            serverState.runGameLogic(delta);
             GameStateDto gameStateDto = serverState.getCurrentGameStateAsDto();
             server.sendToAllTCP(gameStateDto);
 //            serverState.resetLists();

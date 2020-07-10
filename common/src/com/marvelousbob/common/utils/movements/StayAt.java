@@ -1,17 +1,21 @@
 package com.marvelousbob.common.utils.movements;
 
-import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-public class StayAt<T extends Vector<T>> implements MovementStrategy<T> {
+@ToString
+@NoArgsConstructor
+public class StayAt implements MovementStrategy {
 
-    private T stayAt;
+    private Vector2 stayAt;
 
-    public StayAt(T stayAt) {
+    public StayAt(Vector2 stayAt) {
         this.stayAt = stayAt;
     }
 
     @Override
-    public T move(T pos, float distance) {
+    public Vector2 move(Vector2 pos, float distance) {
         return stayAt;
     }
 }

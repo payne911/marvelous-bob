@@ -13,7 +13,6 @@ import com.marvelousbob.common.model.entities.dynamic.allies.RangedPlayer;
 import com.marvelousbob.common.network.register.dto.MoveActionDto;
 import com.marvelousbob.common.network.register.dto.RangedPlayerAttackDto;
 import com.marvelousbob.common.network.register.dto.WeaponFacingDto;
-import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
@@ -32,7 +31,7 @@ public class Controller {
      * Takes care of everything that relates to the Game State logic.
      */
     @Getter
-    private final GameWorldManager gameWorldManager;
+    private final ClientWorldManager clientWorldManager;
 
     /**
      * Used for the TCP network communications with the server.
@@ -43,12 +42,12 @@ public class Controller {
 
     public Controller(Client kryoClient, GameWorld initGameWorld, UUID selfPlayerUuid) {
         this.kryoClient = kryoClient;
-        this.gameWorldManager = new GameWorldManager(initGameWorld);
+        this.clientWorldManager = new ClientWorldManager(initGameWorld);
         this.selfPlayerUuid = selfPlayerUuid;
     }
 
     public void updateGameState(float delta) {
-        gameWorldManager.updateGameState(delta);
+        clientWorldManager.updateGameState(delta);
     }
 
     // ==========================================
@@ -64,7 +63,7 @@ public class Controller {
         Player self = getSelfPlayer();
 
         /* Assume local input will be accepted by server. */
-        gameWorldManager.updatePlayerDestination(self, destX, destY);
+        clientWorldManager.updatePlayerDestination(self, destX, destY);
 
         /* Send movement request to server. */
         var moveActionDto = new MoveActionDto();
@@ -109,7 +108,7 @@ public class Controller {
         float angle = atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX);
         player.setMouseAngleRelativeToCenter(angle);
         var dto = new WeaponFacingDto(player.getUuid(), angle);
-        log.debug("Sending WeaponFacingDto: {}", dto.toString());
+//        log.debug("Sending WeaponFacingDto: {}", dto.toString());
         client.sendTCP(dto);
     }
 
@@ -146,7 +145,7 @@ public class Controller {
     //  GETTERS (and shortcuts)
 
     public GameWorld getGameWorld() {
-        return gameWorldManager.getMutableGameWorld();
+        return clientWorldManager.getMutableGameWorld();
     }
 
     public LocalGameState getLocalState() {

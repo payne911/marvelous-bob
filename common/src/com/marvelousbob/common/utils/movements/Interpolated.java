@@ -3,8 +3,12 @@ package com.marvelousbob.common.utils.movements;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import java.util.Objects;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-public class Interpolated implements MovementStrategy<Vector2> {
+@ToString
+@NoArgsConstructor
+public class Interpolated implements MovementStrategy {
 
     /**
      * Optimisation to prevent interpolation from trying to calculate unnoticeable differences.

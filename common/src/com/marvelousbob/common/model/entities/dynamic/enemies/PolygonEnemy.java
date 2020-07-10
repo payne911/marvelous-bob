@@ -3,28 +3,56 @@ package com.marvelousbob.common.model.entities.dynamic.enemies;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.common.utils.UUID;
+import com.marvelousbob.common.utils.movements.MovementStrategy;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@Data
 @NoArgsConstructor
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class PolygonEnemy extends Enemy {
 
+    public static final Color DEFAULT_COLOR = Color.GOLDENROD.cpy();
+    private static final float HEIGHT = 20;
+    private static final float HALF_HEIGHT = HEIGHT / 2;
+    private static final float WIDTH = 14;
+    private static final float HALF_WIDTH = WIDTH / 2;
     private final Polygon polyShape = new Polygon(VERTICES);
     private static final float[] VERTICES = new float[]{
-            0, 0,
-            16, 32,
-            32, 0,
-            16, 10
+            -HALF_WIDTH, -HALF_HEIGHT,
+            0, HALF_HEIGHT,
+            HALF_WIDTH, -HALF_HEIGHT,
+            0, -HEIGHT / 4
     };
 
     private Color color;
 
-    public PolygonEnemy(Vector2 center, float scale, Color color) {
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, float scale, Color color) {
+        super(uuid, spawnPoint, moveStrat);
         this.color = color;
         polyShape.setPosition(center.x, center.y);
         setScale(scale);
+    }
+
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, Color color) {
+        this(uuid, spawnPoint, moveStrat, center, 1, color);
+    }
+
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, float scale) {
+        this(uuid, spawnPoint, moveStrat, center, scale, DEFAULT_COLOR.cpy());
+    }
+
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center) {
+        this(uuid, spawnPoint, moveStrat, center, 1, DEFAULT_COLOR.cpy());
     }
 
     @Override

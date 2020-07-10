@@ -7,7 +7,7 @@ import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.model.entities.dynamic.allies.RangedPlayer;
 import com.marvelousbob.common.utils.UUID;
 
-public enum PlayerTypeDto {
+public enum PlayerType {
     RANGED {
         public Player getPlayerInstance(UUID uuid, Color color, Vector2 initPos) {
             return new RangedPlayer(uuid, color, initPos);
