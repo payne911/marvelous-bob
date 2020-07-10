@@ -113,6 +113,10 @@ public class LocalGameState implements Drawable {
         return players.isEmpty();
     }
 
+    public boolean hasOnePlayer() {
+        return players.size() == 1;
+    }
+
     public Collection<Enemy> getEnemiesList() {
         return enemies.values();
     }

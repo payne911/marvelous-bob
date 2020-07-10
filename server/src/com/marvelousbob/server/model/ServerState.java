@@ -101,6 +101,16 @@ public class ServerState {
 
     public void completeReset() {
         colorIndex = 0;
+        gameStateIndex = 0;
+        initialize();
+    }
+
+    public void initialize() {
+        this.playersColorId = new ConcurrentHashMap<>(MAX_PLAYER_AMOUNT);
+//        this.actions = new SynchronousQueue<>();
+        this.serverWorldManager = new ServerWorldManager(new GameWorld());
+//        this.levelGenerator = new StaticSimpleLevelGenerator();
+        this.levelGenerator = new ProceduralLevelGenerator();
         reset();
     }
 
@@ -114,6 +124,10 @@ public class ServerState {
 
     public boolean isEmptyRoom() {
         return serverWorldManager.getMutableGameWorld().getLocalGameState().hasNoPlayers();
+    }
+
+    public boolean hasOnePlayer() {
+        return serverWorldManager.getMutableGameWorld().getLocalGameState().hasOnePlayer();
     }
 
     public synchronized void initializeOnFirstPlayerConnected() {
