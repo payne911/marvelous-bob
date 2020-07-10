@@ -71,8 +71,7 @@ public class GameWorld implements Drawable {
     }
 
     public void moveEnemies(float delta) {
-        localGameState.getEnemiesList().forEach(e -> MovementUtils
-                .moveEnemy(e, level.getEnemySpawnPoints().get(e.getSpawnPointUuid()), delta));
+        localGameState.getEnemiesList().forEach(e -> MovementUtils.moveEnemy(e, delta));
     }
 
     public void moveBullets(float delta) {

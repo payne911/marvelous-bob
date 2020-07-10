@@ -30,7 +30,7 @@ public class RangedPlayerBullet extends Bullet {
     @Getter
     private Color color;
 
-    private MovementStrategy<Vector2> movementStrategy;
+    private MovementStrategy movementStrategy;
 
 
     public RangedPlayerBullet(Vector2 initPos, Vector2 dest, Color color, float speed,

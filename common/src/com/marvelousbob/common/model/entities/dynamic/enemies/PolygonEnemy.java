@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
+import com.marvelousbob.common.utils.movements.MovementStrategy;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,23 +32,27 @@ public class PolygonEnemy extends Enemy {
 
     private Color color;
 
-    public PolygonEnemy(UUID uuid, UUID spawnPoint, Vector2 center, float scale, Color color) {
-        super(uuid, spawnPoint);
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, float scale, Color color) {
+        super(uuid, spawnPoint, moveStrat);
         this.color = color;
         polyShape.setPosition(center.x, center.y);
         setScale(scale);
     }
 
-    public PolygonEnemy(UUID uuid, UUID spawnPoint, Vector2 center, Color color) {
-        this(uuid, spawnPoint, center, 1, color);
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, Color color) {
+        this(uuid, spawnPoint, moveStrat, center, 1, color);
     }
 
-    public PolygonEnemy(UUID uuid, UUID spawnPoint, Vector2 center, float scale) {
-        this(uuid, spawnPoint, center, scale, DEFAULT_COLOR.cpy());
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center, float scale) {
+        this(uuid, spawnPoint, moveStrat, center, scale, DEFAULT_COLOR.cpy());
     }
 
-    public PolygonEnemy(UUID uuid, UUID spawnPoint, Vector2 center) {
-        this(uuid, spawnPoint, center, 1, DEFAULT_COLOR.cpy());
+    public PolygonEnemy(UUID uuid, UUID spawnPoint, MovementStrategy moveStrat,
+            Vector2 center) {
+        this(uuid, spawnPoint, moveStrat, center, 1, DEFAULT_COLOR.cpy());
     }
 
     @Override

@@ -2,13 +2,15 @@ package com.marvelousbob.common.utils.movements;
 
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
  * Assumes a linear path between node of the path
  */
 @ToString
-public class PathMovement implements MovementStrategy<Vector2> {
+@NoArgsConstructor
+public class PathMovement implements MovementStrategy {
 
     private ArrayList<Vector2> path;
     private int current, next;
@@ -25,12 +27,12 @@ public class PathMovement implements MovementStrategy<Vector2> {
 
     }
 
-    public static MovementStrategy<Vector2> from(ArrayList<Vector2> path) {
+    public static MovementStrategy from(ArrayList<Vector2> path) {
         if (path == null || path.isEmpty()) {
-            return new InstantMovement<>();
+            return new InstantMovement();
         }
         if (path.size() == 1) {
-            return new StayAt<>(path.get(0));
+            return new StayAt(path.get(0));
         }
         return new PathMovement(path);
     }
@@ -56,7 +58,6 @@ public class PathMovement implements MovementStrategy<Vector2> {
 
         constantSpeed.set(path.get(++current), path.get(++next));
         return move(path.get(current), distanceToMove - distLeft);
-
     }
 
 }
