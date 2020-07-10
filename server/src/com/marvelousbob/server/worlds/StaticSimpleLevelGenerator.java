@@ -6,10 +6,10 @@ import static com.marvelousbob.common.network.constants.GameConstant.PIXELS_PER_
 
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
-import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.model.entities.level.PlayersBase;
 import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.constants.GameConstant;
+import com.marvelousbob.common.state.Level;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.factories.WallFactory;
 import com.marvelousbob.server.factories.WallFactory.Orientation;

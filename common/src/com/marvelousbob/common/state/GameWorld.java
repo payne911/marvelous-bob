@@ -1,4 +1,4 @@
-package com.marvelousbob.common.model.entities;
+package com.marvelousbob.common.state;
 
 import static com.marvelousbob.common.network.constants.GameConstant.SIZE_X;
 import static com.marvelousbob.common.network.constants.GameConstant.SIZE_Y;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
-import com.marvelousbob.common.model.entities.level.Level;
 import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.constants.GameConstant;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
@@ -16,7 +16,6 @@ import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
-import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.MovementUtils;
 import java.util.HashMap;
 import java.util.Optional;

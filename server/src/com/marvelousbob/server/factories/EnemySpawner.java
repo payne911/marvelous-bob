@@ -5,6 +5,7 @@ import com.marvelousbob.common.model.entities.dynamic.enemies.CircleEnemy;
 import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
 import com.marvelousbob.common.model.entities.dynamic.enemies.PolygonEnemy;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
+import com.marvelousbob.common.state.GameWorld;
 import com.marvelousbob.common.state.LocalGameState;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.common.utils.movements.PathMovement;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Manages the {@link com.marvelousbob.common.model.entities.level.EnemySpawnPoint} of a single
- * {@link com.marvelousbob.common.model.entities.GameWorld}'s {@link LocalGameState}.
+ * {@link GameWorld}'s {@link LocalGameState}.
  */
 @Slf4j
 public class EnemySpawner {

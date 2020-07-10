@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.ai.SquareTiledLevelGraph;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
+import com.marvelousbob.common.state.Level;
 import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;

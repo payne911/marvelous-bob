@@ -1,7 +1,10 @@
-package com.marvelousbob.common.model.entities.level;
+package com.marvelousbob.common.state;
 
 import com.badlogic.gdx.utils.Array;
 import com.marvelousbob.common.model.entities.Drawable;
+import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
+import com.marvelousbob.common.model.entities.level.PlayersBase;
+import com.marvelousbob.common.model.entities.level.Wall;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.utils.UUID;

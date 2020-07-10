@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.Bullet;
-import com.marvelousbob.common.model.entities.level.Level;
+import com.marvelousbob.common.state.Level;
 import com.marvelousbob.common.utils.UUID;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

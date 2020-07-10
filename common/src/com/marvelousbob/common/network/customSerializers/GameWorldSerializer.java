@@ -5,7 +5,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.marvelousbob.common.model.entities.GameWorld;
+import com.marvelousbob.common.state.GameWorld;
 
 public class GameWorldSerializer extends Serializer<GameWorld> {
 

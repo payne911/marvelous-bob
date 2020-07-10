@@ -1,6 +1,5 @@
 package com.marvelousbob.common.state;
 
-import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
 import lombok.Getter;

@@ -2,7 +2,6 @@ package com.marvelousbob.server.model;
 
 import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.model.MarvelousBobException;
-import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.register.dto.EnemyCollisionDto;
 import com.marvelousbob.common.network.register.dto.GameInitializationDto;
@@ -12,6 +11,7 @@ import com.marvelousbob.common.network.register.dto.NewEnemyDto;
 import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
+import com.marvelousbob.common.state.GameWorld;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.server.worlds.LevelGenerator;
 import com.marvelousbob.server.worlds.ProceduralLevelGenerator;

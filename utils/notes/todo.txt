@@ -12,11 +12,11 @@ Marvelous Bob : to do
 ✓ Procedural generation
 ✓ Bullets on right-click
 ✓ Send WeaponFacing angle (from Controller#playerMouseMoved)
+✓ Enemy spawn
 * Actual algorithm to place Bases and Spawns in ProceduralLevelGenerator
 - PlayerType choosing Screen
 - New Movement algo
 - Wall collision
-- Enemy spawn
 - Enemy attack
 - Victory/Defeat conditions
 - Health for entities

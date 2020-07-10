@@ -1,6 +1,6 @@
 package com.marvelousbob.client.controllers;
 
-import com.marvelousbob.common.model.entities.GameWorld;
+import com.marvelousbob.common.state.GameWorld;
 import com.marvelousbob.common.state.GameWorldManager;
 
 public class ClientWorldManager extends GameWorldManager {

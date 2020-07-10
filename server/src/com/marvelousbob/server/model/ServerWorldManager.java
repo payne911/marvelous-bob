@@ -1,7 +1,7 @@
 package com.marvelousbob.server.model;
 
-import com.marvelousbob.common.model.entities.GameWorld;
 import com.marvelousbob.common.model.entities.dynamic.enemies.Enemy;
+import com.marvelousbob.common.state.GameWorld;
 import com.marvelousbob.common.state.GameWorldManager;
 import com.marvelousbob.server.factories.EnemySpawner;
 import java.util.ArrayList;
