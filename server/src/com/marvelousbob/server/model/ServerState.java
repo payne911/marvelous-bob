@@ -99,6 +99,9 @@ public class ServerState {
         resetLists();
     }
 
+    /**
+     * Should bring back the ServerState to its original state (all attributes are reset).
+     */
     public void completeReset() {
         colorIndex = 0;
         gameStateIndex = 0;
