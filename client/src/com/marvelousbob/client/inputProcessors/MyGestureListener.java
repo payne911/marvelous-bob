@@ -1,5 +1,6 @@
 package com.marvelousbob.client.inputProcessors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,13 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyGestureListener extends GestureDetector.GestureAdapter {
 
-    /**
-     * Order is important! Do not change. todo: find if Enum exists in libGDX
-     */
-    private enum MOUSE_CLICK {
-        LEFT, RIGHT, MIDDLE
-    }
-
     private final Viewport viewport;
     private final Controller controller;
 
@@ -42,15 +36,15 @@ public class MyGestureListener extends GestureDetector.GestureAdapter {
      */
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        if (button == MOUSE_CLICK.MIDDLE.ordinal()) {
+        if (button == Input.Buttons.MIDDLE) {
             return false;
         }
 
         Vector3 vec = viewport.unproject(new Vector3(x, y, 1));
         log.debug("(%f,%f) => (%f,%f)".formatted(x, y, vec.x, vec.y));
-        if (button == MOUSE_CLICK.LEFT.ordinal()) {
+        if (button == Input.Buttons.LEFT) {
             controller.playerLeftClicked(vec.x, vec.y);
-        } else if (button == MOUSE_CLICK.RIGHT.ordinal()) {
+        } else if (button == Input.Buttons.RIGHT) {
             controller.playerRightClicked(vec.x, vec.y);
         }
 
