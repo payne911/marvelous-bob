@@ -11,7 +11,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @NoArgsConstructor
 public class Wall implements Drawable {
 
-    public static final Color DEFAULT_COLOR = Color.BLACK.cpy();
+    public static final Color DEFAULT_COLOR = Color.SLATE.cpy();
     private Rectangle rectangle;
     private Color color;
 

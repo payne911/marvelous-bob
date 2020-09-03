@@ -10,6 +10,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = GameConstant.SIZE_X;
         config.height = GameConstant.SIZE_Y;
+//        config.fullscreen = true;
 
         MarvelousBob core = new MarvelousBob();
         core.setSplashWorker(new DesktopSplashWorker());

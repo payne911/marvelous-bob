@@ -28,6 +28,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 @Slf4j
 public class EnemySpawnPoint implements Drawable, Identifiable {
 
+    public static final int DEFAULT_SIZE = 16;
     public static final Color DEFAULT_COLOR = Color.valueOf("3d144c");
     private static final Color PATH_COLOR = Color.CYAN.cpy();
     private UUID uuid;
@@ -79,6 +80,10 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
 
     public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center, float size) {
         return starShaped(uuid, center, size, DEFAULT_COLOR.cpy());
+    }
+
+    public static EnemySpawnPoint starShaped(UUID uuid, Vector2 center) {
+        return starShaped(uuid, center, DEFAULT_SIZE, DEFAULT_COLOR.cpy());
     }
 
     /**

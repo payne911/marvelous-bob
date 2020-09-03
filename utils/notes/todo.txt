@@ -22,6 +22,7 @@ Marvelous Bob : to do
 - Health for entities
 * Health bar
 * Drop players when inactive for too long
+* Server some times doesn't catch a Disconnecting player's DTO (but knows it disconnected)
 * Don't flood TCP with broadcasts if GameStateDto hasn't changed
 * CI/CD: 2nd cluster in AWS ECS for a 'test' remote env
 * Connection Refused dto

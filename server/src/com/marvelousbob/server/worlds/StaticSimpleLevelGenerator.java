@@ -32,13 +32,11 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
                 new Vector2(GameConstant.SIZE_X / 2f, GameConstant.SIZE_Y / 2f), 35);
         bases.put(baseUuid, base);
 
-        final ConcurrentHashMap<UUID, EnemySpawnPoint> enemySpawnPoints = new ConcurrentHashMap<>();
+        final ConcurrentHashMap<UUID, EnemySpawnPoint> spawns = new ConcurrentHashMap<>();
         UUID spawnUuid1 = UUID.getNext();
         UUID spawnUuid2 = UUID.getNext();
-        enemySpawnPoints.put(spawnUuid1,
-                EnemySpawnPoint.starShaped(spawnUuid1, new Vector2(60, 60), 30));
-        enemySpawnPoints.put(spawnUuid2,
-                EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(460, 460), 30));
+        spawns.put(spawnUuid1, EnemySpawnPoint.starShaped(spawnUuid1, new Vector2(60, 60)));
+        spawns.put(spawnUuid2, EnemySpawnPoint.starShaped(spawnUuid2, new Vector2(460, 460)));
 
         final ArrayList<Wall> walls = new ArrayList<>();
         walls.add(buildWall(Orientation.VERTICAL, new Vector2(80, 150), 100));
@@ -47,8 +45,7 @@ public class StaticSimpleLevelGenerator implements LevelGenerator {
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 350), 350));
         walls.add(buildWall(Orientation.HORIZONTAL, new Vector2(80 + 150, 250), 350));
 
-        return new Level(0, bases, enemySpawnPoints, walls,
-                BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
+        return new Level(0, bases, spawns, walls, BLOCKS_X, BLOCKS_Y, PIXELS_PER_GRID_CELL);
     }
 
     private Wall buildWall(Orientation orientation, Vector2 pos, float length) {
