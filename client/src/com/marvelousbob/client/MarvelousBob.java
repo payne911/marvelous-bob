@@ -12,13 +12,12 @@ import static com.marvelousbob.client.MyGame.stage;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.marvelousbob.client.network.MyClient;
 import com.marvelousbob.client.screens.GameScreen;
 import com.marvelousbob.client.splashScreen.ISplashWorker;
@@ -64,10 +63,11 @@ public class MarvelousBob extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
-                (Gdx.graphics.getBufferFormat().coverageSampling
-                        ? GL20.GL_COVERAGE_BUFFER_BIT_NV
-                        : 0)); // clear the screen
+//        Gdx.gl.glClearColor(.2f, .2f, .2f, 1); // sets a bg color
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT |
+//                (Gdx.graphics.getBufferFormat().coverageSampling
+//                        ? GL20.GL_COVERAGE_BUFFER_BIT_NV
+//                        : 0)); // clear the screen
         Gdx.graphics.setTitle("%s -:- %d FPS   |   local = %b   |   seed = %d".formatted(
                 GAME_TITLE,
                 Gdx.graphics.getFramesPerSecond(),
@@ -80,7 +80,6 @@ public class MarvelousBob extends Game {
 
     @Override
     public void resize(int width, int height) {
-        // this changes viewed screen size, rather than stretch the view
         stage.getViewport().update(width, height, true);
     }
 
@@ -134,8 +133,9 @@ public class MarvelousBob extends Game {
     private void initializeDisplayElements() {
         /* https://github.com/raeleus/skin-composer/wiki/From-the-Ground-Up-00:-Scene2D-Primer */
         batch = new SpriteBatch();
-//        stage = new Stage(new ExtendViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
-        stage = new Stage(new FitViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
+//        stage = new Stage(new ScreenViewport(), batch);
+        stage = new Stage(new ExtendViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
+//        stage = new Stage(new FitViewport(GameConstant.SIZE_X, GameConstant.SIZE_Y), batch);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         shapeDrawer = new ShapeDrawer(stage.getBatch(), skin.getRegion("white"));
         font = new BitmapFont();

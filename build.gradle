@@ -41,9 +41,10 @@ allprojects {
         reflectionsVersion = '0.9.12'
 
         pieMenuVersion = '4.2.0'
-        jbump = '91eed3edc0'
+        gdxVfxVersion = '0.5.0'
 //        shapeDrawer = '2.3.0'
         shapeDrawer = '912a367dac'
+        squidLib = 'a6158b22b1'
     }
 
     repositories {
@@ -77,6 +78,8 @@ project(":client") {
         api project(":common")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 
+        api "com.crashinvaders.vfx:gdx-vfx-core:$gdxVfxVersion"
+        api "com.crashinvaders.vfx:gdx-vfx-effects:$gdxVfxVersion"
         api "com.github.payne911:PieMenu:$pieMenuVersion"
     }
 }
@@ -90,7 +93,7 @@ project(":server") {
         api "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
-        api "com.github.SquidPony.SquidLib:squidlib-util:a6158b22b1"
+        api "com.github.SquidPony.SquidLib:squidlib-util:$squidLib"
     }
 }
 
@@ -105,7 +108,6 @@ project(":common") {
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
         api "space.earlygrey:shapedrawer:$shapeDrawer"
-        api "com.github.tommyettinger:jbump:$jbump"
 
         // todo: do we need both logging libraries? p.s. kryonet uses Minlog
         api "org.slf4j:slf4j-api:$slf4j"
