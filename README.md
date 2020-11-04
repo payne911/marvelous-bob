@@ -35,7 +35,7 @@ The ``desktop`` is the launcher for the ``client``.
 * Docker (container)
 * GitHub Actions (CI/CD)
 
-## Demonstration
+## (older) Demonstrations
 ![server](utils/media/server.png)
 
 Above is a static image showing the console once SSH'd into the server. Below is a recording of that same interaction. In both cases, two different computers were used to connect to the remote server.
