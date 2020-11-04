@@ -28,7 +28,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = "marvelous-bob"
-        gdxVersion = '1.9.11-SNAPSHOT'
+        gdxVersion = '1.9.12'
         roboVMVersion = '2.3.7'
         box2DLightsVersion = '1.5'
         ashleyVersion = '1.7.0'

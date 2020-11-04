@@ -67,11 +67,12 @@ public class MyInputProcessor extends InputAdapter {
     /**
      * Mouse-wheel scroll.
      *
-     * @param amount Either 1 or -1, based on the direction of the scroll.
+     * @param amountX [1,-1], based on the direction of the scroll (left/right).
+     * @param amountY [1,-1], based on the direction of the scroll (up/down).
      * @return 'true' only if the event shouldn't be passed to the next InputProcessor.
      */
     @Override
-    public boolean scrolled(int amount) {
+    public boolean scrolled(float amountX, float amountY) {
 //        float tmp = camera.zoom + (float)amount/4;
 //        if (tmp > 0 && tmp < 2)
 //            camera.zoom = tmp;
