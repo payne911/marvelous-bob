@@ -1,7 +1,9 @@
 # Marvelous Bob
 Top-down multiplayer coop Defend-Your-Base game.
 
-![early_demo](https://raw.githubusercontent.com/payne911/marvelous-bob/master/utils/media/early_demo.gif)
+Below is a showcase of the procedurally generated levels and some of the core mechanics.
+
+![mechanics](utils/media/procedural_level_generator.gif)
 
 ## Project structure
 This repository contains 4 modules:
@@ -33,8 +35,16 @@ The ``desktop`` is the launcher for the ``client``.
 * Docker (container)
 * GitHub Actions (CI/CD)
 
-## Assets
-Most of them come from [Kenney](https://kenney.nl/assets?t=platformer), licensed ``CC0 1.0 Universal``. Thank you so much!
+## Demonstration
+![server](utils/media/server.png)
+
+Above is a static image showing the console once SSH'd into the server. Below is a recording of that same interaction. In both cases, two different computers were used to connect to the remote server.
+
+![server gif 1](utils/media/marvelous_networked_1.gif)
+
+Below is a recording of me manipulating 2 clients (green and white) simultaneously connected to the remote server, while my partner manipulates 2 other clients on his own computer (red and purple).
+
+![server gif 2](utils/media/marvelous_networked_2.gif)
 
 ## Useful references concerning real-time multiplayer games
 * Short and sweet, a high-level overview of the different challenges, with images: [Client-Server Game Architecture](https://www.gabrielgambetta.com/client-server-game-architecture.html)
