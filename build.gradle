@@ -34,14 +34,12 @@ allprojects {
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.2'
 
-        slf4j = '1.7.26'
         logback = '1.2.3'
         lombok = '1.18.12'
         kryonet = '2.22.6'
-        reflectionsVersion = '0.9.12'
 
         pieMenuVersion = '4.2.0'
-        jbump = '91eed3edc0'
+        jbump = '810e7472bd'
 //        shapeDrawer = '2.3.0'
         shapeDrawer = '912a367dac'
     }
@@ -107,10 +105,7 @@ project(":common") {
         api "space.earlygrey:shapedrawer:$shapeDrawer"
         api "com.github.tommyettinger:jbump:$jbump"
 
-        // todo: do we need both logging libraries? p.s. kryonet uses Minlog
-        api "org.slf4j:slf4j-api:$slf4j"
         api "ch.qos.logback:logback-classic:$logback"
         api "com.github.crykn:kryonet:$kryonet"
-        api "org.reflections:reflections:$reflectionsVersion"
     }
 }

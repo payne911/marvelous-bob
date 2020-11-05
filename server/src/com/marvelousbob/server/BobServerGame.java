@@ -12,8 +12,6 @@ public class BobServerGame extends Game {
 
     private final Server server;
     private final BobServerScreen serverScreen;
-//    private final Register register; // todo: remove if we don't want it anymore
-//    private final Register entityRegister;
 
 
     @SneakyThrows
@@ -22,16 +20,12 @@ public class BobServerGame extends Game {
                 NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         server.getKryo().setRegistrationRequired(false);
         server.getKryo().setWarnUnregisteredClasses(true);
-//        this.register = new Register(server);
         this.serverScreen = new BobServerScreen(server);
-//        this.entityRegister = new Register(server, "com.marvelousbob.common.model.entities");
     }
 
     @Override
     @SneakyThrows
     public void create() {
-//        register.registerClasses(Dto.class);
-//        entityRegister.registerClasses();
         log.info("SERVER STARTING!!!");
         server.bind(NetworkConstants.PORT);
         server.start();
