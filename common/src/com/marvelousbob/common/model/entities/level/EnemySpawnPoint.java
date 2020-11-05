@@ -110,20 +110,19 @@ public class EnemySpawnPoint implements Drawable, Identifiable {
         shapeDrawer.filledTriangle(t2[0], t2[1], t2[2], t2[3], t2[4], t2[5]);
 
         // draw the animated paths from spawn point to bases
-        Vector2 prev = null;
-        if (!pathsToBase.isEmpty()) {
-            for (var arr : pathsToBase) {
-                for (int i = 0; i < arr.size(); i++) {
-                    float angle = MathUtils.map(0, arr.size(), 0.1f, PI2, i);
-                    var v = arr.get(i);
-                    PATH_COLOR.a = (float) Math.tan((angle + offset) % PI2);
-                    PATH_COLOR.clamp();
-                    if (prev != null) {
-                        shapeDrawer.setColor(PATH_COLOR);
-                        shapeDrawer.line(prev, v);
-                    }
-                    prev = v;
+        Vector2 prev;
+        for (var arr : pathsToBase) {
+            prev = null;
+            for (int i = 0; i < arr.size(); i++) {
+                float angle = MathUtils.map(0, arr.size(), 0.1f, PI2, i);
+                var v = arr.get(i);
+                PATH_COLOR.a = (float) Math.tan((angle + offset) % PI2);
+                PATH_COLOR.clamp();
+                if (prev != null) {
+                    shapeDrawer.setColor(PATH_COLOR);
+                    shapeDrawer.line(prev, v);
                 }
+                prev = v;
             }
         }
         offset = ((offset - 0.04f) % PI2); // should be using delta from render... ?
