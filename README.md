@@ -1,9 +1,7 @@
 # Marvelous Bob
 Top-down multiplayer coop Defend-Your-Base game.
 
-Below is a showcase of the procedurally generated levels and some of the core mechanics.
-
-![mechanics](utils/media/procedural_level_generator.gif)
+![latest](utils/media/latest_version.gif)
 
 ## Project structure
 This repository contains 4 modules:
@@ -45,6 +43,10 @@ Above is a static image showing the console once SSH'd into the server. Below is
 Below is a recording of me manipulating 2 clients (green and white) simultaneously connected to the remote server, while my partner manipulates 2 other clients on his own computer (red and purple).
 
 ![server gif 2](utils/media/marvelous_networked_2.gif)
+
+Below is a showcase of the procedurally generated levels.
+
+![proc_gen](utils/media/procedural_level_generator.gif)
 
 ## Useful references concerning real-time multiplayer games
 * Short and sweet, a high-level overview of the different challenges, with images: [Client-Server Game Architecture](https://www.gabrielgambetta.com/client-server-game-architecture.html)
