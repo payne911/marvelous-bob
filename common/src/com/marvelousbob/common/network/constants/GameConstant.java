@@ -3,7 +3,10 @@ package com.marvelousbob.common.network.constants;
 /**
  * NOTE: nothing random in here can be expected to be identical between the Client and the Server.
  */
-public class GameConstant {
+public final class GameConstant {
+
+    private GameConstant() {
+    }
 
     public static final int SIZE_X = 800;
     public static final int SIZE_Y = 600;
