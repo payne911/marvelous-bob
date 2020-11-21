@@ -134,14 +134,10 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         // for now we'll do the square bounding box
         float radius = size / 2;
         return new Polygon(new float[]{
-                // top left
-                currCenterPos.x + radius, currCenterPos.y + radius,
-                // top right
-                currCenterPos.x - radius, currCenterPos.y + radius,
-                // bottom right
-                currCenterPos.x - radius, currCenterPos.y - radius,
-                // bottom left
-                currCenterPos.x + radius, currCenterPos.y - radius
+                currCenterPos.x + radius, currCenterPos.y + radius, // top left
+                currCenterPos.x - radius, currCenterPos.y + radius, // top right
+                currCenterPos.x - radius, currCenterPos.y - radius, // bottom right
+                currCenterPos.x + radius, currCenterPos.y - radius  // bottom left
         });
     }
 }
