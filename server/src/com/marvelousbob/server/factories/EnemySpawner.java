@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Manages the {@link com.marvelousbob.common.model.entities.level.EnemySpawnPoint} of a single
- * {@link GameWorld}'s {@link LocalGameState}.
+ * Manages the {@link EnemySpawnPoint} of a single {@link GameWorld}'s {@link LocalGameState}.
  */
 @Slf4j
 public class EnemySpawner {
