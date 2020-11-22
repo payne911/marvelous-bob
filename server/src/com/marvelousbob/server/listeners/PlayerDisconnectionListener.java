@@ -38,9 +38,11 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
             server.sendToAllExceptTCP(connection.getID(),
                     new PlayerDisconnectionDto(elem.getPlayerUuid()));
 
+            /* Simultaneous calls to 'remove' are not represented by immediate 'get'. */
             try {
                 Thread.sleep(1000);
-                if (serverState.hasOnePlayer()) {
+                if (serverState.isEmptyRoom()) {
+                    log.warn("Caught odd concurrent manipulation.");
                     log.warn("Last player has just disconnected: ServerState#completeReset()");
                     serverState.completeReset();
                 }
