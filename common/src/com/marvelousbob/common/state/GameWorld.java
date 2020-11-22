@@ -107,7 +107,7 @@ public class GameWorld implements Drawable {
                             && pyBottom < wallRect.y
                             && px > wallRect.x
                             && px < wallRect.x + wallRect.width) {
-                        //  PLayer up collision with wall
+                        //  player up collision with wall
                         pDest.x = px;
                         pDest.y = pyBottom - 1;
                     } else if (pyBottom < wallRect.y + wallRect.height
@@ -119,13 +119,13 @@ public class GameWorld implements Drawable {
                     } else if (wallRect.x + wallRect.width >= pxRight
                             && py > wallRect.y
                             && py < wallRect.y + wallRect.height) {
-                        // Player right collision with wall
+                        // player right collision with wall
                         pDest.x = pxLeft - 1;
                         pDest.y = py;
                     } else if (wallRect.x <= pxLeft
                             && py > wallRect.y
                             && py < wallRect.y + wallRect.height) {
-                        // Player left collision with wall
+                        // player left collision with wall
                         pDest.x = pxRight + 1;
                         pDest.y = py;
                     }

@@ -16,6 +16,7 @@ tasks.withType(JavaExec) {
     jvmArgs += '--enable-preview'
 }
 sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.resources.srcDirs = ["../common/resources"]
 
 jar {
     project.version="" // to remove version number from the built jar's name

@@ -14,7 +14,7 @@ tasks.withType(JavaExec) {
     jvmArgs += '--enable-preview'
 }
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../client/assets"]
+sourceSets.main.resources.srcDirs = ["../client/assets", "../common/resources"]
 
 mainClassName = "com.marvelousbob.client.desktop.DesktopLauncher"
 def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
