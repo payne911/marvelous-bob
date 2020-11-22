@@ -29,7 +29,7 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
         connection.close();
 
         if (serverState.hasOnePlayer()) {
-            log.warn("Last player in the Room has just disconnected: ServerState#completeReset()");
+            log.warn("Last player has just disconnected: ServerState#completeReset()");
             serverState.completeReset();
         } else {
             serverState.freePlayerColorId(elem.getPlayerUuid());
@@ -37,6 +37,16 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
 
             server.sendToAllExceptTCP(connection.getID(),
                     new PlayerDisconnectionDto(elem.getPlayerUuid()));
+
+            try {
+                Thread.sleep(1000);
+                if (serverState.hasOnePlayer()) {
+                    log.warn("Last player has just disconnected: ServerState#completeReset()");
+                    serverState.completeReset();
+                }
+            } catch (InterruptedException e) {
+                log.error("Couldn't wait to retry for exceptional concurrent departure of players.", e);
+            }
         }
     }
 }
