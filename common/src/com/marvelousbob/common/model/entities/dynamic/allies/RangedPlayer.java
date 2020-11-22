@@ -1,7 +1,5 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
-import static com.marvelousbob.common.model.entities.dynamic.projectiles.RangedBulletExplosion.DEFAULT_LIFESPAN;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -78,7 +76,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         }
         if (!explosions.isEmpty()) {
             for (int i = explosions.size() - 1; i >= 0; i--) {
-                if (explosions.get(i).getLifespan() >= DEFAULT_LIFESPAN) {
+                if (explosions.get(i).getLifespan() >= RangedBulletExplosion.DEFAULT_LIFESPAN) {
                     explosions.remove(i);
                 }
             }
