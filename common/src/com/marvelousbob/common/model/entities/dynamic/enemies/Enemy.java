@@ -1,5 +1,6 @@
 package com.marvelousbob.common.model.entities.dynamic.enemies;
 
+import com.badlogic.gdx.math.Circle;
 import com.marvelousbob.common.model.Identifiable;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.Movable;
@@ -36,4 +37,8 @@ public abstract class Enemy implements Drawable, Identifiable, Movable {
     public void dealDamage(float damage) {
         this.hp -= damage;
     }
+
+    public abstract void orient(float degree);
+
+    public abstract boolean collidesWith(Circle input);
 }

@@ -101,25 +101,26 @@ Bases:
 
 ======================== NETWORK AUTHORITY ======================
 - Authoritative client:
-  - self health / death
+  ✓ bullet id
   ✓ self pos (where move action ends)
-  - damaging / killing Enemies or Spawn
-  - bullet id
+  ✓ damaging / killing Enemies or Spawn
+  - self health / death
 
 - Authoritative Server
   ✓ Random generation
   ✓ Uuid
   ✓ Enemy path
+  ✓ Enemy collision with Base
   - other Players health / death
   - Bases health / damage / death
 
 - Client events - Actions
   ✓ Move action
   ✓ Pointing at
+  ✓ Damage dealt to enemy
+    ✓ incl opt bullet uuid
   - Damage received
-  - Damage dealt to enemy
-    - incl opt bullet uuid
-  - update self player attack (pointing at)
+  ✓ update self player attack (pointing at)
     - on each attack, contains infos of all previous attack
 
 - Sent by server
@@ -127,26 +128,26 @@ Bases:
   | * requires an index
   | - Enemy collision (listener done server side)
   |   - uuid of involved: Enemy and Player
-  | - Player list
+  | ✓ Player list
   |   * requires an index
-  |   - health, pointing at
-  | - Bases and SpawnPoints health
+  |   ✓ health, pointing at
+  | ✓ Bases and SpawnPoints health
   |   * requires an index
-  | - new Enemy list
-      - Spawn point
-      - path
-      - health
-      - speed
+  | ✓ new Enemy list
+      ✓ Spawn point
+      ✓ path
+      ✓ health
+      ✓ speed
   - Broadcast on receive
   * Players must ignore their own action
   * Broadcasts to a player that hasn't initialized stuff yet would crash
-  | - Player attacks
-  |   - new bullet
-  | - Player Bullets collision
-  |   - pos
-  |   - bullet (id and player uuid) to remove
+  | ✓ Player attacks
+  |   ✓ new bullet
+  | ✓ Player Bullets collision
+  |   ✓ pos
+  |   ✓ bullet (id and player uuid) to remove
+  |   ✓ opt dead enemies/spawn uuid
   |   - damage dealt
-  |   - opt dead enemies/spawn uuid
   | ✓ Player move actions
       ✓ must be ordered
       ✓ move to pos

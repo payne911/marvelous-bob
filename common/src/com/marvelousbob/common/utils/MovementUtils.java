@@ -112,10 +112,36 @@ public class MovementUtils {
     }
 
     public static void moveEnemy(Enemy enemy, float delta) {
-        Vector2 newPos = enemy.getMovementStrategy().move(
-                new Vector2(enemy.getCurrCenterX(), enemy.getCurrCenterY()),
-                delta * 50f);
+        Vector2 oldPos = new Vector2(enemy.getCurrCenterX(), enemy.getCurrCenterY());
+        Vector2 newPos = enemy.getMovementStrategy().move(oldPos, delta * 50f);
         enemy.setCurrCenterY(newPos.y);
         enemy.setCurrCenterX(newPos.x);
+        enemy.orient(atan2Degrees360(newPos.y - oldPos.y, newPos.x - oldPos.x) - 90);
+    }
+
+    /**
+     * libGDX's {@link MathUtils#atan2(float, float)} is >50% slower.<p> JDK's {@link
+     * Math#atan2(double, double)} is >400% slower.<p> Benchmark took in consideration the "+360"
+     * and "%360" to normalize.<p> This all comes at the cost of a minor loss of precision which we
+     * aren't concerned with.
+     *
+     * @author TEttinger
+     */
+    public static float atan2Degrees360(final float y, final float x) {
+        if (y == 0.0 && x >= 0.0) {
+            return 0f;
+        }
+        final float ax = Math.abs(x), ay = Math.abs(y);
+        if (ax < ay) {
+            final float a = ax / ay, s = a * a,
+                    r = 90f - (((-0.0464964749f * s + 0.15931422f) * s - 0.327622764f) * s * a + a)
+                            * 57.29577951308232f;
+            return (x < 0f) ? (y < 0f) ? 180f + r : 180f - r : (y < 0f) ? 360f - r : r;
+        } else {
+            final float a = ay / ax, s = a * a,
+                    r = (((-0.0464964749f * s + 0.15931422f) * s - 0.327622764f) * s * a + a)
+                            * 57.29577951308232f;
+            return (x < 0f) ? (y < 0f) ? 180f + r : 180f - r : (y < 0f) ? 360f - r : r;
+        }
     }
 }

@@ -38,6 +38,7 @@ public class PlayerDisconnectionListener extends AbstractListener<PlayerDisconne
             server.sendToAllExceptTCP(connection.getID(),
                     new PlayerDisconnectionDto(elem.getPlayerUuid()));
 
+            // todo: fix this terrible hack bound to screw up
             /* Simultaneous calls to 'remove' are not represented by immediate 'get'. */
             try {
                 Thread.sleep(1000);

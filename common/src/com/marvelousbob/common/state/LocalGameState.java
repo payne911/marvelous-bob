@@ -189,6 +189,21 @@ public class LocalGameState implements Drawable {
         }
     }
 
+    public void removeEnemy(UUID uuid) {
+        if (!containsEnemyUuid(uuid)) {
+            log.error("Trying to remove an enemy which isn't in the GS.");
+            return;
+        }
+
+        var iterator = enemies.keySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(uuid)) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
     public Optional<Player> getPlayer(UUID uuid) {
         return Optional.ofNullable(players.get(uuid));
     }

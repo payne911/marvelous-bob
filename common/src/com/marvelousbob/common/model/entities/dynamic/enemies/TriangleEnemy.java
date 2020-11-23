@@ -1,6 +1,7 @@
 package com.marvelousbob.common.model.entities.dynamic.enemies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import lombok.NoArgsConstructor;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -40,6 +41,16 @@ public class TriangleEnemy extends Enemy {
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(color);
 //        shapeDrawer.triangle(); todo
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public void orient(float degree) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public boolean collidesWith(Circle input) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }

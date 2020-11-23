@@ -11,6 +11,8 @@ import com.marvelousbob.common.state.Level;
 import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -19,6 +21,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @NoArgsConstructor
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Slf4j
 public class RangedPlayer extends Player<RangedPlayerBullet> {
 
@@ -29,7 +32,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
 
 
     @Getter
-    private ArrayList<RangedPlayerBullet> bullets;
+    private ConcurrentHashMap<UUID, RangedPlayerBullet> bullets;
     private ArrayList<RangedBulletExplosion> explosions;
     @Getter
     private float bulletSpeed;
@@ -51,29 +54,33 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         super(100, 100, 0, color, 40, 20, initCenterPos, uuid);
         this.bulletSpeed = DEFAULT_INITIAL_BULLET_SPEED;
         this.bulletSize = DEFAULT_INITIAL_BULLET_RADIUS;
-        this.bullets = new ArrayList<>();
+        this.bullets = new ConcurrentHashMap<>();
         this.explosions = new ArrayList<>();
     }
 
     @Override
     public void attack(Vector2 pos) {
-        bullets.add(new RangedPlayerBullet(currCenterPos, pos, color, bulletSpeed, bulletSize));
+        var newBullet = new RangedPlayerBullet(currCenterPos, pos, color, bulletSpeed, bulletSize);
+        bullets.put(newBullet.getUuid(), newBullet);
+    }
+
+    public Collection<RangedPlayerBullet> getBulletsList() {
+        return bullets.values();
     }
 
     @Override
     public void updateProjectiles(float delta, Level level) {
         checkForCollisionWithWalls(level.getWalls());
-        bullets.forEach(b -> b.updatePos(delta));
+        var bulletsList = getBulletsList();
+        bulletsList.forEach(b -> b.updatePos(delta));
         explosions.forEach(e -> e.update(delta));
         // TODO: 2020-07-03 remove me: this is a dummy technique to remove projectile
         //       while collision detection is not yet implemented    --- OLA
-        for (int i = bullets.size() - 1; i >= 0; i--) {
-            var bullet = bullets.get(i);
+        bulletsList.forEach(bullet -> {
             if (bullet.getCurrentPos().dst(bullet.getStartPos()) > ARBITRARY_BULLET_MAX_DISTANCE) {
-                var bulletRemoved = bullets.remove(i);
-                explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
+                explodeBullet(bullet);
             }
-        }
+        });
         if (!explosions.isEmpty()) {
             for (int i = explosions.size() - 1; i >= 0; i--) {
                 if (explosions.get(i).getLifespan() >= RangedBulletExplosion.DEFAULT_LIFESPAN) {
@@ -83,16 +90,38 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         }
     }
 
+    public boolean containsBulletUuid(UUID uuid) {
+        return bullets.containsKey(uuid);
+    }
+
+    public void removeBullet(UUID uuid) {
+        if (!containsBulletUuid(uuid)) {
+            log.error("Trying to remove a bullet which isn't in the list.");
+            return;
+        }
+
+        var iterator = bullets.keySet().iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().equals(uuid)) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
+    public void explodeBullet(RangedPlayerBullet bullet) {
+        removeBullet(bullet.getUuid());
+        explosions.add(RangedBulletExplosion.fromBullet(bullet));
+    }
+
 
     // TODO: 2020-07-03 fix wall skip   --- OLA
     public void checkForCollisionWithWalls(Collection<Wall> walls) {
         outer:
-        for (int i = bullets.size() - 1; i >= 0; i--) {
-            var bullet = bullets.get(i);
+        for (var bullet : getBulletsList()) {
             for (var wall : walls) {
                 if (wall.getRectangle().contains(bullet.getCircle())) {
-                    var bulletRemoved = bullets.remove(i);
-                    explosions.add(RangedBulletExplosion.fromBullet(bulletRemoved));
+                    explodeBullet(bullet);
                     continue outer;
                 }
             }
@@ -101,7 +130,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
 
     @Override
     public void addBullet(RangedPlayerBullet bullet) {
-        bullets.add(bullet);
+        bullets.put(bullet.getUuid(), bullet);
     }
 
     @Override
@@ -123,7 +152,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         repositionGun();
         shapeDrawer.filledPolygon(gun);
         shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
-        bullets.forEach(b -> b.drawMe(shapeDrawer));
+        getBulletsList().forEach(b -> b.drawMe(shapeDrawer));
         explosions.forEach(e -> e.drawMe(shapeDrawer));
     }
 

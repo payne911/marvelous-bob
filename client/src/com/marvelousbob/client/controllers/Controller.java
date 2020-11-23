@@ -3,7 +3,6 @@ package com.marvelousbob.client.controllers;
 import static com.marvelousbob.client.MyGame.client;
 import static com.marvelousbob.client.MyGame.controller;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
 import com.marvelousbob.common.model.MarvelousBobException;
@@ -14,6 +13,7 @@ import com.marvelousbob.common.network.register.dto.RangedPlayerAttackDto;
 import com.marvelousbob.common.network.register.dto.WeaponFacingDto;
 import com.marvelousbob.common.state.GameWorld;
 import com.marvelousbob.common.state.LocalGameState;
+import com.marvelousbob.common.utils.MovementUtils;
 import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
 import lombok.ToString;
@@ -103,42 +103,10 @@ public class Controller {
         var player = getSelfPlayer();
         float mouseRelativeToPlayerY = screenY - player.getCurrCenterY();
         float mouseRelativeToPlayerX = screenX - player.getCurrCenterX();
-//        log.info("Input screen (%f , %f) corresponds to relative coords (%f , %f)"
-//                .formatted(screenX, screenY, mouseRelativeToPlayerX, mouseRelativeToPlayerY));
-        float angle = atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX);
+        float angle = MovementUtils.atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX);
         player.setMouseAngleRelativeToCenter(angle);
         var dto = new WeaponFacingDto(player.getUuid(), angle);
-//        log.debug("Sending WeaponFacingDto: {}", dto.toString());
         client.sendTCP(dto);
-    }
-
-    // ==========================================
-    //  UTILITY methods
-
-    /**
-     * libGDX's {@link MathUtils#atan2(float, float)} is >50% slower.<p> JDK's {@link
-     * Math#atan2(double, double)} is >400% slower.<p> Benchmark took in consideration the "+360"
-     * and "%360" to normalize.<p> This all comes at the cost of a minor loss of precision which we
-     * aren't concerned with.
-     *
-     * @author TEttinger
-     */
-    public float atan2Degrees360(final float y, final float x) {
-        if (y == 0.0 && x >= 0.0) {
-            return 0f;
-        }
-        final float ax = Math.abs(x), ay = Math.abs(y);
-        if (ax < ay) {
-            final float a = ax / ay, s = a * a,
-                    r = 90f - (((-0.0464964749f * s + 0.15931422f) * s - 0.327622764f) * s * a + a)
-                            * 57.29577951308232f;
-            return (x < 0f) ? (y < 0f) ? 180f + r : 180f - r : (y < 0f) ? 360f - r : r;
-        } else {
-            final float a = ay / ax, s = a * a,
-                    r = (((-0.0464964749f * s + 0.15931422f) * s - 0.327622764f) * s * a + a)
-                            * 57.29577951308232f;
-            return (x < 0f) ? (y < 0f) ? 180f + r : 180f - r : (y < 0f) ? 360f - r : r;
-        }
     }
 
     // ==========================================

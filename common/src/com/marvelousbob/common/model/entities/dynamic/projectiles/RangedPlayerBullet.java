@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
 import com.marvelousbob.common.utils.movements.ConstantSpeed;
 import com.marvelousbob.common.utils.movements.MovementStrategy;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Slf4j
 public class RangedPlayerBullet extends Bullet {

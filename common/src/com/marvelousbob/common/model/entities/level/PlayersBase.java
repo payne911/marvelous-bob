@@ -3,6 +3,7 @@ package com.marvelousbob.common.model.entities.level;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -26,6 +27,8 @@ public class PlayersBase implements Drawable, Identifiable {
     private Color innerColor;
 
     // inner polygon
+    private Circle innerCircle;
+    private float radius;
     private float size;
     private Polygon innerShape;
     private float innerOpacity;
@@ -40,6 +43,8 @@ public class PlayersBase implements Drawable, Identifiable {
         this.pos = pos;
         this.innerColor = color.cpy();
         this.size = size;
+        this.radius = size / 1.75f;
+        this.innerCircle = new Circle(pos, radius);
     }
 
     /**
@@ -103,6 +108,6 @@ public class PlayersBase implements Drawable, Identifiable {
         shapeDrawer.setColor(color);
         shapeDrawer.polygon(shape, 3f, JoinType.POINTY);
         shapeDrawer.setColor(innerColor);
-        shapeDrawer.filledCircle(pos, size / 1.75f);
+        shapeDrawer.filledCircle(pos, radius);
     }
 }

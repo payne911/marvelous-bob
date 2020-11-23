@@ -1,6 +1,8 @@
 package com.marvelousbob.common.model.entities.dynamic.enemies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.utils.UUID;
@@ -9,8 +11,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+@Slf4j
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
@@ -83,5 +87,15 @@ public class PolygonEnemy extends Enemy {
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(color);
         shapeDrawer.polygon(polyShape);
+    }
+
+    @Override
+    public void orient(float degree) {
+        polyShape.setRotation(degree);
+    }
+
+    @Override
+    public boolean collidesWith(Circle input) {
+        return Intersector.overlaps(input, polyShape.getBoundingRectangle());
     }
 }

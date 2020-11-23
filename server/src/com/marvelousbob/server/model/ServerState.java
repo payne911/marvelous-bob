@@ -86,11 +86,12 @@ public class ServerState {
         var newEnemyDto = serverWorldManager.extractNewEnemies().stream()
                 .map(NewEnemyDto::new)
                 .collect(Collectors.toList());
+        var baseUpdateDto = serverWorldManager.updateBases();
         return new GameStateDto(
                 enemyCollisions,
                 new ArrayList<>(playerUpdates.values()),
                 new ArrayList<>(newEnemyDto),
-                basesHealth,
+                baseUpdateDto,
                 spawnPointHealth,
                 gameStateIndex++);
     }
