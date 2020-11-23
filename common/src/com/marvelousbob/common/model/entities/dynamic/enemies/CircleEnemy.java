@@ -68,4 +68,14 @@ public class CircleEnemy extends Enemy {
         shapeDrawer.setColor(color);
         shapeDrawer.filledCircle(circle.x, circle.y, circle.radius);
     }
+
+    @Override
+    public void orient(float degree) {
+        // nothing
+    }
+
+    @Override
+    public boolean collidesWith(Circle input) {
+        return circle.overlaps(input);
+    }
 }
