@@ -1,23 +1,20 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[CLIENT-1] Local" type="Application"
-    factoryName="Application">
+  <configuration default="false" name="[CLIENT-1] Local" type="Application" factoryName="Application">
     <envs>
-      <env name="mbs_isLocal" value="true"/>
+      <env name="mbs_isLocal" value="true" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="com.marvelousbob.client.desktop.DesktopLauncher"/>
-    <module name="marvelous-bob.desktop.main"/>
-    <option name="VM_PARAMETERS" value="--enable-preview"/>
+    <option name="MAIN_CLASS_NAME" value="com.marvelousbob.client.desktop.DesktopLauncher" />
+    <module name="marvelous-bob.desktop.main" />
+    <option name="VM_PARAMETERS" value="--enable-preview -XX:+ShowCodeDetailsInExceptionMessages" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="com.marvelousbob.client.desktop.*"/>
-        <option name="ENABLED" value="true"/>
+        <option name="PATTERN" value="com.marvelousbob.client.desktop.*" />
+        <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <RunnerSettings RunnerId="Debug with VisualVM">
-      <option name="visualVMId" value="426794374067000"/>
-    </RunnerSettings>
+    <RunnerSettings RunnerId="Debug with VisualVM" />
     <method v="2">
-      <option name="Make" enabled="true"/>
+      <option name="Make" enabled="true" />
     </method>
   </configuration>
 </component>

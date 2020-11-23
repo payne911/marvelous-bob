@@ -2,7 +2,7 @@
   <configuration default="false" name="[SERVER] Launch local" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.marvelousbob.server.BobServerLauncher" />
     <module name="marvelous-bob.server.main" />
-    <option name="VM_PARAMETERS" value="--enable-preview" />
+    <option name="VM_PARAMETERS" value="--enable-preview -XX:+ShowCodeDetailsInExceptionMessages" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.marvelousbob.server.*" />
