@@ -46,3 +46,15 @@ Then, to customize the set up to work with GitHub Actions, the following changes
 Done through GitHub Actions: deploying a Docker image into our public Docker Hub repository, and updating the ECS stack subsequently.
 
 The Dockerfile looks for the result of calling the ``shadowJar`` on this current module (``server``).
+
+To re-use the script, you will have to pay attention to these lines:
+* `DH_REGISTRY: ${{ secrets.DOCKER_USERNAME }}` : Define a `DOCKER_USERNAME` secret in your GitHub repository's Secrets (in the Settings). It should be the username you use to authenticate on DockerHub.
+* `DH_REPOSITORY: marvelous-bob-server` : Replace `marvelous-bob-server` with the name of your DockerHub Repository.
+* `password: ${{ secrets.DOCKER_PASSWORD }}` : Define a `DOCKER_PASSWORD` secret in your GitHub repository's Secrets (in the Settings). It should be the password you use to authenticate on DockerHub.
+* `aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}` : Define a `AWS_ACCESS_KEY_ID` secret in your GitHub repository's Secrets (in the Settings). It should be the Access Key Id you were given when you created your AWS account/IAM User (it's in an Excel file).
+* `aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}` : Define a `AWS_SECRET_ACCESS_KEY` secret in your GitHub repository's Secrets (in the Settings). It should be the Secret Access Key you were given when you created your AWS account/IAM User (it's in an Excel file).
+* `aws-region: ca-central-1` : Replace `ca-central-1` with the AWS Region you plan on deploying your server into.
+* `task-definition: utils/deploys/task-definition.json` : Only change `utils/deploys/task-definition.json` if you want the `task-definition.json` file to be positioned elsewhere in the repository.
+* `container-name: marvelous-bob-ecs-td-container-name` : Replace `marvelous-bob-ecs-td-container-name` with the name of the container you linked to your AWS ECS Task Definition.
+* `service: marvelous-bob-ecs-service` : Replace `marvelous-bob-ecs-service` with the name of the AWS ECS Service that is in charge of managing your AWS ECS Task Definition.
+* `cluster: marvelous-bob-ecs-cluster` : Replace `marvelous-bob-ecs-cluster` with the name of the AWS ECS Cluster that manages your AWS EC2 VM.
