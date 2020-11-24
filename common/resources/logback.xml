@@ -2,9 +2,7 @@
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <!-- format modifiers doc: http://logback.qos.ch/manual/layouts.html#formatModifiers-->
-      <pattern>%d{HH:mm:ss.SSS} [%8.-8thread] %highlight(%-5level) [%green(%24.24(%logger{0}))] -
-        %msg %n
-      </pattern>
+      <pattern>%d{HH:mm:ss.SSS} [%8.-8thread] %highlight(%-5level) [%green(%24.24(%logger{0}))] - %msg %n</pattern>
     </encoder>
   </appender>
 
