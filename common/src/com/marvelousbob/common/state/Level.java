@@ -1,5 +1,7 @@
 package com.marvelousbob.common.state;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.marvelousbob.common.model.entities.Drawable;
 import com.marvelousbob.common.model.entities.level.EnemySpawnPoint;
 import com.marvelousbob.common.model.entities.level.PlayersBase;
@@ -30,8 +32,21 @@ public class Level implements Drawable {
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         walls.forEach(w -> w.drawMe(shapeDrawer));
-        bases.values().forEach(b -> b.drawMe(shapeDrawer));
         enemySpawnPoints.values().forEach(es -> es.drawMe(shapeDrawer));
+        bases.values().forEach(b -> {
+            b.drawMe(shapeDrawer);
+
+            // temporary health bar
+            shapeDrawer.setColor(Color.BLACK);
+            float posX = Gdx.graphics.getWidth() - 22f;
+            float posY = 12f;
+            float fullHeight = Gdx.graphics.getHeight() - 25f;
+            float borderMargin = 2f;
+            shapeDrawer.rectangle(posX, posY, 15f, fullHeight, borderMargin * 2f);
+            shapeDrawer.setColor(Color.FIREBRICK);
+            float hpPercent = Math.max(0, (b.getHp()/b.getMaxHp()) * (fullHeight - borderMargin  * 2f));
+            shapeDrawer.filledRectangle(posX + borderMargin, posY + borderMargin, 11f, hpPercent);
+        });
     }
 
     public void updateUsingPlayerBase(PlayersBaseDto playersBaseDto, LocalGameState gameState) {

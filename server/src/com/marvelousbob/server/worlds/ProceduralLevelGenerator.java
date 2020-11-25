@@ -91,12 +91,12 @@ public class ProceduralLevelGenerator implements LevelGenerator {
         final ConcurrentHashMap<UUID, EnemySpawnPoint> spawns = new ConcurrentHashMap<>();
         UUID spawnUuid1 = UUID.getNext();
         UUID spawnUuid2 = UUID.getNext();
-//        UUID spawnUuid3 = UUID.getNext();
-//        UUID spawnUuid4 = UUID.getNext();
+        UUID spawnUuid3 = UUID.getNext();
+        UUID spawnUuid4 = UUID.getNext();
         spawns.put(spawnUuid1, EnemySpawnPoint.starShaped(spawnUuid1, randomFreePos(emptyCells)));
         spawns.put(spawnUuid2, EnemySpawnPoint.starShaped(spawnUuid2, randomFreePos(emptyCells)));
-//        spawns.put(spawnUuid3, EnemySpawnPoint.starShaped(spawnUuid3, randomFreePos(emptyCells)));
-//        spawns.put(spawnUuid4, EnemySpawnPoint.starShaped(spawnUuid4, randomFreePos(emptyCells)));
+        spawns.put(spawnUuid3, EnemySpawnPoint.starShaped(spawnUuid3, randomFreePos(emptyCells)));
+        spawns.put(spawnUuid4, EnemySpawnPoint.starShaped(spawnUuid4, randomFreePos(emptyCells)));
 
         return new Level(seed, bases, spawns, walls,
                 GameConstant.BLOCKS_X, GameConstant.BLOCKS_Y, GameConstant.PIXELS_PER_GRID_CELL);

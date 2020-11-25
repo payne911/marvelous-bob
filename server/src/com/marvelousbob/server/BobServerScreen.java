@@ -54,14 +54,4 @@ public class BobServerScreen extends ScreenAdapter {
             deltaAcc += delta;
         }
     }
-
-    @Override
-    public void hide() {
-        super.hide();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-    }
 }

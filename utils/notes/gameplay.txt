@@ -87,7 +87,7 @@ Enemies:
 Spawns:
 - Create (includes Move)
 - Lose health (Collision with player attack)
-- Die
+- Die => if all, creates new level (victory!)
 
 
 Bases:
@@ -96,7 +96,7 @@ Bases:
 * create power up
   - give power up at player at wave end
   - spawn randomly power up during play
-- Die => creates a new level
+- Die => creates a new level (defeat!)
 
 
 ======================== NETWORK AUTHORITY ======================
@@ -111,8 +111,8 @@ Bases:
   ✓ Uuid
   ✓ Enemy path
   ✓ Enemy collision with Base
+  ✓ Bases health / damage / death
   - other Players health / death
-  - Bases health / damage / death
 
 - Client events - Actions
   ✓ Move action

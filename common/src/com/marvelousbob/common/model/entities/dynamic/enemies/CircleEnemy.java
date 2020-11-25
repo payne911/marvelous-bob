@@ -78,4 +78,9 @@ public class CircleEnemy extends Enemy {
     public boolean collidesWith(Circle input) {
         return circle.overlaps(input);
     }
+
+    @Override
+    public float getDamage() {
+        return 10;
+    }
 }

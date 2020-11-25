@@ -45,6 +45,9 @@ public class PlayersBase implements Drawable, Identifiable {
         this.size = size;
         this.radius = size / 1.75f;
         this.innerCircle = new Circle(pos, radius);
+
+        maxHp = 150f;
+        hp = maxHp;
     }
 
     /**

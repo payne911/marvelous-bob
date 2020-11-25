@@ -98,4 +98,9 @@ public class PolygonEnemy extends Enemy {
     public boolean collidesWith(Circle input) {
         return Intersector.overlaps(input, polyShape.getBoundingRectangle());
     }
+
+    @Override
+    public float getDamage() {
+        return 25;
+    }
 }

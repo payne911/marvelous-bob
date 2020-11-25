@@ -53,4 +53,9 @@ public class TriangleEnemy extends Enemy {
     public boolean collidesWith(Circle input) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
+    @Override
+    public float getDamage() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

@@ -8,7 +8,9 @@ import com.marvelousbob.server.factories.EnemySpawner;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ServerWorldManager extends GameWorldManager {
 
     @Getter
@@ -38,10 +40,12 @@ public class ServerWorldManager extends GameWorldManager {
 
         ArrayList<PlayersBaseDto> playersBaseDtos = new ArrayList<>();
         bases.forEach(base -> {
+            final float[] DMG_TO_BASE = new float[]{0};
             var collidedUuids = enemies.stream()
                     .filter(enemy -> enemy.collidesWith(base.getInnerCircle()))
                     .map(enemy -> {
                         var uuid = enemy.getUuid();
+                        DMG_TO_BASE[0] += enemy.getDamage();
                         mutableGameWorld.getLocalGameState().removeEnemy(uuid); // side-effect
                         return uuid;
                     })
@@ -49,9 +53,16 @@ public class ServerWorldManager extends GameWorldManager {
             if (!collidedUuids.isEmpty()) {
                 var newDto = new PlayersBaseDto();
                 newDto.setEnemiesToRemove(collidedUuids);
-                newDto.hp = base.getHp();
+
+                var newHp = base.getHp() - DMG_TO_BASE[0];
+                base.setHp(newHp);
+                newDto.hp = newHp;
                 newDto.uuid = base.getUuid();
                 playersBaseDtos.add(newDto);
+
+                if (newDto.hp <= 0) {
+                    // todo: finish game (defeat)
+                }
             }
         });
 

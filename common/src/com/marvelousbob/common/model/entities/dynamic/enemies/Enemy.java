@@ -41,4 +41,6 @@ public abstract class Enemy implements Drawable, Identifiable, Movable {
     public abstract void orient(float degree);
 
     public abstract boolean collidesWith(Circle input);
+
+    public abstract float getDamage();
 }
