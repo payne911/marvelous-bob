@@ -49,9 +49,12 @@ public class Level implements Drawable {
         });
     }
 
-    public void updateUsingPlayerBase(PlayersBaseDto playersBaseDto, LocalGameState gameState) {
+    public void updatePlayerBase(PlayersBaseDto playersBaseDto, LocalGameState gameState) {
         var base = bases.get(playersBaseDto.uuid);
         base.setHp(playersBaseDto.getHp());
+    }
+
+    public void removeEnemiesWithPlayerBaseDto(PlayersBaseDto playersBaseDto, LocalGameState gameState) {
         playersBaseDto.enemiesToRemove.forEach(gameState::removeEnemy);
     }
 

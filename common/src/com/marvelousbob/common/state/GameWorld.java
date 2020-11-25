@@ -53,7 +53,14 @@ public class GameWorld implements Drawable {
      * Run by the clients only.
      */
     public void updatePlayerBase(PlayersBaseDto playersBaseDto) {
-        level.updateUsingPlayerBase(playersBaseDto, localGameState);
+        level.updatePlayerBase(playersBaseDto, localGameState);
+    }
+
+    /**
+     * Run by the clients only.
+     */
+    public void removeEnemiesWithPlayerBaseDto(PlayersBaseDto playersBaseDto) {
+        level.removeEnemiesWithPlayerBaseDto(playersBaseDto, localGameState);
     }
 
     public void updateSpawnPoints(SpawnPointDto spawnPointDto) {

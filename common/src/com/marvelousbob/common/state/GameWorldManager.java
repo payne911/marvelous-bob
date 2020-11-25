@@ -45,7 +45,7 @@ public abstract class GameWorldManager {
         }
         serverGameState.enemyCollisions.forEach(mutableGameWorld::updateEnemyCollision);
         serverGameState.newEnemies.forEach(mutableGameWorld::updateNewEnemy);
-        serverGameState.basesHealth.forEach(mutableGameWorld::updatePlayerBase);
+        serverGameState.basesHealth.forEach(mutableGameWorld::removeEnemiesWithPlayerBaseDto);
     }
 
     /**
