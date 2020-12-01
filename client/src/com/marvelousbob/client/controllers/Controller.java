@@ -105,6 +105,7 @@ public class Controller {
         float mouseRelativeToPlayerX = screenX - player.getCurrCenterX();
         float angle = MovementUtils.atan2Degrees360(mouseRelativeToPlayerY, mouseRelativeToPlayerX);
         player.setMouseAngleRelativeToCenter(angle);
+        player.setDesiredMouseAngleRelativeToCenter(angle);
         var dto = new WeaponFacingDto(player.getUuid(), angle);
         client.sendTCP(dto);
     }

@@ -17,6 +17,7 @@ import com.marvelousbob.common.network.register.dto.PlayerUpdateDto;
 import com.marvelousbob.common.network.register.dto.PlayersBaseDto;
 import com.marvelousbob.common.network.register.dto.SpawnPointDto;
 import com.marvelousbob.common.utils.MovementUtils;
+import com.marvelousbob.common.utils.UUID;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,9 +45,9 @@ public class GameWorld implements Drawable {
         localGameState.drawMe(shapeDrawer);
     }
 
-    public void updatePlayer(PlayerUpdateDto playerUpdateDto) {
+    public void updatePlayer(PlayerUpdateDto playerUpdateDto, UUID selfPlayerUuid) {
         log.debug("updating player: {}", playerUpdateDto.toString());
-        localGameState.updateUsingPlayerList(playerUpdateDto);
+        localGameState.updateUsingPlayerList(playerUpdateDto, selfPlayerUuid);
     }
 
     /**

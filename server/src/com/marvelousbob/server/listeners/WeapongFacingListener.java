@@ -15,7 +15,7 @@ public class WeapongFacingListener extends AbstractListener<WeaponFacingDto> {
     }
 
     @Override
-    public void accept(Connection conncetion, WeaponFacingDto elem) {
+    public void accept(Connection connection, WeaponFacingDto elem) {
         serverState.updatePlayerFacingAngle(elem.playerUuid, elem.angle);
     }
 }

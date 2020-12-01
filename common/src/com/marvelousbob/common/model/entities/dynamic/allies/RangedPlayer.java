@@ -1,12 +1,13 @@
 package com.marvelousbob.common.model.entities.dynamic.allies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedBulletExplosion;
 import com.marvelousbob.common.model.entities.dynamic.projectiles.RangedPlayerBullet;
 import com.marvelousbob.common.model.entities.level.Wall;
-import com.marvelousbob.common.network.register.dto.PlayerDto;
 import com.marvelousbob.common.state.Level;
 import com.marvelousbob.common.utils.UUID;
 import java.util.ArrayList;
@@ -133,13 +134,10 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
         bullets.put(bullet.getUuid(), bullet);
     }
 
-    @Override
-    public void updateFromDto(PlayerDto input) {
-        super.updateFromDto(input);
-//        this.bullets = input.getBullets().stream().map(b -> new TrianglePlayerBullet()) todo
-    }
+    private void repositionGun(float delta) {
+        mouseAngleRelativeToCenter = MathUtils.lerpAngleDeg(
+                mouseAngleRelativeToCenter, desiredMouseAngleRelativeToCenter, delta);
 
-    private void repositionGun() {
         gun.rotate(90);
         gun.setPosition(getCurrCenterX() + getHalfSize(), getCurrCenterY());
         gun.setOrigin(-getHalfSize(), 0);
@@ -149,7 +147,7 @@ public class RangedPlayer extends Player<RangedPlayerBullet> {
     @Override
     public void drawMe(ShapeDrawer shapeDrawer) {
         shapeDrawer.setColor(this.color);
-        repositionGun();
+        repositionGun(Gdx.graphics.getDeltaTime() * 25);
         shapeDrawer.filledPolygon(gun);
         shapeDrawer.circle(getCurrCenterX(), getCurrCenterY(), getSize() / 2);
         getBulletsList().forEach(b -> b.drawMe(shapeDrawer));

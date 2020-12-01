@@ -61,7 +61,7 @@ public class ServerWorldManager extends GameWorldManager {
                 playersBaseDtos.add(newDto);
 
                 if (newDto.hp <= 0) {
-                    // todo: finish game (defeat)
+                    // todo: clear level, generate new one (defeat)
                 }
             }
         });

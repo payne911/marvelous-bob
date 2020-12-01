@@ -78,14 +78,15 @@ public class LocalGameState implements Drawable {
         // TODO
     }
 
-    public void updateUsingPlayerList(PlayerUpdateDto playerUpdateDto) {
+    public void updateUsingPlayerList(PlayerUpdateDto playerUpdateDto, UUID selfPlayerUuid) {
         Player<?> player = players.get(playerUpdateDto.uuid);
         if (player != null) {
-            // todo: interpolate between last and current angle
-            player.setMouseAngleRelativeToCenter(playerUpdateDto.angle);
+            if (!player.isSameUuid(selfPlayerUuid)) {
+                player.setDesiredMouseAngleRelativeToCenter(playerUpdateDto.angle);
+            }
         }
-        // TODO: 2020-07-03 All the rest    --- OLA
 
+        // TODO: 2020-07-03 All the rest    --- OLA
     }
 
     public void updateNewEnemy(NewEnemyDto newEnemyDto) {

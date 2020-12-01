@@ -2,6 +2,7 @@ package com.marvelousbob.common.state;
 
 import com.marvelousbob.common.model.entities.dynamic.allies.Player;
 import com.marvelousbob.common.network.register.dto.GameStateDto;
+import com.marvelousbob.common.utils.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class GameWorldManager {
 
-    private long newestGameStateIndexProcessed;
+    private long newestGameStateIndexProcessed; // todo: make thread-safe
 
 
     /**
@@ -31,13 +32,15 @@ public abstract class GameWorldManager {
      * Ensures the client synchronizes the latest server updates.
      *
      * @param serverGameState a game state sent by the server, to be taken as the source of truth.
+     * @param selfPlayerUuid  the uuid of the player currently running this client
      */
-    public void reconcile(GameStateDto serverGameState) {
+    public void reconcile(GameStateDto serverGameState, UUID selfPlayerUuid) {
         log.debug("Starting actual reconciliation with server GS: " + serverGameState);
 
         if (serverGameState.getIndex() > newestGameStateIndexProcessed) {
             newestGameStateIndexProcessed = serverGameState.getIndex();
-            serverGameState.playerUpdates.forEach(mutableGameWorld::updatePlayer);
+            serverGameState.playerUpdates
+                    .forEach(pu -> mutableGameWorld.updatePlayer(pu, selfPlayerUuid));
             serverGameState.basesHealth.forEach(mutableGameWorld::updatePlayerBase);
             serverGameState.spawnPointHealth.forEach(mutableGameWorld::updateSpawnPoints);
         } else {

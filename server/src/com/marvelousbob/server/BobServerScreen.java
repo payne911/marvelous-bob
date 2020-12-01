@@ -15,7 +15,7 @@ import com.marvelousbob.server.model.ServerState;
 
 public class BobServerScreen extends ScreenAdapter {
 
-    private static final float LOOP_SPEED = 0.100F;
+    private static final float LOOP_SPEED = 0.07f;
 
     private final Server server;
     private final ServerState serverState;
